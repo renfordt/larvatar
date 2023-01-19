@@ -8,21 +8,22 @@ use SVG\SVG;
 
 class Larvatar
 {
-    public $size = 128;
+    private int $size = 128;
+    private array $names = [];
 
     /*public function GetLarvatar(): string
     {
 
     }*/
 
-    public function GenerateLarvatar(array $names): string
+    public function generate(array $names): string
     {
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
         $half_size = $this->size / 2;
 
         $circle = new SVGCircle($half_size, $half_size, $half_size);
-        $circle->setStyle('fill', $this->GenerateHexColor($names));
+        $circle->setStyle('fill', $this->generateHexColor($names));
 
         $initials = '';
         foreach ($names as $name) {
@@ -40,11 +41,23 @@ class Larvatar
         $doc->addChild($initials_SVG);
 
         return $larvatar;
-
     }
 
-    protected function GenerateHexColor(array $names, $offset = 0): string
+    public function setSize(int $size): void
     {
+        $this->size = $size;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->names = explode(' ', $name);
+    }
+
+    public function generateHexColor(array $names = null, $offset = 0): string
+    {
+        if ($names == null) {
+            $names = $this->names;
+        }
         $name = implode(' ', $names);
         $hash = md5($name);
         return '#'.substr($hash, $offset, 6);
