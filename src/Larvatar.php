@@ -13,7 +13,7 @@ class Larvatar
     private array $names = [];
     private int $size = 128;
 
-    public function __construct(string $name)
+    public function __construct(string $name = '')
     {
         $this->setName($name);
     }
