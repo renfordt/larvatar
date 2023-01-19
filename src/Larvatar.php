@@ -13,9 +13,9 @@ class Larvatar
     private array $names = [];
     private int $size = 128;
 
-    public function __constructor(string $name): void
+    public function __construct(string $name)
     {
-        $this->setName();
+        $this->setName($name);
     }
 
     public function generate(array $names = []): string
