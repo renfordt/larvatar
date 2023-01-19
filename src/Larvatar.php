@@ -13,16 +13,19 @@ class Larvatar
     private array $names = [];
     private int $size = 128;
 
+    public function __constructor(string $name): void
+    {
+        $this->setName();
+    }
+
     public function generate(array $names = []): string
     {
-        if (empty($names))
-        {
+        if (empty($names)) {
             $names = $this->names;
         }
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
-        if($this->font_path != '' & $this->font_family != '')
-        {
+        if ($this->font_path != '' & $this->font_family != '') {
             SVG::addFont($this->font_path);
         }
         $half_size = $this->size / 2;
