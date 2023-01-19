@@ -4,7 +4,7 @@
 
     <config name="php_version" value="80100" />
 
-    <file>autoloader.php</file>
+    <file>vendor/autoloader.php</file>
     <file>src</file>
     <file>tests</file>
 
