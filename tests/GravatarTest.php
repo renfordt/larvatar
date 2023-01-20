@@ -10,7 +10,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::Gravatar);
         $this->assertEquals(
-            'http://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af',
             $gravatar->generateGravatarLink()
         );
     }
@@ -19,7 +19,7 @@ final class GravatarTest extends TestCase
     {
         $gravatar = new Gravatar('user@example.com');
         $this->assertEquals(
-            'http://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y',
             $gravatar->generateGravatarLink()
         );
     }
