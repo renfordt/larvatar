@@ -10,7 +10,7 @@ class Larvatar
     protected string $name;
     protected string $email;
 
-    public function getImage()
+    public function getImageHTML()
     {
         if ($this->type == LarvatarTypes::InitialsAvatar) {
             $initial_avatar = new InitialsAvatar($this->name);
@@ -19,7 +19,7 @@ class Larvatar
 
         $gravatar = new Gravatar($this->email);
         $gravatar->setType($this->type);
-        return $gravatar->generateGravatarLink();
+        return '<img src="'.$gravatar->generateGravatarLink().'" />';
     }
 
     public function __construct(string $name, string $email, int|LarvatarTypes $type)
