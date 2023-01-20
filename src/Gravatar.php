@@ -2,16 +2,55 @@
 
 namespace Renfordt\Larvatar;
 
+use Renfordt\Larvatar\Enum\LarvatarTypes;
+
 class Gravatar
 {
+
+    protected LarvatarTypes $type = LarvatarTypes::mp;
+    protected string $email;
+    protected string $hash;
+
+    public function __construct(string $email)
+    {
+        $this->setEmail($email);
+    }
+
+    public function setType(LarvatarTypes $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+        $this->setHash($email);
+    }
+
+    protected function setHash($email): void
+    {
+        $this->hash = md5(strtolower(trim($email)));
+    }
+
+    protected function getDefaultKey(): string
+    {
+        return match ($this->type) {
+            LarvatarTypes::Gravatar => '',
+            LarvatarTypes::mp => '?d=mp&f=y',
+            LarvatarTypes::identicon => '?d=identicon&f=y',
+            LarvatarTypes::monsterid => '?d=monsterid&f=y',
+            LarvatarTypes::wavatar => '?d=wavatar&f=y',
+            LarvatarTypes::retro => '?d=retro&f=y',
+            LarvatarTypes::robohash => '?d=robohash&f=y'
+        };
+    }
+
     /**
-     * Get the link to the Gravatar
-     * @param  string  $email
+     * Generate the link to the Gravatar
      * @return string
      */
-    public static function GetGravatarLink(string $email): string
+    public function generateGravatarLink(): string
     {
-        $hash = md5(strtolower(trim($email)));
-        return "http://www.gravatar.com/avatar/$hash";
+        return 'https://www.gravatar.com/avatar/'.$this->hash.$this->getDefaultKey();
     }
 }
