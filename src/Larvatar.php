@@ -27,7 +27,7 @@ class Larvatar
     {
         if ($this->type == LarvatarTypes::InitialsAvatar) {
             $initial_avatar = new InitialsAvatar($this->name);
-            if ($this->font != '' & $this->font_path != '') {
+            if (isset($this->font) && $this->font != '' && $this->font_path != '') {
                 $initial_avatar->setFont($this->font, $this->font_path);
             }
             return $initial_avatar->generate();
