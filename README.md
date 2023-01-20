@@ -7,7 +7,7 @@ ___
 [![Test Coverage](https://api.codeclimate.com/v1/badges/af7c56b1f1338a9af607/test_coverage)](https://codeclimate.com/github/renfordt/larvatar/test_coverage)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/renfordt/larvatar)
 
-Larvatar is a package that combines different avatar styles, like Gravatar, Initals Avatar and more to come.
+Larvatar is a package that combines different avatar styles, like Gravatar, Initals Avatar.
 
 
 ## Installation
@@ -16,3 +16,26 @@ composer install renfordt/larvatar
 ```
 
 ## Usage
+The general usage is quite simple. Create a new Larvatar class, insert name and email and the avatar type you wish.
+```php
+<?php
+use Renfordt\Larvatar\Enum\LarvatarTypes;
+use Renfordt\Larvatar\Larvatar;
+
+$larvatar = new Larvatar('Test Name', 'test@test.com', LarvatarTypes::InitialsAvatar);
+$larvatar->setFont('Roboto', './font/Roboto-bold.ttf');
+echo $larvatar->getImageHTML();
+```
+
+There are currently eight different types of avatars available:
+
+```php
+\Renfordt\Larvatar\Enum\LarvatarTypes::InitialsAvatar;  // Microsoft Teams like avatar with initials
+\Renfordt\Larvatar\Enum\LarvatarTypes::Gravatar;        // Gravatar
+\Renfordt\Larvatar\Enum\LarvatarTypes::mp;              // (Gravatar) MysticPerson, simple cartoon-style silhouette (default)
+\Renfordt\Larvatar\Enum\LarvatarTypes::identicon;       // (Gravatar) A geometric pattern based on a email hash 
+\Renfordt\Larvatar\Enum\LarvatarTypes::monsterid;       // (Gravatar) A generated monster different colors and faces
+\Renfordt\Larvatar\Enum\LarvatarTypes::wavatar;         // (Gravatar) generated faces with differing features and backgrounds
+\Renfordt\Larvatar\Enum\LarvatarTypes::retro;           // (Gravatar) 8-bit arcade-style pixelated faces
+\Renfordt\Larvatar\Enum\LarvatarTypes::robohash;        // (Gravatar) A generated robot with different colors, faces, etc
+```
