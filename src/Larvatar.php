@@ -40,7 +40,7 @@ class Larvatar
 
     public function setFont(string $font_family, string $path): void
     {
-        $this->font_family = $font_family;
+        $this->font = $font_family;
         $this->font_path = $path;
     }
 
