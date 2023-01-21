@@ -12,7 +12,7 @@ class Larvatar
     protected string $font;
     protected string $font_path;
 
-    public function __construct(string $name, string $email, int|LarvatarTypes $type)
+    public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
     {
         $this->name = $name;
         $this->email = $email;
