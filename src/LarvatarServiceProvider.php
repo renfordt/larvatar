@@ -1,4 +1,5 @@
 <?php
+namespace Renfordt\Larvatar;
 
 use Illuminate\Support\ServiceProvider;
 class LarvatarServiceProvider extends ServiceProvider
@@ -10,6 +11,6 @@ class LarvatarServiceProvider extends ServiceProvider
 
     public function register()
     {
-        //$this->app->make('Renfordt\Larvatar\HasLarvatar');
+        $this->app->make('Renfordt\Larvatar\Larvatar');
     }
 }
