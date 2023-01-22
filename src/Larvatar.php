@@ -13,6 +13,11 @@ class Larvatar
     protected string $fontPath;
     protected int $size = 100;
 
+    /**
+     * @param  string  $name The first and second name or the username, separated by a space
+     * @param  string  $email The email of the user, used to create a hash for Gravatar
+     * @param  int|LarvatarTypes  $type Type of Larvatar, currently from 0 to 7 or better use LarvatarType enum
+     */
     public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
     {
         $this->name = $name;
@@ -24,6 +29,10 @@ class Larvatar
         }
     }
 
+    /**
+     * Generates the HTML or SVG code directly for usage
+     * @return string HTML or SVG code
+     */
     public function getImageHTML(): string
     {
         if ($this->type == LarvatarTypes::InitialsAvatar) {
@@ -42,6 +51,12 @@ class Larvatar
         return '<img src="'.$gravatar->generateGravatarLink().'" />';
     }
 
+    /**
+     * Set the font for Initial Avatar
+     * @param  string  $fontFamily Font family of the used font, e.g. 'Roboto'
+     * @param  string  $path Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
+     * @return void
+     */
     public function setFont(string $fontFamily, string $path): void
     {
         $this->font = $fontFamily;
