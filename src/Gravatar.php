@@ -10,6 +10,7 @@ class Gravatar
     protected LarvatarTypes $type = LarvatarTypes::mp;
     protected string $email;
     protected string $hash;
+    protected int $size;
 
     public function __construct(string $email)
     {
@@ -27,6 +28,11 @@ class Gravatar
         $this->setHash($email);
     }
 
+    public function setSize(int $size): void
+    {
+        $this->size = $size;
+    }
+
     protected function setHash($email): void
     {
         $this->hash = md5(strtolower(trim($email)));
@@ -34,8 +40,8 @@ class Gravatar
 
     protected function getDefaultKey(): string
     {
-        return match ($this->type) {
-            LarvatarTypes::Gravatar => '',
+        $link = match ($this->type) {
+            LarvatarTypes::Gravatar => '?d=',
             LarvatarTypes::mp => '?d=mp&f=y',
             LarvatarTypes::identicon => '?d=identicon&f=y',
             LarvatarTypes::monsterid => '?d=monsterid&f=y',
@@ -43,6 +49,7 @@ class Gravatar
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y'
         };
+        return $link.$this->size ? '&s='.$this->size : '';
     }
 
     /**
