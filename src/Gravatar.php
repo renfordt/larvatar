@@ -10,7 +10,7 @@ class Gravatar
     protected LarvatarTypes $type = LarvatarTypes::mp;
     protected string $email;
     protected string $hash;
-    protected int $size;
+    protected int $size = 100;
 
     public function __construct(string $email)
     {
@@ -49,7 +49,7 @@ class Gravatar
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y'
         };
-        return $link.$this->size ? '&s='.$this->size : '';
+        return $link.  '&s='.$this->size;
     }
 
     /**

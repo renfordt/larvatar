@@ -44,7 +44,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::Gravatar);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=&s=100" />',
             $larvatar->getImageHTML()
         );
     }
@@ -53,7 +53,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::mp);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=mp&f=y" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=mp&f=y&s=100" />',
             $larvatar->getImageHTML()
         );
     }
@@ -62,7 +62,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::identicon);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&f=y" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&f=y&s=100" />',
             $larvatar->getImageHTML()
         );
     }
@@ -71,7 +71,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::monsterid);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=monsterid&f=y" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=monsterid&f=y&s=100" />',
             $larvatar->getImageHTML()
         );
     }
@@ -80,7 +80,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::wavatar);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=wavatar&f=y" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=wavatar&f=y&s=100" />',
             $larvatar->getImageHTML()
         );
     }
@@ -89,7 +89,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::retro);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=retro&f=y" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=retro&f=y&s=100" />',
             $larvatar->getImageHTML()
         );
     }
@@ -98,7 +98,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::robohash);
         $this->assertEquals(
-            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=robohash&f=y" />',
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=robohash&f=y&s=100" />',
             $larvatar->getImageHTML()
         );
     }

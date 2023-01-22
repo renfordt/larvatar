@@ -10,7 +10,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::Gravatar);
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=&s=100',
             $gravatar->generateGravatarLink()
         );
     }
@@ -19,7 +19,7 @@ final class GravatarTest extends TestCase
     {
         $gravatar = new Gravatar('user@example.com');
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
     }
@@ -29,7 +29,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::identicon);
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=identicon&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=identicon&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
     }
@@ -39,7 +39,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::monsterid);
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=monsterid&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=monsterid&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
     }
@@ -49,7 +49,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::wavatar);
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=wavatar&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=wavatar&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
     }
@@ -59,7 +59,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::retro);
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=retro&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=retro&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
     }
@@ -69,7 +69,7 @@ final class GravatarTest extends TestCase
         $gravatar = new Gravatar('user@example.com');
         $gravatar->setType(LarvatarTypes::robohash);
         $this->assertEquals(
-            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=robohash&f=y',
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=robohash&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
     }
