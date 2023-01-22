@@ -2,6 +2,7 @@
 
 namespace Renfordt\Larvatar;
 
+use Exception;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Gravatar
@@ -68,11 +69,11 @@ class Gravatar
     /**
      * Depending on the selected type the missing parameters for Gravatar API will be selected
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getAdditionalParameters(): string
     {
-        $link = match ($this->type) {
+        $link = match($this->type) {
             LarvatarTypes::Gravatar => '?d=',
             LarvatarTypes::mp => '?d=mp&f=y',
             LarvatarTypes::identicon => '?d=identicon&f=y',
@@ -80,7 +81,7 @@ class Gravatar
             LarvatarTypes::wavatar => '?d=wavatar&f=y',
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y',
-            LarvatarTypes::InitialsAvatar => throw new \Exception('Initials Avatar is not supportet for Gravatars.')
+            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supportet for Gravatars.')
         };
         return $link.'&s='.$this->size;
     }
