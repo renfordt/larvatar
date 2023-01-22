@@ -1,7 +1,13 @@
 {
   "name": "renfordt/larvatar",
-  "description": "A package to distribute you many ways of creating avatars",
+  "description": "A PHP package to provide you with many variants of avatars.",
   "license": "MIT",
+  "type": "library",
+  "keywords": [
+      "avatar",
+      "initials",
+      "gravatar"
+  ],
   "authors": [
     {
       "name": "Jannik Renfordt",

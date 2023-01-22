@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eef6ffec23b517dbe546f79f38196cb9",
+    "content-hash": "8efb201c802bc9c406bb0249425ed260",
     "packages": [
         {
             "name": "meyfa/php-svg",
-            "version": "v0.14.0",
+            "version": "v0.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/meyfa/php-svg.git",
-                "reference": "c2c59ecc000c207c6ef22b826617e79d4b2ee450"
+                "reference": "35d6c36aba492c9bd398fa4d5473d2a59450eae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meyfa/php-svg/zipball/c2c59ecc000c207c6ef22b826617e79d4b2ee450",
-                "reference": "c2c59ecc000c207c6ef22b826617e79d4b2ee450",
+                "url": "https://api.github.com/repos/meyfa/php-svg/zipball/35d6c36aba492c9bd398fa4d5473d2a59450eae8",
+                "reference": "35d6c36aba492c9bd398fa4d5473d2a59450eae8",
                 "shasum": ""
             },
             "require": {
@@ -55,9 +55,9 @@
             ],
             "support": {
                 "issues": "https://github.com/meyfa/php-svg/issues",
-                "source": "https://github.com/meyfa/php-svg/tree/v0.14.0"
+                "source": "https://github.com/meyfa/php-svg/tree/v0.14.1"
             },
-            "time": "2023-01-02T21:26:55+00:00"
+            "time": "2023-01-22T14:25:36+00:00"
         }
     ],
     "packages-dev": [
@@ -1798,7 +1798,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-gd": "*"
     },
     "platform-dev": [],
