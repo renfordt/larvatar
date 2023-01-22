@@ -43,7 +43,7 @@ class InitialsAvatar
         $initials_SVG->setStyle('text-anchor', 'middle');
         $initials_SVG->setStyle('dominant-baseline', 'middle');
         $initials_SVG->setFontFamily($this->font_family);
-        $initials_SVG->setFontSize($this->size * 0.5);
+        $initials_SVG->setFontSize($this->size * 0.5.'px');
 
         $doc->addChild($circle);
         $doc->addChild($initials_SVG);
