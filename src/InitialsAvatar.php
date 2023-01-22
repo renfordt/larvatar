@@ -26,7 +26,7 @@ class InitialsAvatar
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
         if ($this->font_path != '' & $this->font_family != '') {
-            SVG::addFont(__DIR__.'/'.$this->font_path);
+            SVG::addFont(__DIR__.$this->font_path);
         }
         $half_size = $this->size / 2;
 
