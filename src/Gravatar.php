@@ -81,7 +81,7 @@ class Gravatar
             LarvatarTypes::wavatar => '?d=wavatar&f=y',
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y',
-            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supportet for Gravatars.')
+            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.')
         };
         return $link.'&s='.$this->size;
     }
