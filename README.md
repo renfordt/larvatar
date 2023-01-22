@@ -7,9 +7,9 @@ ___
 [![Test Coverage](https://api.codeclimate.com/v1/badges/af7c56b1f1338a9af607/test_coverage)](https://codeclimate.com/github/renfordt/larvatar/test_coverage)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/renfordt/larvatar)
 
-Larvatar is a package that combines different avatar styles, like Gravatar, Initals Avatar.
+Larvatar is a package that combines different avatar styles, like Gravatar, Initials Avatar.
 
-
+[![Avatar Types](avatars.png)]
 ## Installation
 ```
 composer install renfordt/larvatar
