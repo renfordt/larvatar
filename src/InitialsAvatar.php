@@ -8,8 +8,8 @@ use SVG\SVG;
 
 class InitialsAvatar
 {
-    private string $font_path = '';
-    private string $font_family = '';
+    private string $fontPath = '';
+    private string $fontFamily = '';
     private array $names = [];
     private int $size = 128;
 
@@ -25,12 +25,12 @@ class InitialsAvatar
         }
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
-        if ($this->font_path != '' & $this->font_family != '') {
-            SVG::addFont(__DIR__.$this->font_path);
+        if ($this->fontPath != '' & $this->fontFamily != '') {
+            SVG::addFont(__DIR__.$this->fontPath);
         }
-        $half_size = $this->size / 2;
+        $halfSize = $this->size / 2;
 
-        $circle = new SVGCircle($half_size, $half_size, $half_size);
+        $circle = new SVGCircle($halfSize, $halfSize, $halfSize);
         $circle->setStyle('fill', $this->generateHexColor($names));
 
         $initials = '';
@@ -38,15 +38,15 @@ class InitialsAvatar
             $initials .= substr($name, 0, 1);
         }
 
-        $initials_SVG = new SVGText($initials, '50%', '55%');
-        $initials_SVG->setStyle('fill', '#ffffff');
-        $initials_SVG->setStyle('text-anchor', 'middle');
-        $initials_SVG->setStyle('dominant-baseline', 'middle');
-        $initials_SVG->setFontFamily($this->font_family);
-        $initials_SVG->setFontSize($this->size * 0.5.'px');
+        $initials = new SVGText($initials, '50%', '55%');
+        $initials->setStyle('fill', '#ffffff');
+        $initials->setStyle('text-anchor', 'middle');
+        $initials->setStyle('dominant-baseline', 'middle');
+        $initials->setFontFamily($this->fontFamily);
+        $initials->setFontSize($this->size * 0.5 .'px');
 
         $doc->addChild($circle);
-        $doc->addChild($initials_SVG);
+        $doc->addChild($initials);
 
         return $larvatar;
     }
@@ -61,10 +61,10 @@ class InitialsAvatar
         $this->names = explode(' ', $name);
     }
 
-    public function setFont(string $font_family, string $path): void
+    public function setFont(string $fontFamily, string $path): void
     {
-        $this->font_family = $font_family;
-        $this->font_path = $path;
+        $this->fontFamily = $fontFamily;
+        $this->fontPath = $path;
     }
 
     public function generateHexColor(array $names = null, $offset = 0): string
@@ -76,5 +76,4 @@ class InitialsAvatar
         $hash = md5($name);
         return '#'.substr($hash, $offset, 6);
     }
-
 }
