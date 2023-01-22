@@ -11,6 +11,7 @@ class Larvatar
     protected string $email;
     protected string $font;
     protected string $font_path;
+    protected int $size;
 
     public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
     {
@@ -30,11 +31,19 @@ class Larvatar
             if (isset($this->font) && $this->font != '' && $this->font_path != '') {
                 $initial_avatar->setFont($this->font, $this->font_path);
             }
+            if(isset($this->size))
+            {
+                $initial_avatar->setSize($this->size);
+            }
             return $initial_avatar->generate();
         }
 
         $gravatar = new Gravatar($this->email);
         $gravatar->setType($this->type);
+        if(isset($this->size))
+        {
+            $gravatar->setSize($this->size);
+        }
         return '<img src="'.$gravatar->generateGravatarLink().'" />';
     }
 
@@ -42,6 +51,11 @@ class Larvatar
     {
         $this->font = $font_family;
         $this->font_path = $path;
+    }
+
+    public function setSize(int $size): void
+    {
+        $this->size = $size;
     }
 
 }
