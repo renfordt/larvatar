@@ -10,7 +10,7 @@ class Larvatar
     protected string $name;
     protected string $email;
     protected string $font;
-    protected string $font_path;
+    protected string $fontPath;
     protected int $size;
 
     public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
@@ -28,11 +28,10 @@ class Larvatar
     {
         if ($this->type == LarvatarTypes::InitialsAvatar) {
             $initial_avatar = new InitialsAvatar($this->name);
-            if (isset($this->font) && $this->font != '' && $this->font_path != '') {
-                $initial_avatar->setFont($this->font, $this->font_path);
+            if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
+                $initial_avatar->setFont($this->font, $this->fontPath);
             }
-            if(isset($this->size))
-            {
+            if (isset($this->size)) {
                 $initial_avatar->setSize($this->size);
             }
             return $initial_avatar->generate();
@@ -40,22 +39,20 @@ class Larvatar
 
         $gravatar = new Gravatar($this->email);
         $gravatar->setType($this->type);
-        if(isset($this->size))
-        {
+        if (isset($this->size)) {
             $gravatar->setSize($this->size);
         }
         return '<img src="'.$gravatar->generateGravatarLink().'" />';
     }
 
-    public function setFont(string $font_family, string $path): void
+    public function setFont(string $fontFamily, string $path): void
     {
-        $this->font = $font_family;
-        $this->font_path = $path;
+        $this->font = $fontFamily;
+        $this->fontPath = $path;
     }
 
     public function setSize(int $size): void
     {
         $this->size = $size;
     }
-
 }
