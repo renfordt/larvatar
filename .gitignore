@@ -1,3 +1,4 @@
 /vendor
 /src/index.php
 /.idea
+composer.lock
