@@ -26,7 +26,12 @@ class LarvatarTest extends TestCase
 
     public function testCreateLarvatarException(): void
     {
-        $this->expectError(ValueError::class);
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new Exception($errstr, $errno);
+        }, E_USER_WARNING);
+
+        $this->expectExceptionMessage('is not a valid backing value');
+
         $larvatar = new Larvatar('Test Name', 'test@example.com', 700);
     }
 
