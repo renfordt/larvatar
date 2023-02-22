@@ -10,7 +10,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::InitialsAvatar);
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #9c3564" /><text x="50%" y="55%" style="fill: #ffffff; text-anchor: middle; dominant-baseline: middle; font-size: 50px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-size: 50px">TN</text></svg>',
             $larvatar->getImageHTML()
         );
     }
@@ -19,7 +19,7 @@ class LarvatarTest extends TestCase
     {
         $larvatar = new Larvatar('Test Name', 'test@example.com', 0);
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #9c3564" /><text x="50%" y="55%" style="fill: #ffffff; text-anchor: middle; dominant-baseline: middle; font-size: 50px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-size: 50px">TN</text></svg>',
             $larvatar->getImageHTML()
         );
     }
@@ -40,7 +40,7 @@ class LarvatarTest extends TestCase
         $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::InitialsAvatar);
         $larvatar->setFont('Roboto', '/../src/font/Roboto-Bold.ttf');
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #9c3564" /><text x="50%" y="55%" style="fill: #ffffff; text-anchor: middle; dominant-baseline: middle; font-family: Roboto; font-size: 50px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-family: Roboto; font-size: 50px">TN</text></svg>',
             $larvatar->getImageHTML()
         );
     }
