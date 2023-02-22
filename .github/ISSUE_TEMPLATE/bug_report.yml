@@ -24,6 +24,7 @@ body:
       label: Version
       description: What version of our software are you running?
       options:
+        - 1.0.X
         - master branch
     validations:
       required: true
