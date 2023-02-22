@@ -4,6 +4,7 @@ namespace Renfordt\Larvatar;
 
 use Exception;
 use InvalidArgumentException;
+use Renfordt\Larvatar\Enum\ColorType;
 
 class Color
 {
@@ -12,22 +13,17 @@ class Color
     private array $hsv;
     private array $hsl;
 
-    public function __construct(array|string $color)
+    public function __construct(ColorType $type, array|string $color)
     {
-        if (!is_array($color)) {
-            $this->setHex($color);
-            $this->rgb = Color::HexToRGB($this->hex);
-            $this->hsl = Color::RGBToHSL($this->rgb[0], $this->rgb[1], $this->rgb[2]);
-        }
-        if (is_int($color[0]) && is_int($color[1]) && is_int($color[2])) {
-            $this->setRGB($color);
-            $this->hex = Color::RGBToHex($color[0], $color[1], $color[2]);
-            $this->hsl = Color::RGBToHSL($color[0], $color[1], $color[2]);
-        }
-        if (is_int($color[0]) && is_float($color[1]) && is_float($color[2])) {
-            $this->setHSL($color);
-            $this->rgb = Color::HSLToRGB($color[0], $color[1], $color[2]);
-            $this->hex = Color::RGBToHex($this->rgb[0], $this->rgb[1], $this->rgb[2]);
+        switch ($type) {
+            case ColorType::Hex:
+                $this->setHex($color);
+                break;
+            case ColorType::RGB:
+                $this->setRGB($color);
+                break;
+            case ColorType::HSL:
+                $this->setHSL($color);
         }
     }
 
@@ -195,10 +191,14 @@ class Color
         } else {
             $hue = 60 * (4 + ($normalizedRed - $normalizedGreen) / $chroma);
         }
+
+        if ($hue < 0) {
+            $hue += 360;
+        }
         return array($maxRGB, $minRGB, $chroma, $value, $hue);
     }
 
-    private static function HSLToRGB(int $hue, float $saturation, float $lightness)
+    private static function HSLToRGB(int $hue, float $saturation, float $lightness): array
     {
         $chroma = (1 - abs(2 * $lightness - 1)) * $saturation;
         $hueNormalized = $hue / 60;
@@ -241,16 +241,23 @@ class Color
         }
         $color = substr($color, 1);
         $this->hex = $color;
+
+        $this->rgb = Color::HexToRGB($this->hex);
+        $this->hsl = Color::RGBToHSL($this->rgb[0], $this->rgb[1], $this->rgb[2]);
     }
 
     public function setRGB(array $color): void
     {
         $this->rgb = $color;
+        $this->hex = Color::RGBToHex($color[0], $color[1], $color[2]);
+        $this->hsl = Color::RGBToHSL($color[0], $color[1], $color[2]);
     }
 
     public function setHSL(array $color): void
     {
         $this->hsl = $color;
+        $this->rgb = $this->HSLToRGB($color[0], $color[1], $color[2]);
+        $this->hex = $this->RGBToHex($this->rgb[0], $this->rgb[1], $this->rgb[2]);
     }
 
     /**
@@ -275,6 +282,45 @@ class Color
     public function getHex(): string
     {
         return '#'.$this->hex;
+    }
+
+    public function getColorSet()
+    {
+        list($hue, $saturation, $lightness) = $this->hsl;
+        if ($lightness <= 0.5) {
+            $dark = new Color(ColorType::HSL, $this->hsl);
+            $light = new Color(ColorType::HSL, $this->hsl);
+            $light->brighten(50);
+        } else {
+            $dark = new Color(ColorType::HSL, $this->hsl);
+            $light = new Color(ColorType::HSL, $this->hsl);
+            $dark->darken(50);
+        }
+        return array($dark, $light);
+    }
+
+    public function brighten(int $amount = 10): void
+    {
+        list($hue, $saturation, $lightness) = $this->hsl;
+        $lightness = self::clamp($lightness + $amount / 100, 0, 1);
+        $this->setHSL(array($hue, $saturation, $lightness));
+    }
+
+    public function darken(int $amount = 10): void
+    {
+        list($hue, $saturation, $lightness) = $this->hsl;
+        $lightness = self::clamp($lightness - $amount / 100, 0, 1);
+        $this->setHSL(array($hue, $saturation, $lightness));
+    }
+
+    private static function clamp(int|float $num, int|float $min, int|float $max): int|float
+    {
+        if ($num > $max) {
+            $num = $max;
+        } elseif ($num < $min) {
+            $num = $min;
+        }
+        return $num;
     }
 
 }
