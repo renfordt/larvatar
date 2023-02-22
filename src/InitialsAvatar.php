@@ -2,6 +2,7 @@
 
 namespace Renfordt\Larvatar;
 
+use Renfordt\Larvatar\Enum\ColorType;
 use SVG\Nodes\Shapes\SVGCircle;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
@@ -34,13 +35,16 @@ class InitialsAvatar
         }
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
-        if ($this->fontPath != '' & $this->fontFamily != '') {
+        if ($this->fontPath != '' && $this->fontFamily != '') {
             SVG::addFont(__DIR__.$this->fontPath);
         }
         $halfSize = $this->size / 2;
 
+        $color = new Color(ColorType::Hex, $this->generateHexColor($names));
+        list($darkColor, $lightColor) = $color->getColorSet();
+
         $circle = new SVGCircle($halfSize, $halfSize, $halfSize);
-        $circle->setStyle('fill', $this->generateHexColor($names));
+        $circle->setStyle('fill', $lightColor->getHex());
 
         $initials = '';
         foreach ($names as $name) {
@@ -48,7 +52,7 @@ class InitialsAvatar
         }
 
         $initials = new SVGText($initials, '50%', '55%');
-        $initials->setStyle('fill', '#ffffff');
+        $initials->setStyle('fill', $darkColor->getHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setFontFamily($this->fontFamily);
