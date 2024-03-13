@@ -12,7 +12,7 @@ Larvatar is a package that combines different avatar styles, like Gravatar, Init
 ![Avatar Types](avatars.png)
 ## Installation
 ```
-composer install renfordt/larvatar
+composer require renfordt/larvatar
 ```
 
 ## Usage
