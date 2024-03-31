@@ -136,7 +136,7 @@ jobs:
       - name: Send code coverage report to CodeClimate
         uses: paambaati/codeclimate-action@v5
         env:
-          CC_TEST_REPORTER_ID: 9e282ada616888f3a9fc652ee98ccb47651d1e105e9a4637a60efaf6d66fe71f
+          CC_TEST_REPORTER_ID: 7659068577b58e5f5081b36495ba746bcd9f6d16fb782dde425910fbe5eb18b4
         with:
           coverageLocations: ${{github.workspace}}/clover.xml:clover
           debug: true
