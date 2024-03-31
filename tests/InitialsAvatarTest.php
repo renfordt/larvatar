@@ -20,7 +20,7 @@ final class InitialsAvatarTest extends TestCase
     {
         $initialsAvatar = new InitialsAvatar('Test Name');
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-size: 64px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e8d2dc" /><text x="50%" y="55%" style="fill: #690230; text-anchor: middle; dominant-baseline: middle; font-size: 64px">TN</text></svg>',
             $initialsAvatar->generate()
         );
     }
@@ -30,7 +30,7 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar = new InitialsAvatar();
         $initialsAvatar->setName('Test Name');
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-size: 64px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e8d2dc" /><text x="50%" y="55%" style="fill: #690230; text-anchor: middle; dominant-baseline: middle; font-size: 64px">TN</text></svg>',
             $initialsAvatar->generate()
         );
     }
@@ -42,7 +42,7 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar->setFont('Roboto', '/../src/font/Roboto-Bold.ttf');
 
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-family: Roboto; font-size: 64px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e8d2dc" /><text x="50%" y="55%" style="fill: #690230; text-anchor: middle; dominant-baseline: middle; font-family: Roboto; font-size: 64px">TN</text></svg>',
             $initialsAvatar->generate()
         );
     }
@@ -52,7 +52,7 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar = new InitialsAvatar('Test Name');
         $initialsAvatar->setSize(500);
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500"><circle cx="250" cy="250" r="250" style="fill: #f3dde7" /><text x="50%" y="55%" style="fill: #9c3563; text-anchor: middle; dominant-baseline: middle; font-size: 250px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500"><circle cx="250" cy="250" r="250" style="fill: #e8d2dc" /><text x="50%" y="55%" style="fill: #690230; text-anchor: middle; dominant-baseline: middle; font-size: 250px">TN</text></svg>',
             $initialsAvatar->generate()
         );
     }
