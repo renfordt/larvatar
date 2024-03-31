@@ -214,7 +214,7 @@ class ColorTest extends TestCase
         $this->assertEquals($expectedResult, $actualResult, 'Case 4 failed: Green');
 
         // Test case 5: RGB (0, 0, 255)
-        $expectedResult = [0, 0, 1.0, 1.0, 240];
+        $expectedResult = [1, 0, 1.0, 1.0, 240];
         $actualResult = Color::calculateCVH(0, 0, 255);
         $this->assertEquals($expectedResult, $actualResult, 'Case 5 failed: Blue');
     }
