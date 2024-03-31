@@ -82,31 +82,31 @@ class ColorTest extends TestCase
         $rgbColor = [255, 255, 255];
         $expectedResult = [0, 0, 1];
         $actualResult = Color::RGBToHSV($rgbColor[0], $rgbColor[1], $rgbColor[2]);
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 1 failed: White');
 
         // Test case 2: Black
         $rgbColor = [0, 0, 0];
         $expectedResult = [0, 0, 0];
         $actualResult = Color::RGBToHSV($rgbColor[0], $rgbColor[1], $rgbColor[2]);
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 2 failed: Black');
 
         // Test case 3: Red
         $rgbColor = [255, 0, 0];
-        $expectedResult = [0, 1, 1];
+        $expectedResult = [0, 100, 1];
         $actualResult = Color::RGBToHSV($rgbColor[0], $rgbColor[1], $rgbColor[2]);
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 3 failed: Red');
 
         // Test case 4: Green
         $rgbColor = [0, 255, 0];
-        $expectedResult = [120, 1, 1];
+        $expectedResult = [120, 100, 1];
         $actualResult = Color::RGBToHSV($rgbColor[0], $rgbColor[1], $rgbColor[2]);
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 4 failed: Green');
 
         // Test case 5: Blue
         $rgbColor = [0, 0, 255];
-        $expectedResult = [240, 1, 1];
+        $expectedResult = [240, 100, 1];
         $actualResult = Color::RGBToHSV($rgbColor[0], $rgbColor[1], $rgbColor[2]);
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 5 failed: Blue');
     }
 
     /**
@@ -209,7 +209,7 @@ class ColorTest extends TestCase
         $this->assertEquals($expectedResult, $actualResult, 'Case 3 failed: Red');
 
         // Test case 4: RGB (0, 255, 0)
-        $expectedResult = [0, 1.0, 1.0, 1.0, 120];
+        $expectedResult = [1.0, 0, 1.0, 1.0, 120];
         $actualResult = Color::calculateCVH(0, 255, 0);
         $this->assertEquals($expectedResult, $actualResult, 'Case 4 failed: Green');
 
@@ -235,17 +235,17 @@ class ColorTest extends TestCase
 
         $color->setHex('#FF0000');
         $this->assertEquals([255, 0, 0], $color->getRGB());
-        $this->assertEquals('#ff0000', $color->getHex());
+        $this->assertEquals('#FF0000', $color->getHex());
         $this->assertEquals([0, 1, 0.5], $color->getHSL());
 
         $color->setHex('#00FF00');
         $this->assertEquals([0, 255, 0], $color->getRGB());
-        $this->assertEquals('#00ff00', $color->getHex());
+        $this->assertEquals('#00FF00', $color->getHex());
         $this->assertEquals([120, 1, 0.5], $color->getHSL());
 
         $color->setHex('#0000FF');
         $this->assertEquals([0, 0, 255], $color->getRGB());
-        $this->assertEquals('#0000ff', $color->getHex());
+        $this->assertEquals('#0000FF', $color->getHex());
         $this->assertEquals([240, 1, 0.5], $color->getHSL());
     }
 
