@@ -14,9 +14,11 @@ class Larvatar
     protected int $size = 100;
 
     /**
-     * @param  string  $name  The first and second name or the username, separated by a space
-     * @param  string  $email  The email of the user, used to create a hash for Gravatar
-     * @param  int|LarvatarTypes  $type  Type of Larvatar, currently from 0 to 7 or better use LarvatarType enum
+     * Constructs a new instance of the class.
+     *
+     * @param  string  $name  The name. Default is an empty string.
+     * @param  string  $email  The email. Default is an empty string.
+     * @param  int|LarvatarTypes  $type  The type. Default is LarvatarTypes::mp.
      */
     public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
     {
@@ -63,6 +65,12 @@ class Larvatar
         $this->fontPath = $path;
     }
 
+    /**
+     * Sets the size of the object.
+     *
+     * @param  int  $size  The size of the object.
+     * @return void
+     */
     public function setSize(int $size): void
     {
         $this->size = $size;
