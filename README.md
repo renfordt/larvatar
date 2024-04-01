@@ -1,22 +1,29 @@
 # Larvatar
-___
-![php workflow](https://github.com/renfordt/larvatar/actions/workflows/php.yml/badge.svg)
-[![Latest Version](https://img.shields.io/packagist/v/renfordt/larvatar?label=version)](https://packagist.org/packages/renfordt/larvatar/)
+
+[![Badge](http://img.shields.io/badge/source-renfordt/Larvatar-blue.svg)](https://github.com/renfordt/Larvatar)
+[![Packagist Version](https://img.shields.io/packagist/v/renfordt/larvatar?include_prereleases)](https://packagist.org/packages/renfordt/larvatar/)
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/renfordt/larvatar/php)
-[![Maintainability](https://api.codeclimate.com/v1/badges/af7c56b1f1338a9af607/maintainability)](https://codeclimate.com/github/renfordt/larvatar/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/af7c56b1f1338a9af607/test_coverage)](https://codeclimate.com/github/renfordt/larvatar/test_coverage)
-![Packagist Downloads](https://img.shields.io/packagist/dt/renfordt/larvatar)
+![GitHub License](https://img.shields.io/github/license/renfordt/Larvatar)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/renfordt/Larvatar/php.yml?logo=github)
+[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/renfordt/larvatar?logo=codeclimate)](https://codeclimate.com/github/renfordt/larvatar/test_coverage)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/renfordt/larvatar?logo=codeclimate)](https://codeclimate.com/github/renfordt/larvatar/maintainability)
 
 Larvatar is a package that combines different avatar styles, like Gravatar, Initials Avatar.
 
 ![Avatar Types](avatars.png)
+
 ## Installation
+
+The recommended way of installing Larvatar is to use [Composer](https://getcomposer.org/). Run the following command to
+install it to you project:
 ```
-composer install renfordt/larvatar
+composer require renfordt/larvatar
 ```
 
 ## Usage
-The general usage is quite simple. Create a new Larvatar class, insert name and email and the avatar type you wish.
+
+The general usage is simple. Create a new Larvatar class, insert name and email and the avatar type you wish.
+
 ```php
 <?php
 use Renfordt\Larvatar\Enum\LarvatarTypes;
