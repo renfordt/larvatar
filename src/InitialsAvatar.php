@@ -38,7 +38,7 @@ class InitialsAvatar
      * @param  array  $names  Array of Names which shall be shortend for the initials
      * @return string Returns a SVG code of the Initials
      */
-    public function generate(array $names = []): string
+    public function generate(array $names = [], string|null $encoding = null): string
     {
         $names = $this->getNames($names);
         $larvatar = new SVG($this->size, $this->size);
@@ -56,6 +56,9 @@ class InitialsAvatar
         $doc->addChild($circle);
         $doc->addChild($initials);
 
+        if($encoding == 'base64') {
+            return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
+        }
         return $larvatar;
     }
 
