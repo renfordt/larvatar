@@ -18,19 +18,29 @@ class ColorTest extends TestCase
      */
     public function testHexToRGB(): void
     {
+        // Test case 1: White
         $hexColor = '#ffffff';
         $expectedResult = [255, 255, 255];
-
         $actualResult = Color::HexToRGB($hexColor);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 1 failed: White');
 
-        $this->assertEquals($expectedResult, $actualResult);
-
+        // Test case 2: black
         $hexColor = '#000000';
         $expectedResult = [0, 0, 0];
-
         $actualResult = Color::HexToRGB($hexColor);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 2 failed: Black');
 
-        $this->assertEquals($expectedResult, $actualResult);
+        // Test case 3: Mountain Meadow
+        $hexColor = '#11c380';
+        $expectedResult = [17, 195, 128];
+        $actualResult = Color::HexToRGB($hexColor);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 3 failed: Mountain Meadow');
+
+        // Test case 4: #8c5a45
+        $hexColor = '#8c5a45';
+        $expectedResult = [140, 90, 69];
+        $actualResult = Color::HexToRGB($hexColor);
+        $this->assertEquals($expectedResult, $actualResult, 'Case 4 failed: #8c5a45');
     }
 
     /**
