@@ -82,7 +82,7 @@ class ColorTest extends TestCase
 
         // Test case 6: Mountain Meadow
         $rgbColor = [17, 195, 128];
-        $expectedResult = [157, 0.87, 0.42];
+        $expectedResult = [157, 0.84, 0.42];
         $actualResult = Color::RGBToHSL($rgbColor[0], $rgbColor[1], $rgbColor[2]);
         $this->assertEquals($expectedResult, $actualResult, 'Case 6 failed: Mountain Meadow');
 
