@@ -32,6 +32,9 @@ use Renfordt\Larvatar\Larvatar;
 $larvatar = new Larvatar('Test Name', 'test@test.com', LarvatarTypes::InitialsAvatar);
 $larvatar->setFont('Roboto', './font/Roboto-bold.ttf');
 echo $larvatar->getImageHTML();
+
+// if you need base64 encryption, currently this works only for InitialsAvatar
+echo $larvatar->getImageHTML('base64');
 ```
 
 There are currently eight different types of avatars available:
