@@ -41,6 +41,14 @@ class ColorTest extends TestCase
         $expectedResult = [140, 90, 69];
         $actualResult = Color::HexToRGB($hexColor);
         $this->assertEquals($expectedResult, $actualResult, 'Case 4 failed: #8c5a45');
+
+        // Test case 4: #8c5a45
+        $hexColor = '#345';
+        $expectedResult = [51, 68, 85];
+        $actualResult = Color::HexToRGB($hexColor);
+        $this->assertEquals($expectedResult, $actualResult, 'Case  failed: #345');
+
+
     }
 
     /**
