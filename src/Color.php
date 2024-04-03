@@ -158,9 +158,9 @@ class Color
         $hMod2 = $hueNormalized - 2 * floor($hueNormalized / 2);
         $secondMax = $chroma * (1 - abs($hMod2 - 1));
 
-        list($r, $g, $b) = self::calculateRGBRange($hueNormalized, $chroma, $secondMax);
+        list($red, $green, $blue) = self::calculateRGBRange($hueNormalized, $chroma, $secondMax);
 
-        return self::finalizeRGBCalculation($r, $g, $b, $value, $chroma);
+        return self::finalizeRGBCalculation($red, $green, $blue, $value, $chroma);
     }
 
     private static function validateParameters(int $hue, float $saturation, float $value): void
@@ -202,19 +202,25 @@ class Color
     /**
      * Finalize the RGB color calculation based on the given parameters.
      *
-     * @param  float  $r  The red component of the RGB color (0-255).
-     * @param  float  $g  The green component of the RGB color (0-255).
-     * @param  float  $b  The blue component of the RGB color (0-255).
+     * @param  float  $red  The red component of the RGB color (0-255).
+     * @param  float  $green  The green component of the RGB color (0-255).
+     * @param  float  $blue  The blue component of the RGB color (0-255).
      * @param  float  $value  The value component of the RGB color (0-1).
      * @param  float  $chroma  The chroma component of the RGB color (0-1).
      * @param  bool  $isLightness  Flag indicating if the calculation is for lightness.
      * @return array An array containing the finalized RGB color values (red, green, blue).
      */
-    private static function finalizeRGBCalculation(float $r, float $g, float $b, float $value, float $chroma, bool $isLightness = false): array
-    {
+    private static function finalizeRGBCalculation(
+        float $red,
+        float $green,
+        float $blue,
+        float $value,
+        float $chroma,
+        bool $isLightness = false
+    ): array {
         $m = $isLightness ? $value - $chroma / 2 : $value - $chroma;
 
-        return array_map(fn($x) => intval(round(($x + $m) * 255)), [$r, $g, $b]);
+        return array_map(fn($color) => intval(round(($color + $m) * 255)), [$red, $green, $blue]);
     }
 
     /**
@@ -249,13 +255,13 @@ class Color
         $hMod2 = $hueNormalized - 2 * floor($hueNormalized / 2);
         $intermediateValue = $chroma * (1 - abs($hMod2 - 1));
 
-        list($r, $g, $b) = self::calculateRGBRange($hueNormalized, $chroma, $intermediateValue);
+        list($red, $green, $blue) = self::calculateRGBRange($hueNormalized, $chroma, $intermediateValue);
 
-        if (!isset($r) || !isset($g) || !isset($b)) {
+        if (!isset($red) || !isset($green) || !isset($blue)) {
             throw new Exception('RGB calculation not possible. Check inputs!');
         }
 
-        return self::finalizeRGBCalculation($r, $g, $b, $lightness, $chroma, true);
+        return self::finalizeRGBCalculation($red, $green, $blue, $lightness, $chroma, true);
     }
 
     /**
@@ -396,5 +402,4 @@ class Color
         $lightness = self::clamp($lightness - $amount / 100, 0, 1);
         $this->setHSL(array($hue, $saturation, $lightness));
     }
-
 }
