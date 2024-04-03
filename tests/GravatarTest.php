@@ -73,4 +73,36 @@ final class GravatarTest extends TestCase
             $gravatar->generateGravatarLink()
         );
     }
+    public function testSetTypeInitialsAvatar(): void
+    {
+        $gravatar = new Gravatar('user@example.com');
+        $defaultType = $gravatar->generateGravatarLink();
+
+        $gravatar->setType(LarvatarTypes::InitialsAvatar);
+        $this->assertEquals(
+            $defaultType,
+            $gravatar->generateGravatarLink(),
+            "Setting type as InitialsAvatar should not change gravatar link as it's not supported."
+        );
+    }
+
+    public function testSetTypeGravatar(): void
+    {
+        $gravatar = new Gravatar('user@example.com');
+        $gravatar->setType(LarvatarTypes::Gravatar);
+        $this->assertEquals(
+            'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=&s=100',
+            $gravatar->generateGravatarLink()
+        );
+    }
+
+    public function testSetTypeMP(): void
+    {
+       $gravatar = new Gravatar('user@example.com');
+       $gravatar->setType(LarvatarTypes::mp);
+       $this->assertEquals(
+           'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y&s=100',
+           $gravatar->generateGravatarLink()
+       );
+   }
 }

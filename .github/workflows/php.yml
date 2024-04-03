@@ -1,107 +1,140 @@
-name: CI
+# https://docs.github.com/en/actions
 
 on:
-  push:
-    branches:
-      - main
-      - dev
-  pull_request:
+  pull_request: null
+  push: null
+  schedule:
+    - cron: "15 0 * * *"
+
+name: CI
+
+env:
+  COMPOSER_ROOT_VERSION: "11.1-dev"
+
+permissions:
+  contents: read
 
 jobs:
-#  phpcs:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Setup PHP Action with phpcs
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.1'
-#          tools: phpcs
-#          coverage: none
-#
-#      - name: Validate composer.json and composer.lock
-#        run: composer validate --strict
-#
-#      - name: Get composer cache directory
-#        id: composer-cache
-#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-#
-#      - name: Cache Composer packages
-#        uses: actions/cache@v3
-#        with:
-#          path: ${{ steps.composer-cache.outputs.dir }}
-#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-#          restore-keys: ${{ runner.os }}-composer-
-#
-#      - name: Install dependencies
-#        run: composer install --prefer-dist --no-progress
-#
-#      - name: Run PHPCS
-#        run: phpcs
+  dependency-validation:
+    name: Dependency Validation
 
-  test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-versions: ['8.1', '8.2']
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Setup PHP ${{ matrix.php-versions }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: gd, simplexml
+          php-version: 8.2
           coverage: none
+          tools: none
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Ensure that composer.json is valid
+        run: composer validate --no-ansi --strict composer.json
 
-      - name: Cache Composer packages
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
+      - name: Ensure that dependencies can be installed
+        run: composer install --no-ansi --dry-run
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+  #coding-guidelines:
+  #  name: Coding Guidelines
 
-      - name: Run test suite
-        run: vendor/bin/phpunit
+  #    if: github.event_name != 'schedule'
 
-  coverage:
-    runs-on: ubuntu-latest
+  #    runs-on: ubuntu-latest
+
+  #   steps:
+  #      - name: Checkout
+  #        uses: actions/checkout@v4
+  #
+  #      - name: Install PHP
+  #        uses: shivammathur/setup-php@v2
+  #        with:
+  #          php-version: 8.2
+  #          coverage: none
+  #          tools: none
+
+  #      - name: Composer install
+  #        run: composer install
+
+  #      - name: Run PHP-CS-Fixer
+  #        run: ./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --dry-run --show-progress=dots --using-cache=no --verbose
+
+  unit-tests:
+    name: Unit Tests
+
+    needs:
+      - dependency-validation
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+
+        php-version:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Configure Git to avoid issues with line endings
+        if: matrix.os == 'windows-latest'
+        run: git config --global core.autocrlf false
 
-      - name: Setup PHP with tools
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
-          extensions: gd, simplexml
+          php-version: ${{ matrix.php-version }}
+          #extensions: ${{ env.PHP_EXTENSIONS }}
+          ini-values: ${{ env.PHP_INI_VALUES }}
+          tools: none
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Install dependencies with Composer
+        run: composer install --no-ansi --no-interaction --no-progress
 
-      - name: Cache Composer packages
-        uses: actions/cache@v3
+      - name: Run tests with PHPUnit
+        run: php ./vendor/phpunit/phpunit/phpunit --testsuite default
+
+  code-coverage:
+    name: Code Coverage
+
+    if: github.event_name != 'schedule'
+
+    needs:
+      - unit-tests
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
+          php-version: 8.2
+          coverage: pcov
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+          tools: none
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+      - name: Install dependencies with Composer
+        run: composer install --no-ansi --no-interaction --no-progress
 
-      - name: Run test suite with coverage
-        run: vendor/bin/phpunit --coverage-clover clover.xml
+      - name: Collect code coverage with PHPUnit
+        run: php ./vendor/phpunit/phpunit/phpunit --coverage-clover clover.xml
 
-      - name: Upload coverage
-        uses: paambaati/codeclimate-action@v3.2.0
+      - name: Send code coverage report to CodeClimate
+        uses: paambaati/codeclimate-action@v5
         env:
           CC_TEST_REPORTER_ID: 7659068577b58e5f5081b36495ba746bcd9f6d16fb782dde425910fbe5eb18b4
         with:

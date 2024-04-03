@@ -56,4 +56,16 @@ final class InitialsAvatarTest extends TestCase
             $initialsAvatar->generate()
         );
     }
+
+    public function testGenerateWithBase64(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $svg = $initialsAvatar->generate();
+        $base64 = $initialsAvatar->generate([], 'base64');
+
+        $this->assertEquals(
+            'data:image/svg+xml;base64,'.base64_encode($svg),
+            $base64
+        );
+    }
 }

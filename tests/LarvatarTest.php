@@ -108,4 +108,48 @@ class LarvatarTest extends TestCase
         );
     }
 
+    /**
+     * testSetSize method
+     *
+     * This test ensures that the setSize method in the Larvatar class works correctly.
+     */
+    public function testSetSize(): void
+    {
+        $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::mp);
+        $larvatar->setSize(50);
+        $this->assertEquals(
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=mp&f=y&s=50" />',
+            $larvatar->getImageHTML()
+        );
+    }
+
+    /**
+     * testSetSizeWithLargeValue method
+     *
+     * This test ensures that the setSize method in the Larvatar class works correctly with large values.
+     */
+    public function testSetSizeWithLargeValue(): void
+    {
+        $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::mp);
+        $larvatar->setSize(1000);
+        $this->assertEquals(
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=mp&f=y&s=1000" />',
+            $larvatar->getImageHTML()
+        );
+    }
+
+    /**
+     * testSetSizeWithSmallValue method
+     *
+     * This test ensures that the setSize method in the Larvatar class works correctly with small values.
+     */
+    public function testSetSizeWithSmallValue(): void
+    {
+        $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::mp);
+        $larvatar->setSize(1);
+        $this->assertEquals(
+            '<img src="https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=mp&f=y&s=1" />',
+            $larvatar->getImageHTML()
+        );
+    }
 }

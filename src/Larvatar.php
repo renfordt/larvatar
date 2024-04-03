@@ -14,9 +14,11 @@ class Larvatar
     protected int $size = 100;
 
     /**
-     * @param  string  $name  The first and second name or the username, separated by a space
-     * @param  string  $email  The email of the user, used to create a hash for Gravatar
-     * @param  int|LarvatarTypes  $type  Type of Larvatar, currently from 0 to 7 or better use LarvatarType enum
+     * Constructs a new instance of the class.
+     *
+     * @param  string  $name  The name. Default is an empty string.
+     * @param  string  $email  The email. Default is an empty string.
+     * @param  int|LarvatarTypes  $type  The type. Default is LarvatarTypes::mp.
      */
     public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
     {
@@ -33,7 +35,7 @@ class Larvatar
      * Generates the HTML or SVG code directly for usage
      * @return string HTML or SVG code
      */
-    public function getImageHTML(): string
+    public function getImageHTML(string $encoding = ''): string
     {
         if ($this->type == LarvatarTypes::InitialsAvatar) {
             $initial_avatar = new InitialsAvatar($this->name);
@@ -41,7 +43,11 @@ class Larvatar
                 $initial_avatar->setFont($this->font, $this->fontPath);
             }
             $initial_avatar->setSize($this->size);
-            return $initial_avatar->generate();
+            if ($encoding == 'base64') {
+                return '<img src="'.$initial_avatar->generate(encoding: $encoding).'" />';
+            } else {
+                return $initial_avatar->generate();
+            }
         }
 
         $gravatar = new Gravatar($this->email);
@@ -63,6 +69,12 @@ class Larvatar
         $this->fontPath = $path;
     }
 
+    /**
+     * Sets the size of the object.
+     *
+     * @param  int  $size  The size of the object.
+     * @return void
+     */
     public function setSize(int $size): void
     {
         $this->size = $size;
