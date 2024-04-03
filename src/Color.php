@@ -172,6 +172,14 @@ class Color
         }
     }
 
+    /**
+     * Calculate the RGB range based on the normalized hue value.
+     *
+     * @param  float  $hueNormalized  The normalized hue value (0-6).
+     * @param  float  $chroma  The chroma value (0 - 360).
+     * @param  float  $secondMax  The second maximum value.
+     * @return array An array containing the RGB color values.
+     */
     private static function calculateRGBRange(float $hueNormalized, float $chroma, float $secondMax): array
     {
         if (0 <= $hueNormalized && $hueNormalized < 1) {
@@ -184,14 +192,28 @@ class Color
             return [0, $secondMax, $chroma];
         } elseif (4 <= $hueNormalized && $hueNormalized < 5) {
             return [$secondMax, 0, $chroma];
-        } else {
+        } elseif (5 <= $hueNormalized && $hueNormalized < 6) {
             return [$chroma, 0, $secondMax];
+        } else {
+            return [];
         }
     }
 
-    private static function finalizeRGBCalculation(float $r, float $g, float $b, float $value, float $chroma): array
+    /**
+     * Finalize the RGB color calculation based on the given parameters.
+     *
+     * @param  float  $r  The red component of the RGB color (0-255).
+     * @param  float  $g  The green component of the RGB color (0-255).
+     * @param  float  $b  The blue component of the RGB color (0-255).
+     * @param  float  $value  The value component of the RGB color (0-1).
+     * @param  float  $chroma  The chroma component of the RGB color (0-1).
+     * @param  bool  $isLightness  Flag indicating if the calculation is for lightness.
+     * @return array An array containing the finalized RGB color values (red, green, blue).
+     */
+    private static function finalizeRGBCalculation(float $r, float $g, float $b, float $value, float $chroma, bool $isLightness = false): array
     {
-        $m = $value - $chroma;
+        $m = $isLightness ? $value - $chroma / 2 : $value - $chroma;
+
         return array_map(fn($x) => intval(round(($x + $m) * 255)), [$r, $g, $b]);
     }
 
@@ -229,7 +251,11 @@ class Color
 
         list($r, $g, $b) = self::calculateRGBRange($hueNormalized, $chroma, $intermediateValue);
 
-        return self::finalizeRGBCalculation($r, $g, $b, $lightness, $chroma);
+        if (!isset($r) || !isset($g) || !isset($b)) {
+            throw new Exception('RGB calculation not possible. Check inputs!');
+        }
+
+        return self::finalizeRGBCalculation($r, $g, $b, $lightness, $chroma, true);
     }
 
     /**
