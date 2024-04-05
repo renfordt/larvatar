@@ -309,4 +309,61 @@ class ColorTest extends TestCase
         $this->assertEquals('#0000ff', $color->getHex());
     }
 
+    public function testGetColorSet(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        list($dark, $light) = $color->getColorSet();
+
+        $this->assertEquals([240, 0.5, 0.35], $dark->getHSL());
+        $this->assertEquals([240, 0.5, 0.8], $light->getHSL());
+    }
+
+    public function testBrightenWithoutParameter(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        $color->brighten();
+        $this->assertEquals([240, 0.5, 0.6], $color->getHSL());
+    }
+
+    public function testBrightenWithParameter(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        $color->brighten(20);
+        $this->assertEquals([240, 0.5, 0.7], $color->getHSL());
+    }
+
+    public function testBrightenWithOutOfRangeParameter(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        $color->brighten(120);
+        $this->assertEquals([240, 0.5, 1.0], $color->getHSL());
+
+        $color->brighten(-120);
+        $this->assertEquals([240, 0.5, 0.0], $color->getHSL());
+    }
+
+    public function testDarkenWithoutParameter(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        $color->darken();
+        $this->assertEquals([240, 0.5, 0.4], $color->getHSL());
+    }
+
+    public function testDarkenWithParameter(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        $color->darken(20);
+        $this->assertEquals([240, 0.5, 0.3], $color->getHSL());
+    }
+
+    public function testDarkenWithOutOfRangeParameter(): void
+    {
+        $color = new Color(ColorType::HSL, [240, 0.5, 0.5]);
+        $color->darken(120);
+        $this->assertEquals([240, 0.5, 0.0], $color->getHSL());
+
+        $color->darken(-120);
+        $this->assertEquals([240, 0.5, 1.0], $color->getHSL());
+    }
+
 }
