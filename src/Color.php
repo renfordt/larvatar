@@ -340,11 +340,13 @@ class Color
     }
 
     /**
-     * Get the color set based on the HSL values of the color.
+     * Get a color set based on the HSL color.
      *
+     * @param  float  $darkLightness  The lightness value for the dark color (0.0-1.0).
+     * @param  float  $lightLightness  The lightness value for the light color (0.0-1.0).
      * @return array An array containing the dark and light color.
      */
-    public function getColorSet(float $darkLightness = 0.35, float $lightLightness = 0.8)
+    public function getColorSet(float $darkLightness = 0.35, float $lightLightness = 0.8): array
     {
         list($hue, $saturation, $lightness) = $this->hsl;
 
