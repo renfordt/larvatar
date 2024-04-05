@@ -13,6 +13,7 @@ class InitialsAvatar
     private string $fontFamily = '';
     private array $names = [];
     private int $size = 128;
+    private int $fontSize = 0;
 
     /**
      * Create an instance of InitialsAvatar
@@ -56,7 +57,7 @@ class InitialsAvatar
         $doc->addChild($circle);
         $doc->addChild($initials);
 
-        if($encoding == 'base64') {
+        if ($encoding == 'base64') {
             return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
         }
         return $larvatar;
@@ -146,9 +147,34 @@ class InitialsAvatar
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setFontFamily($this->fontFamily);
-        $initials->setFontSize($this->size * 0.5 .'px');
+        if ($this->fontSize == 0) {
+            $this->fontSize = $this->calculateFontSize($initialsText);
+        }
+        $initials->setFontSize($this->fontSize.'px');
 
         return $initials;
+    }
+
+    /**
+     * Calculate the font size based on the initials length
+     *
+     * @param  string  $initials  The initials to calculate the font size for
+     * @return int  The calculated font size
+     */
+    protected function calculateFontSize(string $initials): int
+    {
+        return intval($this->size * (0.5 - sin(0.5 * strlen($initials) - 1) / 5));
+    }
+
+    /**
+     * Sets the font size for the text
+     *
+     * @param  int  $size  The font size in pixel
+     * @return void
+     */
+    public function setFontSize(int $size): void
+    {
+        $this->fontSize = $size;
     }
 
     /**
