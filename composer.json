@@ -30,8 +30,8 @@
     "meyfa/php-svg": "^0.14.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5.28",
-    "orchestra/testbench": "^7.19"
+    "phpunit/phpunit": "^10.5.17",
+    "orchestra/testbench": "^v8.22.2"
   },
   "extra": {
     "laravel": {
