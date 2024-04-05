@@ -344,18 +344,12 @@ class Color
      *
      * @return array An array containing the dark and light color.
      */
-    public function getColorSet()
+    public function getColorSet(float $darkLightness = 0.35, float $lightLightness = 0.8)
     {
         list($hue, $saturation, $lightness) = $this->hsl;
-        if ($lightness <= 0.5) {
-            $dark = new Color(ColorType::HSL, $this->hsl);
-            $light = new Color(ColorType::HSL, $this->hsl);
-            $light->brighten(50);
-        } else {
-            $dark = new Color(ColorType::HSL, $this->hsl);
-            $light = new Color(ColorType::HSL, $this->hsl);
-            $dark->darken(50);
-        }
+
+        $dark = new Color(ColorType::HSL, [$hue, $saturation, $darkLightness]);
+        $light = new Color(ColorType::HSL, [$hue, $saturation, $lightLightness]);
         return array($dark, $light);
     }
 
