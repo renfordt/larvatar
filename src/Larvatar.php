@@ -31,7 +31,7 @@ class Larvatar
             $this->type = $type;
         }
 
-        if ($type == LarvatarTypes::InitialsAvatar) {
+        if ($this->type == LarvatarTypes::InitialsAvatar) {
             $this->initialsAvatar = new InitialsAvatar($this->name);
         }
     }
