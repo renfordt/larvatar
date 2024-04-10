@@ -72,6 +72,7 @@ final class InitialsAvatarTest extends TestCase
             $base64
         );
     }
+
     public function testGetSquare(): void
     {
         $initialsAvatar = new InitialsAvatar('Test Name');
@@ -89,6 +90,7 @@ final class InitialsAvatarTest extends TestCase
         $this->assertEquals(128, $result->getHeight());
         $this->assertEquals('#000000', $result->getStyle('fill'));
     }
+
     public function testGetHexagon(): void
     {
         $initialsAvatar = new InitialsAvatar('Test Name');
@@ -98,10 +100,19 @@ final class InitialsAvatarTest extends TestCase
 
         $color = new Color(ColorType::Hex, '#000000');
 
+        $expectedPoints = [
+            [119.4256258422, 96],
+            [64, 128],
+            [8.5743741577959, 96],
+            [8.5743741577959, 32],
+            [64, 0],
+            [119.4256258422, 32]
+        ];
+
         $result = $method->invoke($initialsAvatar, 128, $color, 30);
 
         $this->assertInstanceOf(SVGPolygon::class, $result);
         $this->assertEquals('#000000', $result->getStyle('fill'));
-        $this->assertEquals([], $result->getPoints());
+        $this->assertEquals($expectedPoints, $result->getPoints());
     }
 }
