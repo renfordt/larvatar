@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Color;
 use Renfordt\Larvatar\Enum\ColorType;
+use Renfordt\Larvatar\Enum\FormTypes;
 use Renfordt\Larvatar\InitialsAvatar;
 use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
@@ -125,7 +126,7 @@ final class InitialsAvatarTest extends TestCase
         $property->setAccessible(true);
         $this->assertEquals(45, $property->getValue($initialsAvatar));
     }
-}
+
     public function testSetForm(): void
     {
         $initialsAvatar = new InitialsAvatar('Test Name');
