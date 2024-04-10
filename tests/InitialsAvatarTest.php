@@ -115,4 +115,40 @@ final class InitialsAvatarTest extends TestCase
         $this->assertEquals('#000000', $result->getStyle('fill'));
         $this->assertEquals($expectedPoints, $result->getPoints());
     }
+
+    public function testSetRotation(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setRotation(45);
+        $reflector = new \ReflectionObject($initialsAvatar);
+        $property = $reflector->getProperty('rotation');
+        $property->setAccessible(true);
+        $this->assertEquals(45, $property->getValue($initialsAvatar));
+    }
+}
+    public function testSetForm(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+
+        $initialsAvatar->setForm('circle');
+        $reflector = new \ReflectionObject($initialsAvatar);
+        $property = $reflector->getProperty('form');
+        $property->setAccessible(true);
+        $this->assertEquals(FormTypes::Circle, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm('square');
+        $this->assertEquals(FormTypes::Square, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm('hexagon');
+        $this->assertEquals(FormTypes::Hexagon, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm(FormTypes::Circle);
+        $this->assertEquals(FormTypes::Circle, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm(FormTypes::Square);
+        $this->assertEquals(FormTypes::Square, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm(FormTypes::Hexagon);
+        $this->assertEquals(FormTypes::Hexagon, $property->getValue($initialsAvatar));
+    }
 }
