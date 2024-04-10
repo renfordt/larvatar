@@ -1,7 +1,10 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Renfordt\Larvatar\Color;
+use Renfordt\Larvatar\Enum\ColorType;
 use Renfordt\Larvatar\InitialsAvatar;
+use SVG\Nodes\Shapes\SVGRect;
 
 final class InitialsAvatarTest extends TestCase
 {
@@ -67,5 +70,22 @@ final class InitialsAvatarTest extends TestCase
             'data:image/svg+xml;base64,'.base64_encode($svg),
             $base64
         );
+    }
+    public function testGetSquare(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $reflect = new \ReflectionClass($initialsAvatar);
+        $method = $reflect->getMethod('getSquare');
+
+        $color = new Color(ColorType::Hex, '#000000');
+
+        $result = $method->invoke($initialsAvatar, 128, $color);
+
+        $this->assertInstanceOf(SVGRect::class, $result);
+        $this->assertEquals(0, $result->getX());
+        $this->assertEquals(0, $result->getY());
+        $this->assertEquals(128, $result->getWidth());
+        $this->assertEquals(128, $result->getHeight());
+        $this->assertEquals('#000000', $result->getStyle('fill'));
     }
 }
