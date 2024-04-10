@@ -12,6 +12,7 @@ class Larvatar
     protected string $font;
     protected string $fontPath;
     protected int $size = 100;
+    public InitialsAvatar $initialsAvatar;
 
     /**
      * Constructs a new instance of the class.
@@ -29,6 +30,10 @@ class Larvatar
         } elseif ($type instanceof LarvatarTypes) {
             $this->type = $type;
         }
+
+        if ($type == LarvatarTypes::InitialsAvatar) {
+            $this->initialsAvatar = new InitialsAvatar($this->name);
+        }
     }
 
     /**
@@ -38,15 +43,14 @@ class Larvatar
     public function getImageHTML(string $encoding = ''): string
     {
         if ($this->type == LarvatarTypes::InitialsAvatar) {
-            $initial_avatar = new InitialsAvatar($this->name);
             if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
-                $initial_avatar->setFont($this->font, $this->fontPath);
+                $this->initialsAvatar->setFont($this->font, $this->fontPath);
             }
-            $initial_avatar->setSize($this->size);
+            $this->initialsAvatar->setSize($this->size);
             if ($encoding == 'base64') {
-                return '<img src="'.$initial_avatar->generate(encoding: $encoding).'" />';
+                return '<img src="'.$this->initialsAvatar->generate(encoding: $encoding).'" />';
             } else {
-                return $initial_avatar->generate();
+                return $this->initialsAvatar->generate();
             }
         }
 
