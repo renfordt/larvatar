@@ -40,14 +40,14 @@ class InitialsAvatar
     }
 
     /**
-     * Generates an avatar SVG image
+     * Generates an avatar based on the given names and encoding
      *
-     * @param  array  $names  Names used to generate initials
-     * @param  string|null  $encoding  Encoding type for the return value ('base64' or null)
-     * @param  FormTypes  $form  Form type for the avatar (default: FormTypes::Circle)
-     * @return string The generated SVG image as a string or null
+     * @param  array  $names  An array of names to generate initials from
+     * @param  string|null  $encoding  The encoding type for the output ('base64' or null)
+     *
+     * @return string|SVG The generated avatar in SVG format or the base64-encoded avatar image
      */
-    public function generate(array $names = [], string|null $encoding = null): string
+    public function generate(array $names = [], string|null $encoding = null): string|SVG
     {
         $names = $this->getNames($names);
         $larvatar = new SVG($this->size, $this->size);
