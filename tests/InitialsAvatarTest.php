@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Color;
 use Renfordt\Larvatar\Enum\ColorType;
 use Renfordt\Larvatar\InitialsAvatar;
+use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
 
 final class InitialsAvatarTest extends TestCase
@@ -87,5 +88,22 @@ final class InitialsAvatarTest extends TestCase
         $this->assertEquals(128, $result->getWidth());
         $this->assertEquals(128, $result->getHeight());
         $this->assertEquals('#000000', $result->getStyle('fill'));
+    }
+    public function testGetHexagon(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $reflect = new \ReflectionClass($initialsAvatar);
+        $method = $reflect->getMethod('getHexagon');
+        $method->setAccessible(true);
+
+        $color = new Color(ColorType::Hex, '#000000');
+
+        $result = $method->invoke($initialsAvatar, 128, $color, 30);
+
+        $this->assertInstanceOf(SVGPolygon::class, $result);
+        $this->assertEquals(128, $result->getWidth());
+        $this->assertEquals(128, $result->getHeight());
+        $this->assertEquals('#000000', $result->getStyle('fill'));
+        $this->assertEquals(30, $result->getRotation());
     }
 }
