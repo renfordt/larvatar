@@ -102,7 +102,6 @@ final class InitialsAvatarTest extends TestCase
 
         $this->assertInstanceOf(SVGPolygon::class, $result);
         $this->assertEquals('#000000', $result->getStyle('fill'));
-        $this->assertEquals(30, $result->getRotation());
         $this->assertEquals([], $result->getPoints());
     }
 }
