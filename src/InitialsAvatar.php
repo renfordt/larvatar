@@ -3,7 +3,10 @@
 namespace Renfordt\Larvatar;
 
 use Renfordt\Larvatar\Enum\ColorType;
+use Renfordt\Larvatar\Enum\FormTypes;
 use SVG\Nodes\Shapes\SVGCircle;
+use SVG\Nodes\Shapes\SVGPolygon;
+use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 
@@ -14,6 +17,7 @@ class InitialsAvatar
     private array $names = [];
     private int $size = 128;
     private int $fontSize = 0;
+    private FormTypes $form = FormTypes::Circle;
 
     /**
      * Create an instance of InitialsAvatar
@@ -35,9 +39,12 @@ class InitialsAvatar
     }
 
     /**
-     * Generates the InitialsAvatar as an SVG
-     * @param  array  $names  Array of Names which shall be shortend for the initials
-     * @return string Returns a SVG code of the Initials
+     * Generates an avatar SVG image
+     *
+     * @param  array  $names  Names used to generate initials
+     * @param  string|null  $encoding  Encoding type for the return value ('base64' or null)
+     * @param  FormTypes  $form  Form type for the avatar (default: FormTypes::Circle)
+     * @return string The generated SVG image as a string or null
      */
     public function generate(array $names = [], string|null $encoding = null): string
     {
@@ -46,15 +53,21 @@ class InitialsAvatar
         $doc = $larvatar->getDocument();
 
         $this->addFontIfNotEmpty();
-        $halfSize = $this->size / 2;
 
         $color = $this->getColor($names);
         list($darkColor, $lightColor) = $color->getColorSet();
 
-        $circle = $this->getCircle($halfSize, $lightColor);
+        if ($this->form == FormTypes::Circle) {
+            $halfSize = $this->size / 2;
+            $outlineForm = $this->getCircle($halfSize, $lightColor);
+        } elseif ($this->form = FormTypes::Square) {
+            $outlineForm = $this->getSquare($this->size, $lightColor);
+        }
+
+
         $initials = $this->getInitials($names, $darkColor);
 
-        $doc->addChild($circle);
+        $doc->addChild($outlineForm);
         $doc->addChild($initials);
 
         if ($encoding == 'base64') {
@@ -130,6 +143,21 @@ class InitialsAvatar
     }
 
     /**
+     * Get a square SVGRect
+     *
+     * @param  float  $size  Half of the square size
+     * @param  Color  $lightColor  The color of the square
+     *
+     * @return SVGRect The generated square SVGRect object
+     */
+    private function getSquare(float $size, Color $lightColor): SVGRect
+    {
+        $square = new SVGRect(0, 0, $size, $size);
+        $square->setStyle('fill', $lightColor->getHex());
+        return $square;
+    }
+
+    /**
      * Generates initials for the given names and returns SVGText object
      * @param  array  $names  List of names
      * @param  Color  $darkColor  Dark color object
@@ -198,4 +226,19 @@ class InitialsAvatar
         $this->fontFamily = $fontFamily;
         $this->fontPath = $path;
     }
+
+    public function setForm(string|FormTypes $form): void
+    {
+        if (is_string($form)) {
+            $form = FormTypes::from($form);
+        }
+
+        $this->form = $form;
+    }
+
+    /*private function getPolygon(float $halfSize, Color $lightColor): SVGPolygon
+    {
+        $polygon = new SVGPolygon()
+    }*/
+
 }
