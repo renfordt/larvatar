@@ -18,6 +18,7 @@ class InitialsAvatar
     private int $size = 128;
     private int $fontSize = 0;
     private FormTypes $form = FormTypes::Circle;
+    private int $rotation;
 
     /**
      * Create an instance of InitialsAvatar
@@ -60,8 +61,10 @@ class InitialsAvatar
         if ($this->form == FormTypes::Circle) {
             $halfSize = $this->size / 2;
             $outlineForm = $this->getCircle($halfSize, $lightColor);
-        } elseif ($this->form = FormTypes::Square) {
+        } elseif ($this->form == FormTypes::Square) {
             $outlineForm = $this->getSquare($this->size, $lightColor);
+        } elseif ($this->form == FormTypes::Hexagon) {
+            $outlineForm = $this->getHexagon($this->size, $lightColor, $this->rotation);
         }
 
 
@@ -158,6 +161,28 @@ class InitialsAvatar
     }
 
     /**
+     * Get a polygon shape
+     *
+     * @param  float  $size  The size of the polygon
+     * @param  Color  $lightColor  The light color to fill the polygon
+     * @return SVGPolygon The polygon shape with the specified size and color
+     */
+    private function getHexagon(float $size, Color $lightColor, int $rotation = 0): SVGPolygon
+    {
+        $rotation = pi() / 180 * $rotation;
+
+        for ($i = 0; $i <= 5; $i++) {
+            $xCoordinate = $size / 2 * cos(pi() / 3 * $i+$rotation) + $size / 2;
+            $yCoordinate = $size / 2 * sin(pi() / 3 * $i+$rotation) + $size / 2;
+            $edgePoints[] = [$xCoordinate, $yCoordinate];
+        }
+
+        $polygon = new SVGPolygon($edgePoints);
+        $polygon->setStyle('fill', $lightColor->getHex());
+        return $polygon;
+    }
+
+    /**
      * Generates initials for the given names and returns SVGText object
      * @param  array  $names  List of names
      * @param  Color  $darkColor  Dark color object
@@ -227,6 +252,12 @@ class InitialsAvatar
         $this->fontPath = $path;
     }
 
+    /**
+     * Sets the form of the application
+     *
+     * @param  string|FormTypes  $form  The form type
+     * @return void
+     */
     public function setForm(string|FormTypes $form): void
     {
         if (is_string($form)) {
@@ -236,9 +267,16 @@ class InitialsAvatar
         $this->form = $form;
     }
 
-    /*private function getPolygon(float $halfSize, Color $lightColor): SVGPolygon
+    /**
+     * Sets the rotation angle of the element
+     *
+     * @param  int  $angle  The rotation angle value
+     *
+     * @return void
+     */
+    public function setRotation(int $angle): void
     {
-        $polygon = new SVGPolygon()
-    }*/
+        $this->rotation = $angle;
+    }
 
 }
