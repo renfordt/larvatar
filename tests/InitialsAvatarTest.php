@@ -1,7 +1,12 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Renfordt\Larvatar\Color;
+use Renfordt\Larvatar\Enum\ColorType;
+use Renfordt\Larvatar\Enum\FormTypes;
 use Renfordt\Larvatar\InitialsAvatar;
+use SVG\Nodes\Shapes\SVGPolygon;
+use SVG\Nodes\Shapes\SVGRect;
 
 final class InitialsAvatarTest extends TestCase
 {
@@ -67,5 +72,84 @@ final class InitialsAvatarTest extends TestCase
             'data:image/svg+xml;base64,'.base64_encode($svg),
             $base64
         );
+    }
+
+    public function testGetSquare(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $reflect = new \ReflectionClass($initialsAvatar);
+        $method = $reflect->getMethod('getSquare');
+
+        $color = new Color(ColorType::Hex, '#000000');
+
+        $result = $method->invoke($initialsAvatar, 128, $color);
+
+        $this->assertInstanceOf(SVGRect::class, $result);
+        $this->assertEquals(0, $result->getX());
+        $this->assertEquals(0, $result->getY());
+        $this->assertEquals(128, $result->getWidth());
+        $this->assertEquals(128, $result->getHeight());
+        $this->assertEquals('#000000', $result->getStyle('fill'));
+    }
+
+    public function testGetHexagon(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $reflect = new \ReflectionClass($initialsAvatar);
+        $method = $reflect->getMethod('getHexagon');
+        $method->setAccessible(true);
+
+        $color = new Color(ColorType::Hex, '#000000');
+
+        $expectedPoints = [
+            [119.4256258422, 96],
+            [64, 128],
+            [8.5743741577959, 96],
+            [8.5743741577959, 32],
+            [64, 0],
+            [119.4256258422, 32]
+        ];
+
+        $result = $method->invoke($initialsAvatar, 128, $color, 30);
+
+        $this->assertInstanceOf(SVGPolygon::class, $result);
+        $this->assertEquals('#000000', $result->getStyle('fill'));
+        $this->assertEquals($expectedPoints, $result->getPoints());
+    }
+
+    public function testSetRotation(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setRotation(45);
+        $reflector = new \ReflectionObject($initialsAvatar);
+        $property = $reflector->getProperty('rotation');
+        $property->setAccessible(true);
+        $this->assertEquals(45, $property->getValue($initialsAvatar));
+    }
+
+    public function testSetForm(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+
+        $initialsAvatar->setForm('circle');
+        $reflector = new \ReflectionObject($initialsAvatar);
+        $property = $reflector->getProperty('form');
+        $property->setAccessible(true);
+        $this->assertEquals(FormTypes::Circle, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm('square');
+        $this->assertEquals(FormTypes::Square, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm('hexagon');
+        $this->assertEquals(FormTypes::Hexagon, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm(FormTypes::Circle);
+        $this->assertEquals(FormTypes::Circle, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm(FormTypes::Square);
+        $this->assertEquals(FormTypes::Square, $property->getValue($initialsAvatar));
+
+        $initialsAvatar->setForm(FormTypes::Hexagon);
+        $this->assertEquals(FormTypes::Hexagon, $property->getValue($initialsAvatar));
     }
 }

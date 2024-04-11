@@ -3,7 +3,10 @@
 namespace Renfordt\Larvatar;
 
 use Renfordt\Larvatar\Enum\ColorType;
+use Renfordt\Larvatar\Enum\FormTypes;
 use SVG\Nodes\Shapes\SVGCircle;
+use SVG\Nodes\Shapes\SVGPolygon;
+use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 
@@ -14,6 +17,8 @@ class InitialsAvatar
     private array $names = [];
     private int $size = 128;
     private int $fontSize = 0;
+    private FormTypes $form = FormTypes::Circle;
+    private int $rotation;
 
     /**
      * Create an instance of InitialsAvatar
@@ -35,9 +40,12 @@ class InitialsAvatar
     }
 
     /**
-     * Generates the InitialsAvatar as an SVG
-     * @param  array  $names  Array of Names which shall be shortend for the initials
-     * @return string Returns a SVG code of the Initials
+     * Generates an avatar based on the given names and encoding
+     *
+     * @param  array  $names  An array of names to generate initials from
+     * @param  string|null  $encoding  The encoding type for the output ('base64' or null)
+     *
+     * @return string The generated avatar in SVG format or the base64-encoded avatar image
      */
     public function generate(array $names = [], string|null $encoding = null): string
     {
@@ -46,15 +54,23 @@ class InitialsAvatar
         $doc = $larvatar->getDocument();
 
         $this->addFontIfNotEmpty();
-        $halfSize = $this->size / 2;
 
         $color = $this->getColor($names);
         list($darkColor, $lightColor) = $color->getColorSet();
 
-        $circle = $this->getCircle($halfSize, $lightColor);
+        if ($this->form == FormTypes::Circle) {
+            $halfSize = $this->size / 2;
+            $outlineForm = $this->getCircle($halfSize, $lightColor);
+        } elseif ($this->form == FormTypes::Square) {
+            $outlineForm = $this->getSquare($this->size, $lightColor);
+        } elseif ($this->form == FormTypes::Hexagon) {
+            $outlineForm = $this->getHexagon($this->size, $lightColor, $this->rotation);
+        }
+
+
         $initials = $this->getInitials($names, $darkColor);
 
-        $doc->addChild($circle);
+        $doc->addChild($outlineForm);
         $doc->addChild($initials);
 
         if ($encoding == 'base64') {
@@ -130,6 +146,43 @@ class InitialsAvatar
     }
 
     /**
+     * Get a square SVGRect
+     *
+     * @param  float  $size  Half of the square size
+     * @param  Color  $lightColor  The color of the square
+     *
+     * @return SVGRect The generated square SVGRect object
+     */
+    private function getSquare(float $size, Color $lightColor): SVGRect
+    {
+        $square = new SVGRect(0, 0, $size, $size);
+        $square->setStyle('fill', $lightColor->getHex());
+        return $square;
+    }
+
+    /**
+     * Get a polygon shape
+     *
+     * @param  float  $size  The size of the polygon
+     * @param  Color  $lightColor  The light color to fill the polygon
+     * @return SVGPolygon The polygon shape with the specified size and color
+     */
+    private function getHexagon(float $size, Color $lightColor, int $rotation = 0): SVGPolygon
+    {
+        $rotation = pi() / 180 * $rotation;
+
+        for ($i = 0; $i <= 5; $i++) {
+            $xCoordinate = $size / 2 * cos(pi() / 3 * $i+$rotation) + $size / 2;
+            $yCoordinate = $size / 2 * sin(pi() / 3 * $i+$rotation) + $size / 2;
+            $edgePoints[] = [$xCoordinate, $yCoordinate];
+        }
+
+        $polygon = new SVGPolygon($edgePoints);
+        $polygon->setStyle('fill', $lightColor->getHex());
+        return $polygon;
+    }
+
+    /**
      * Generates initials for the given names and returns SVGText object
      * @param  array  $names  List of names
      * @param  Color  $darkColor  Dark color object
@@ -198,4 +251,32 @@ class InitialsAvatar
         $this->fontFamily = $fontFamily;
         $this->fontPath = $path;
     }
+
+    /**
+     * Sets the form of the application
+     *
+     * @param  string|FormTypes  $form  The form type
+     * @return void
+     */
+    public function setForm(string|FormTypes $form): void
+    {
+        if (is_string($form)) {
+            $form = FormTypes::from($form);
+        }
+
+        $this->form = $form;
+    }
+
+    /**
+     * Sets the rotation angle of the element
+     *
+     * @param  int  $angle  The rotation angle value
+     *
+     * @return void
+     */
+    public function setRotation(int $angle): void
+    {
+        $this->rotation = $angle;
+    }
+
 }
