@@ -16,9 +16,10 @@ trait LarvatarTrait
      * @param  string  $encoding  The encoding type for the avatar image. Default is empty string.
      * @return string The HTML representation of the avatar image.
      */
-    public function getAvatar(string $name, string $email = '', LarvatarTypes $type = LarvatarTypes::InitialsAvatar, string $encoding = ''): string
+    public function getAvatar(string $name, string $email = '', int $size = 100, LarvatarTypes $type = LarvatarTypes::InitialsAvatar, string $encoding = ''): string
     {
         $larvatar = new Larvatar($name, $email, $type);
+        $larvatar->setSize($size);
         return $larvatar->getImageHTML($encoding);
     }
 }
