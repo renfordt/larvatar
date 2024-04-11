@@ -30,7 +30,7 @@ use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Larvatar;
 
 $larvatar = new Larvatar('Test Name', 'test@test.com', LarvatarTypes::InitialsAvatar);
-$larvatar->setFont('Roboto', './font/Roboto-bold.ttf');
+$larvatar->setFont('Roboto,sans-serif', './font/Roboto-bold.ttf');
 echo $larvatar->getImageHTML();
 
 // if you need base64 encryption, currently this works only for InitialsAvatar
