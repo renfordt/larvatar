@@ -172,8 +172,8 @@ class InitialsAvatar
         $rotation = pi() / 180 * $rotation;
 
         for ($i = 0; $i <= 5; $i++) {
-            $xCoordinate = $size / 2 * cos(pi() / 3 * $i+$rotation) + $size / 2;
-            $yCoordinate = $size / 2 * sin(pi() / 3 * $i+$rotation) + $size / 2;
+            $xCoordinate = $size / 2 * cos(pi() / 3 * $i + $rotation) + $size / 2;
+            $yCoordinate = $size / 2 * sin(pi() / 3 * $i + $rotation) + $size / 2;
             $edgePoints[] = [$xCoordinate, $yCoordinate];
         }
 
