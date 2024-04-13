@@ -22,6 +22,7 @@ class InitialsAvatar
     private string $fontWeight = 'regular';
     private float $backgroundLightness = 0.8;
     private float $textLightness = 0.35;
+    private int $offset = 0;
 
     /**
      * Create an instance of InitialsAvatar
@@ -114,7 +115,7 @@ class InitialsAvatar
      */
     private function getColor(array $names): Color
     {
-        return new Color(ColorType::Hex, $this->generateHexColor($names));
+        return new Color(ColorType::Hex, $this->generateHexColor($names, $this->offset));
     }
 
     /**
@@ -313,6 +314,17 @@ class InitialsAvatar
     public function setTextLightness(float $lightness): void
     {
         $this->textLightness = $lightness;
+    }
+
+    /**
+     * Sets the offset for the avatar
+     *
+     * @param  int  $offset  The offset in pixel
+     * @return void
+     */
+    public function setOffset(int $offset): void
+    {
+        $this->offset = $offset;
     }
 
 }
