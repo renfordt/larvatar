@@ -16,6 +16,7 @@ Larvatar is a package that combines different avatar styles, like Gravatar, Init
 
 The recommended way of installing Larvatar is to use [Composer](https://getcomposer.org/). Run the following command to
 install it to you project:
+
 ```
 composer require renfordt/larvatar
 ```
@@ -48,4 +49,51 @@ There are currently eight different types of avatars available:
 \Renfordt\Larvatar\Enum\LarvatarTypes::wavatar;         // (Gravatar) generated faces with differing features and backgrounds
 \Renfordt\Larvatar\Enum\LarvatarTypes::retro;           // (Gravatar) 8-bit arcade-style pixelated faces
 \Renfordt\Larvatar\Enum\LarvatarTypes::robohash;        // (Gravatar) A generated robot with different colors, faces, etc
+```
+
+## InitialsAvatar
+
+### Forms
+
+The InitialsAvatar gives you the possibility to choose between three different forms. A circle, which is the default, a
+hexagon and a square. Choose it by using the `setForm()` method. The input is either a string or a value of the
+Enum `FormTypes`.
+
+```PHP
+$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar->initialsAvatar->setForm('circle');
+$larvatar->initialsAvatar->setForm('square');
+$larvatar->initialsAvatar->setForm('hexagon');
+
+$larvatar->initialsAvatar->setForm(FormTypes::Circle);
+$larvatar->initialsAvatar->setForm(FormTypes::Square);
+$larvatar->initialsAvatar->setForm(FormTypes::Hexagon);
+```
+
+If you are using the hexagon form, you have additionally the possibility to rotate the form:
+
+```PHP
+$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar->initialsAvatar->setForm(FormTypes::Hexagon);
+$larvatar->initialsAvatar->setRotation(30);
+```
+
+### Colors
+
+Usually the colors will be automatically selected by the provided name.
+If you for some case want to manually set the contrast of the colors, you can use the methods `setBackroundLightness()`
+and `setTextLightness()`. The parameter is a float with a value range `0` to `1` where `0` means a darker color and `1`
+is a lighter color.
+
+```PHP
+$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar->initialsAvatar->setBackroundLightness(0.1);
+$larvatar->initialsAvatar->setTextLightness(0.8);
+```
+
+Additionally, you can change the offset which will generate a different color.
+
+```PHP
+$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar->initialsAvatar->setOffset(4);
 ```
