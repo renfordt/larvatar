@@ -19,7 +19,7 @@ class InitialsAvatar
     private int $fontSize = 0;
     private FormTypes $form = FormTypes::Circle;
     private int $rotation;
-    private string $fontWeight = 'regular';
+    private string $fontWeight = 'normal';
     private float $backgroundLightness = 0.8;
     private float $textLightness = 0.35;
     private int $offset = 0;
