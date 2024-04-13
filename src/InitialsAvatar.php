@@ -19,6 +19,9 @@ class InitialsAvatar
     private int $fontSize = 0;
     private FormTypes $form = FormTypes::Circle;
     private int $rotation;
+    private string $fontWeight = 'regular';
+    private float $backgroundLightness = 0.8;
+    private float $textLightness = 0.35;
 
     /**
      * Create an instance of InitialsAvatar
@@ -56,7 +59,7 @@ class InitialsAvatar
         $this->addFontIfNotEmpty();
 
         $color = $this->getColor($names);
-        list($darkColor, $lightColor) = $color->getColorSet();
+        list($darkColor, $lightColor) = $color->getColorSet($this->textLightness, $this->backgroundLightness);
 
         if ($this->form == FormTypes::Circle) {
             $halfSize = $this->size / 2;
@@ -199,6 +202,7 @@ class InitialsAvatar
         $initials->setStyle('fill', $darkColor->getHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
+        $initials->setStyle('font-weight', $this->fontWeight);
         $initials->setFontFamily($this->fontFamily);
         if ($this->fontSize == 0) {
             $this->fontSize = $this->calculateFontSize($initialsText);
@@ -277,6 +281,38 @@ class InitialsAvatar
     public function setRotation(int $angle): void
     {
         $this->rotation = $angle;
+    }
+
+    /**
+     * Sets the font weight
+     * @param  string  $fontWeight  The font weight to set
+     * @return void
+     */
+    public function setFontWeight(string $fontWeight): void
+    {
+        $this->fontWeight = $fontWeight;
+    }
+
+    /**
+     * Sets the lightness of the background
+     *
+     * @param  float  $lightness  Lightness value (between 0 and 1)
+     * @return void
+     */
+    public function setBackgroundLightness(float $lightness): void
+    {
+        $this->backgroundLightness = $lightness;
+    }
+
+    /**
+     * Sets the lightness of the text
+     *
+     * @param  float  $lightness  Lightness value ranging from 0 to 1
+     * @return void
+     */
+    public function setTextLightness(float $lightness): void
+    {
+        $this->textLightness = $lightness;
     }
 
 }
