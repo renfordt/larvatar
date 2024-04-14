@@ -21,6 +21,7 @@ trait LarvatarTrait
         $larvatar = new Larvatar($name, $email, $type);
         $larvatar->setSize($size);
         $larvatar->setFont('Roboto,sans-serif', '/font/Roboto-Bold.ttf');
+        $larvatar->initialsAvatar->setFontWeight('bold');
         return $larvatar->getImageHTML($encoding);
     }
 }
