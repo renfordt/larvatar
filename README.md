@@ -97,3 +97,12 @@ Additionally, you can change the offset which will generate a different color.
 $larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
 $larvatar->initialsAvatar->setOffset(4);
 ```
+
+### Font Weight
+
+You can also change the font weight with the method `setFontWeight()`.
+
+```PHP
+$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar->initialsAvatar->setFontWeight('bold');
+```
