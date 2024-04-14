@@ -152,4 +152,126 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar->setForm(FormTypes::Hexagon);
         $this->assertEquals(FormTypes::Hexagon, $property->getValue($initialsAvatar));
     }
+
+    public function testSetFormWithInvalidValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setForm('invalid_form');
+    }
+    public function testSetFontWeight(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setFontWeight('bold');
+        $reflector = new \ReflectionObject($initialsAvatar);
+        $property = $reflector->getProperty('fontWeight');
+        $property->setAccessible(true);
+        $this->assertEquals('bold', $property->getValue($initialsAvatar));
+    }
+
+    public function testSetFontWeightWithInvalidValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setFontWeight('invalid_weight');
+    }
+
+    public function testGetBackgroundLightnessDefaultValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $this->assertEquals(
+            0.8,
+            $initialsAvatar->getBackgroundLightness()
+        );
+    }
+
+    public function testGetBackgroundLightnessAfterSettingValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setBackgroundLightness(0.7);
+        $this->assertEquals(
+            0.7,
+            $initialsAvatar->getBackgroundLightness()
+        );
+    }
+
+    public function testGetBackgroundLightnessAfterSettingExceedingValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setBackgroundLightness(1.1);
+        $this->assertEquals(
+            1.0,
+            $initialsAvatar->getBackgroundLightness()
+        );
+    }
+
+    public function testGetBackgroundLightnessAfterSettingTooLowValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setBackgroundLightness(-1.3);
+        $this->assertEquals(
+            0.0,
+            $initialsAvatar->getBackgroundLightness()
+        );
+    }
+    public function testGetTextLightnessDefaultValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $this->assertEquals(
+            0.35,
+            $initialsAvatar->getTextLightness()
+        );
+    }
+
+    public function testGetTextLightnessAfterSettingValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setTextLightness(0.5);
+        $this->assertEquals(
+            0.5,
+            $initialsAvatar->getTextLightness()
+        );
+    }
+
+    public function testGetTextLightnessAfterSettingExceedingValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setTextLightness(1.1);
+        $this->assertEquals(
+            1.0,
+            $initialsAvatar->getTextLightness()
+        );
+    }
+
+    public function testGetTextLightnessAfterSettingTooLowValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setTextLightness(-1.3);
+        $this->assertEquals(
+            0.0,
+            $initialsAvatar->getTextLightness()
+        );
+    }
+    /**
+     * Tests if the set offset returns correct value
+     * @return void
+     */
+    public function testGetOffsetIsSetCorrectly(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $initialsAvatar->setOffset(10);
+        $this->assertSame(10, $initialsAvatar->getOffset());
+    }
+
+    /**
+     * Tests if the default value should be zero
+     * @return void
+     */
+    public function testGetOffsetReturnsDefaultValue(): void
+    {
+        $initialsAvatar = new InitialsAvatar('Test Name');
+        $this->assertSame(0, $initialsAvatar->getOffset());
+    }
 }
