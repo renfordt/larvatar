@@ -295,6 +295,16 @@ class InitialsAvatar
     }
 
     /**
+     * Get the lightness of the background color.
+     *
+     * @return float The lightness value of the background color.
+     */
+    public function getBackgroundLightness(): float
+    {
+        return $this->backgroundLightness;
+    }
+
+    /**
      * Sets the lightness of the background
      *
      * @param  float  $lightness  Lightness value (between 0 and 1)
@@ -302,7 +312,17 @@ class InitialsAvatar
      */
     public function setBackgroundLightness(float $lightness): void
     {
-        $this->backgroundLightness = $lightness;
+        $this->backgroundLightness = clamp($lightness, 0, 1);
+    }
+
+    /**
+     * Get the lightness of the text
+     *
+     * @return float The lightness of the text
+     */
+    public function getTextLightness(): float
+    {
+        return $this->textLightness;
     }
 
     /**
@@ -313,7 +333,17 @@ class InitialsAvatar
      */
     public function setTextLightness(float $lightness): void
     {
-        $this->textLightness = $lightness;
+        $this->textLightness = clamp($lightness, 0, 1);
+    }
+
+    /**
+     * Retrieves the offset of the object
+     *
+     * @return int The offset value
+     */
+    public function getOffset(): int
+    {
+        return $this->offset;
     }
 
     /**
