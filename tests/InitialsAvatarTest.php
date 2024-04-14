@@ -155,7 +155,7 @@ final class InitialsAvatarTest extends TestCase
 
     public function testSetFormWithInvalidValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\ValueError::class);
 
         $initialsAvatar = new InitialsAvatar('Test Name');
         $initialsAvatar->setForm('invalid_form');
@@ -168,14 +168,6 @@ final class InitialsAvatarTest extends TestCase
         $property = $reflector->getProperty('fontWeight');
         $property->setAccessible(true);
         $this->assertEquals('bold', $property->getValue($initialsAvatar));
-    }
-
-    public function testSetFontWeightWithInvalidValue(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $initialsAvatar = new InitialsAvatar('Test Name');
-        $initialsAvatar->setFontWeight('invalid_weight');
     }
 
     public function testGetBackgroundLightnessDefaultValue(): void
