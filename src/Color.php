@@ -364,7 +364,7 @@ class Color
     public function brighten(int $amount = 10): void
     {
         list($hue, $saturation, $lightness) = $this->hsl;
-        $lightness = self::clamp($lightness + $amount / 100, 0, 1);
+        $lightness = clamp($lightness + $amount / 100, 0, 1);
         $this->setHSL(array($hue, $saturation, $lightness));
     }
 
@@ -375,15 +375,11 @@ class Color
      * @param  int|float  $min  The minimum value.
      * @param  int|float  $max  The maximum value.
      * @return int|float  The clamped number.
+     * @deprecated v1.4.0
      */
     private static function clamp(int|float $num, int|float $min, int|float $max): int|float
     {
-        if ($num > $max) {
-            $num = $max;
-        } elseif ($num < $min) {
-            $num = $min;
-        }
-        return $num;
+        return clamp($num, $min, $max);
     }
 
     /**
@@ -395,7 +391,7 @@ class Color
     public function darken(int $amount = 10): void
     {
         list($hue, $saturation, $lightness) = $this->hsl;
-        $lightness = self::clamp($lightness - $amount / 100, 0, 1);
+        $lightness = clamp($lightness - $amount / 100, 0, 1);
         $this->setHSL(array($hue, $saturation, $lightness));
     }
 }
