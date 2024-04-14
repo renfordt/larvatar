@@ -20,7 +20,10 @@
   "autoload": {
     "psr-4": {
       "Renfordt\\Larvatar\\": "src/"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
