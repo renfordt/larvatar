@@ -198,17 +198,16 @@ class InitialsAvatar
         foreach ($names as $name) {
             $initialsText .= substr($name, 0, 1);
         }
-
-        $initials = new SVGText($initialsText, '50%', '55%');
+        if ($this->fontSize == 0) {
+            $this->fontSize = $this->calculateFontSize($initialsText);
+        }
+        $initials = new SVGText($initialsText, '50%', (($this->size - $this->fontSize) / 2) + $this->fontSize - ($this->fontSize / 8));
         $initials->setStyle('fill', $darkColor->getHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setStyle('font-weight', $this->fontWeight);
         $initials->setFontFamily($this->fontFamily);
-        if ($this->fontSize == 0) {
-            $this->fontSize = $this->calculateFontSize($initialsText);
-        }
-        $initials->setFontSize($this->fontSize.'px');
+        $initials->setFontSize($this->fontSize . 'px');
 
         return $initials;
     }
