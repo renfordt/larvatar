@@ -62,6 +62,16 @@ class Larvatar
     }
 
     /**
+     * Get the base64 string representation of the initials' avatar.
+     *
+     * @return string The base64 encoded string of the initials' avatar.
+     */
+    public function getBase64(): string
+    {
+        return $this->initialsAvatar->generate(encoding: 'base64');
+    }
+
+    /**
      * Set the font for Initial Avatar
      * @param  string  $fontFamily  Font family of the used font, e.g. 'Roboto'
      * @param  string  $path  Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
