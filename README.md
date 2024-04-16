@@ -36,6 +36,8 @@ echo $larvatar->getImageHTML();
 
 // if you need base64 encryption, currently this works only for InitialsAvatar
 echo $larvatar->getImageHTML('base64');
+// or if you need just the base64 string:
+echo $larvatar->getBase64();
 ```
 
 There are currently eight different types of avatars available:
@@ -81,13 +83,13 @@ $larvatar->initialsAvatar->setRotation(30);
 ### Colors
 
 Usually the colors will be automatically selected by the provided name.
-If you for some case want to manually set the contrast of the colors, you can use the methods `setBackroundLightness()`
+If you for some case want to manually set the contrast of the colors, you can use the methods `setBackgroundLightness()`
 and `setTextLightness()`. The parameter is a float with a value range `0` to `1` where `0` means a darker color and `1`
 is a lighter color.
 
 ```PHP
 $larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
-$larvatar->initialsAvatar->setBackroundLightness(0.1);
+$larvatar->initialsAvatar->setBackgroundLightness(0.1);
 $larvatar->initialsAvatar->setTextLightness(0.8);
 ```
 
