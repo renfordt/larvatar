@@ -36,6 +36,8 @@ echo $larvatar->getImageHTML();
 
 // if you need base64 encryption, currently this works only for InitialsAvatar
 echo $larvatar->getImageHTML('base64');
+// or if you need just the base64 string:
+echo $larvatar->getBase64();
 ```
 
 There are currently eight different types of avatars available:
