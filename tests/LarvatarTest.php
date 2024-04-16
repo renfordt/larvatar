@@ -152,4 +152,33 @@ class LarvatarTest extends TestCase
             $larvatar->getImageHTML()
         );
     }
+    /**
+     * testGetBase64 method
+     *
+     * This test ensures that the getBase64 method in the Larvatar class works correctly.
+     */
+    public function testGetBase64(): void
+    {
+        $larvatar = new Larvatar('Test Name', 'test@example.com', LarvatarTypes::InitialsAvatar);
+        $this->assertMatchesRegularExpression(
+            '/^data:image\/svg\+xml;base64,[A-Za-z0-9+\/]+=*$/',
+            $larvatar->getBase64()
+        );
+    }
+
+    /**
+     * testGetBase64WithRandomName method
+     *
+     * This test ensures that getBase64 with randomized name still produce valid base64 string.
+     */
+    public function testGetBase64WithRandomName(): void
+    {
+        $faker = Faker\Factory::create();
+        $randomName = $faker->name;
+        $larvatar = new Larvatar($randomName, 'test@example.com', LarvatarTypes::InitialsAvatar);
+        $this->assertMatchesRegularExpression(
+            '/^data:image\/svg\+xml;base64,[A-Za-z0-9+\/]+=*$/',
+            $larvatar->getBase64()
+        );
+    }
 }
