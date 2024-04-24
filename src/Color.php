@@ -27,6 +27,11 @@ class Color
         }
     }
 
+    public static function make(ColorType $type, array|string $color): Color
+    {
+        return new Color($type, $color);
+    }
+
     /**
      * Converts a hexadecimal color code to RGB color
      * @param  string  $hexStr  Hexadecimal color code, with or without '#'
