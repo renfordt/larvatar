@@ -2,12 +2,17 @@
 
 namespace Renfordt\Larvatar;
 
+use Renfordt\Colors\HexColor;
+use Renfordt\Colors\HSLColor;
 use Renfordt\Larvatar\Enum\ColorType;
+use Renfordt\Larvatar\Traits\ColorTrait;
 use SVG\Nodes\Shapes\SVGRect;
 use SVG\SVG;
 
 class Identicon
 {
+    use ColorTrait;
+
     public Name $name;
     public int $size = 125;
     public int $pixels = 5;
@@ -21,13 +26,16 @@ class Identicon
         $this->name = $name;
     }
 
-    public function getSVG(): string
+    public function getSVG(string|null $encoding = null): string
     {
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
 
-        $color = Color::make(ColorType::Hex, $this->name->getHexColor());
-        list($darkColor, $lightColor) = $color->getColorSet($this->textLightness, $this->backgroundLightness);
+        /**
+         * @var HSLColor $darkColor
+         * @var HSLColor $lightColor
+         */
+        list($darkColor, $lightColor) = $this->getColorSet($this->name, $this->textLightness, $this->backgroundLightness);
 
         if ($this->symmetry) {
             $matrix = $this->generateSymmetricMatrix();
@@ -43,11 +51,15 @@ class Identicon
                         (int) $y * ($this->size / $this->pixels),
                         (int) $this->size / $this->pixels,
                         (int) $this->size / $this->pixels);
-                    $square->setStyle('fill', $darkColor->getHex());
+                    $square->setStyle('fill', $darkColor->toHex());
                     $doc->addChild($square);
                 }
             }
 
+        }
+
+        if ($encoding == 'base64') {
+            return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
         }
 
         return $larvatar;
