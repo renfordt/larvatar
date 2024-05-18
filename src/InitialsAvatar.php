@@ -2,8 +2,10 @@
 
 namespace Renfordt\Larvatar;
 
+use Renfordt\Colors\HSLColor;
 use Renfordt\Larvatar\Enum\ColorType;
 use Renfordt\Larvatar\Enum\FormTypes;
+use Renfordt\Larvatar\Traits\ColorTrait;
 use SVG\Nodes\Shapes\SVGCircle;
 use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
@@ -12,9 +14,11 @@ use SVG\SVG;
 
 class InitialsAvatar
 {
+    use ColorTrait;
+
     private string $fontPath = '';
     private string $fontFamily = '';
-    private array $names = [];
+    private Name $name;
     private int $size = 128;
     private int $fontSize = 0;
     private FormTypes $form = FormTypes::Circle;
@@ -25,22 +29,30 @@ class InitialsAvatar
     private int $offset = 0;
 
     /**
-     * Create an instance of InitialsAvatar
-     * @param  string  $name  First and last name or username, seperated by a space
+     * Constructs a new instance of the class.
+     *
+     * @param  Name  $name  The name object to set
+     *
+     * @return void
      */
-    public function __construct(string $name = '')
+    public function __construct(Name $name)
     {
         $this->setName($name);
     }
 
     /**
-     * Sets the names for the avatar
-     * @param  string  $name  Names seperated by a space for generating the avatar
+     * Sets the name for the user
+     * @param  Name  $name  The user's name
      * @return void
      */
-    public function setName(string $name): void
+    public function setName(Name $name): void
     {
-        $this->names = explode(' ', $name);
+        $this->name = $name;
+    }
+
+    public static function make(Name $name): InitialsAvatar
+    {
+        return new self($name);
     }
 
     /**
@@ -51,16 +63,19 @@ class InitialsAvatar
      *
      * @return string The generated avatar in SVG format or the base64-encoded avatar image
      */
-    public function generate(array $names = [], string|null $encoding = null): string
+    public function generate(string|null $encoding = null): string
     {
-        $names = $this->getNames($names);
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
 
         $this->addFontIfNotEmpty();
 
-        $color = $this->getColor($names);
-        list($darkColor, $lightColor) = $color->getColorSet($this->textLightness, $this->backgroundLightness);
+        /**
+         * @var HSLColor $darkColor
+         * @var HSLColor $lightColor
+         */
+        list($darkColor, $lightColor) = $this->getColorSet($this->name, $this->textLightness,
+            $this->backgroundLightness);
 
         if ($this->form == FormTypes::Circle) {
             $halfSize = $this->size / 2;
@@ -72,7 +87,7 @@ class InitialsAvatar
         }
 
 
-        $initials = $this->getInitials($names, $darkColor);
+        $initials = $this->getInitials($this->name->getSplitNames(), $darkColor);
 
         $doc->addChild($outlineForm);
         $doc->addChild($initials);
@@ -81,19 +96,6 @@ class InitialsAvatar
             return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
         }
         return $larvatar;
-    }
-
-    /**
-     * Retrieves the names array
-     * If the provided $names array is empty,
-     * it returns the default names array
-     *
-     * @param  array  $names  The names array
-     * @return array  The names array to be returned
-     */
-    private function getNames(array $names): array
-    {
-        return empty($names) ? $this->names : $names;
     }
 
     /**
@@ -108,43 +110,16 @@ class InitialsAvatar
     }
 
     /**
-     * Retrieves the color based on the given array of names
-     *
-     * @param  array  $names  An array of names
-     * @return Color  The color object with the generated hex color
-     */
-    private function getColor(array $names): Color
-    {
-        return new Color(ColorType::Hex, $this->generateHexColor($names, $this->offset));
-    }
-
-    /**
-     * Generates a hex color code based on the names
-     * @param  array|null  $names  Array of names used to generate the hex color code.
-     * @param  int  $offset  Offset of the hash, similar to a seed
-     * @return string Returns a color hash code, e.g. '#123456'
-     */
-    public function generateHexColor(array $names = null, int $offset = 0): string
-    {
-        if ($names == null) {
-            $names = $this->names;
-        }
-        $name = implode(' ', $names);
-        $hash = md5($name);
-        return '#'.substr($hash, $offset, 6);
-    }
-
-    /**
      * Get a circle SVG element
      *
      * @param  float  $halfSize  Half of the size of the circle
-     * @param  Color  $lightColor  The light color to fill the circle with
+     * @param  HSLColor  $lightColor  The light color to fill the circle with
      * @return  SVGCircle                     The circle SVG element
      */
-    private function getCircle(float $halfSize, Color $lightColor): SVGCircle
+    private function getCircle(float $halfSize, HSLColor $lightColor): SVGCircle
     {
         $circle = new SVGCircle($halfSize, $halfSize, $halfSize);
-        $circle->setStyle('fill', $lightColor->getHex());
+        $circle->setStyle('fill', $lightColor->toHex());
 
         return $circle;
     }
@@ -153,14 +128,14 @@ class InitialsAvatar
      * Get a square SVGRect
      *
      * @param  float  $size  Half of the square size
-     * @param  Color  $lightColor  The color of the square
+     * @param  HSLColor  $lightColor  The color of the square
      *
      * @return SVGRect The generated square SVGRect object
      */
-    private function getSquare(float $size, Color $lightColor): SVGRect
+    private function getSquare(float $size, HSLColor $lightColor): SVGRect
     {
         $square = new SVGRect(0, 0, $size, $size);
-        $square->setStyle('fill', $lightColor->getHex());
+        $square->setStyle('fill', $lightColor->toHex());
         return $square;
     }
 
@@ -168,10 +143,11 @@ class InitialsAvatar
      * Get a polygon shape
      *
      * @param  float  $size  The size of the polygon
-     * @param  Color  $lightColor  The light color to fill the polygon
+     * @param  HSLColor  $lightColor  The light color to fill the polygon
+     * @param  int  $rotation
      * @return SVGPolygon The polygon shape with the specified size and color
      */
-    private function getHexagon(float $size, Color $lightColor, int $rotation = 0): SVGPolygon
+    private function getHexagon(float $size, HSLColor $lightColor, int $rotation = 0): SVGPolygon
     {
         $rotation = pi() / 180 * $rotation;
 
@@ -182,17 +158,17 @@ class InitialsAvatar
         }
 
         $polygon = new SVGPolygon($edgePoints);
-        $polygon->setStyle('fill', $lightColor->getHex());
+        $polygon->setStyle('fill', $lightColor->toHex());
         return $polygon;
     }
 
     /**
      * Generates initials for the given names and returns SVGText object
      * @param  array  $names  List of names
-     * @param  Color  $darkColor  Dark color object
+     * @param  HSLColor  $darkColor  Dark color object
      * @return SVGText  SVGText object containing the initials
      */
-    private function getInitials(array $names, Color $darkColor): SVGText
+    private function getInitials(array $names, HSLColor $darkColor): SVGText
     {
         $initialsText = '';
         foreach ($names as $name) {
@@ -200,7 +176,7 @@ class InitialsAvatar
         }
 
         $initials = new SVGText($initialsText, '50%', '55%');
-        $initials->setStyle('fill', $darkColor->getHex());
+        $initials->setStyle('fill', $darkColor->toHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setStyle('font-weight', $this->fontWeight);
