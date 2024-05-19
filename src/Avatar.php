@@ -199,5 +199,19 @@ abstract class Avatar
         $this->size = $size;
     }
 
+    /**
+     * Sets the font family and path
+     *
+     * @param  string  $font  The font family
+     * @param  string  $path  The font path
+     *
+     * @return void
+     */
+    public function setFont(string $font, string $path)
+    {
+        $this->setFontFamily($font);
+        $this->setFontPath($path);
+    }
+
 
 }
