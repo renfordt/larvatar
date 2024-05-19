@@ -52,7 +52,7 @@ class Larvatar
             }
             $this->initialsAvatar->setSize($this->size);
             if ($encoding == 'base64') {
-                return '<img src="'.$this->initialsAvatar->generate(encoding: $encoding).'" />';
+                return '<img src="'.$this->initialsAvatar->generate().'" />';
             } else {
                 return $this->initialsAvatar->generate();
             }
@@ -95,6 +95,6 @@ class Larvatar
      */
     public function getBase64(): string
     {
-        return $this->initialsAvatar->generate(encoding: 'base64');
+        return $this->initialsAvatar->generate();
     }
 }
