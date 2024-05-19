@@ -12,20 +12,12 @@ use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 
-class InitialsAvatar
+class InitialsAvatar extends Avatar
 {
     use ColorTrait;
 
-    private string $fontPath = '';
-    private string $fontFamily = '';
-    private Name $name;
-    private int $size = 128;
-    private int $fontSize = 0;
     private FormTypes $form = FormTypes::Circle;
     private int $rotation;
-    private string $fontWeight = 'regular';
-    private float $backgroundLightness = 0.8;
-    private float $textLightness = 0.35;
     private int $offset = 0;
 
     /**
@@ -40,24 +32,73 @@ class InitialsAvatar
         $this->setName($name);
     }
 
-    /**
-     * Sets the name for the user
-     * @param  Name  $name  The user's name
-     * @return void
-     */
-    public function setName(Name $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getName(): Name
-    {
-        return $this->name;
-    }
 
     public static function make(Name $name): InitialsAvatar
     {
         return new self($name);
+    }
+
+    /**
+     * Sets the form of the application
+     *
+     * @param  string|FormTypes  $form  The form type
+     * @return void
+     */
+    public function setForm(string|FormTypes $form): void
+    {
+        if (is_string($form)) {
+            $form = FormTypes::from($form);
+        }
+
+        $this->form = $form;
+    }
+
+    /**
+     * Sets the rotation angle of the element
+     *
+     * @param  int  $angle  The rotation angle value
+     *
+     * @return void
+     */
+    public function setRotation(int $angle): void
+    {
+        $this->rotation = $angle;
+    }
+
+    /**
+     * Retrieves the offset of the object
+     *
+     * @return int The offset value
+     */
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+
+    /**
+     * Sets the offset for the avatar
+     *
+     * @param  int  $offset  The offset in pixel
+     * @return void
+     */
+    public function setOffset(int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
+    /**
+     * Returns the HTML representation of the code.
+     *
+     * @param  bool  $base64  Determines if the image source should be in base64 format. Default is false.
+     * @return string The HTML representation of the code.
+     */
+    function getHTML(bool $base64 = false): string
+    {
+        if (!$base64) {
+            return $this->generate();
+        }
+
+        return '<img src="'.$this->getBase64().'" />';
     }
 
     /**
@@ -68,7 +109,7 @@ class InitialsAvatar
      *
      * @return string The generated avatar in SVG format or the base64-encoded avatar image
      */
-    public function generate(string|null $encoding = null): string
+    public function generate(bool $base64 = false): string
     {
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
@@ -96,9 +137,6 @@ class InitialsAvatar
         $doc->addChild($outlineForm);
         $doc->addChild($initials);
 
-        if ($encoding == 'base64') {
-            return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
-        }
         return $larvatar;
     }
 
@@ -172,7 +210,7 @@ class InitialsAvatar
      * @param  HSLColor  $darkColor  Dark color object
      * @return SVGText  SVGText object containing the initials
      */
-    private function getInitials( HSLColor $darkColor): SVGText
+    private function getInitials(HSLColor $darkColor): SVGText
     {
         $initialsText = $this->name->getInitials();
 
@@ -203,136 +241,12 @@ class InitialsAvatar
     }
 
     /**
-     * Sets the font size for the text
+     * Returns the base64 encoded string representing the SVG image.
      *
-     * @param  int  $size  The font size in pixel
-     * @return void
+     * @return string The base64 encoded string representing the SVG image.
      */
-    public function setFontSize(int $size): void
+    function getBase64(): string
     {
-        $this->fontSize = $size;
+        return 'data:image/svg+xml;base64,'.base64_encode($this->generate());
     }
-
-    /**
-     * Sets the size of the avatar
-     * @param  int  $size  Size in pixel
-     * @return void
-     */
-    public function setSize(int $size): void
-    {
-        $this->size = $size;
-    }
-
-    /**
-     * Sets the font which shall be used for the avatar
-     * @param  string  $fontFamily  Font Family, e.g. 'Roboto'
-     * @param  string  $path  Relative path to the true type font with a leading slash, e.g. '/font/Roboto-Bold.ttf'
-     * @return void
-     */
-    public function setFont(string $fontFamily, string $path): void
-    {
-        $this->fontFamily = $fontFamily;
-        $this->fontPath = $path;
-    }
-
-    /**
-     * Sets the form of the application
-     *
-     * @param  string|FormTypes  $form  The form type
-     * @return void
-     */
-    public function setForm(string|FormTypes $form): void
-    {
-        if (is_string($form)) {
-            $form = FormTypes::from($form);
-        }
-
-        $this->form = $form;
-    }
-
-    /**
-     * Sets the rotation angle of the element
-     *
-     * @param  int  $angle  The rotation angle value
-     *
-     * @return void
-     */
-    public function setRotation(int $angle): void
-    {
-        $this->rotation = $angle;
-    }
-
-    /**
-     * Sets the font weight
-     * @param  string  $fontWeight  The font weight to set
-     * @return void
-     */
-    public function setFontWeight(string $fontWeight): void
-    {
-        $this->fontWeight = $fontWeight;
-    }
-
-    /**
-     * Get the lightness of the background color.
-     *
-     * @return float The lightness value of the background color.
-     */
-    public function getBackgroundLightness(): float
-    {
-        return $this->backgroundLightness;
-    }
-
-    /**
-     * Sets the lightness of the background
-     *
-     * @param  float  $lightness  Lightness value (between 0 and 1)
-     * @return void
-     */
-    public function setBackgroundLightness(float $lightness): void
-    {
-        $this->backgroundLightness = clamp($lightness, 0, 1);
-    }
-
-    /**
-     * Get the lightness of the text
-     *
-     * @return float The lightness of the text
-     */
-    public function getTextLightness(): float
-    {
-        return $this->textLightness;
-    }
-
-    /**
-     * Sets the lightness of the text
-     *
-     * @param  float  $lightness  Lightness value ranging from 0 to 1
-     * @return void
-     */
-    public function setTextLightness(float $lightness): void
-    {
-        $this->textLightness = clamp($lightness, 0, 1);
-    }
-
-    /**
-     * Retrieves the offset of the object
-     *
-     * @return int The offset value
-     */
-    public function getOffset(): int
-    {
-        return $this->offset;
-    }
-
-    /**
-     * Sets the offset for the avatar
-     *
-     * @param  int  $offset  The offset in pixel
-     * @return void
-     */
-    public function setOffset(int $offset): void
-    {
-        $this->offset = $offset;
-    }
-
 }
