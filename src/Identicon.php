@@ -19,6 +19,11 @@ class Identicon extends Avatar
         $this->name = $name;
     }
 
+    public static function make(Name $name): Identicon
+    {
+        return new static($name);
+    }
+
     /**
      * Sets the number of pixels.
      *
