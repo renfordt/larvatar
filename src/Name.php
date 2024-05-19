@@ -37,17 +37,6 @@ class Name
     }
 
     /**
-     * Create an instance of the Name class.
-     *
-     * @param  string  $name  The name to be used for creating the Name object.
-     * @return Name The newly created Name object.
-     */
-    public static function make(string $name): Name
-    {
-        return new Name($name);
-    }
-
-    /**
      * Get the hexadecimal color value
      *
      * @param  int  $offset  The starting offset for the substring
@@ -56,6 +45,17 @@ class Name
     public function getHexColor(int $offset = 0): HexColor
     {
         return HexColor::make('#'.substr($this->hash, $offset, 6));
+    }
+
+    /**
+     * Create an instance of the Name class.
+     *
+     * @param  string  $name  The name to be used for creating the Name object.
+     * @return Name The newly created Name object.
+     */
+    public static function make(string $name): Name
+    {
+        return new Name($name);
     }
 
     /**
@@ -69,16 +69,6 @@ class Name
     }
 
     /**
-     * Retrieves the split names.
-     *
-     * @return array The split names.
-     */
-    public function getSplitNames(): array
-    {
-        return $this->splitNames;
-    }
-
-    /**
      * Get the hash value of the name
      *
      * @return string The hashed name.
@@ -86,5 +76,30 @@ class Name
     public function getHash(): string
     {
         return $this->hash;
+    }
+
+    /**
+     * Get the initials of the name
+     *
+     * @return string The initials of the name.
+     */
+    public function getInitials(): string
+    {
+        $initials = '';
+        foreach ($this->getSplitNames() as $name) {
+            $initials .= mb_substr($name, 0, 1, 'UTF-8');
+        }
+
+        return $initials;
+    }
+
+    /**
+     * Retrieves the split names.
+     *
+     * @return array The split names.
+     */
+    public function getSplitNames(): array
+    {
+        return $this->splitNames;
     }
 }
