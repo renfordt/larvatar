@@ -2,23 +2,16 @@
 
 namespace Renfordt\Larvatar;
 
-use Renfordt\Colors\HexColor;
 use Renfordt\Colors\HSLColor;
-use Renfordt\Larvatar\Enum\ColorType;
 use Renfordt\Larvatar\Traits\ColorTrait;
 use SVG\Nodes\Shapes\SVGRect;
 use SVG\SVG;
 
-class Identicon
+class Identicon extends Avatar
 {
     use ColorTrait;
 
-    public Name $name;
-    public int $size = 125;
     public int $pixels = 5;
-
-    private float $backgroundLightness = 0.8;
-    private float $textLightness = 0.35;
     private bool $symmetry = true;
 
     public function __construct(Name $name)
@@ -26,7 +19,49 @@ class Identicon
         $this->name = $name;
     }
 
-    public function getSVG(string|null $encoding = null): string
+    /**
+     * Sets the number of pixels.
+     *
+     * @param  int  $pixels  The number of pixels to set.
+     * @return void
+     */
+    public function setPixels(int $pixels): void
+    {
+        $this->pixels = $pixels;
+    }
+
+    /**
+     * Sets the symmetry property of the object.
+     *
+     * @param  bool  $symmetry  The symmetry value to set.
+     * @return void
+     */
+    public function setSymmetry(bool $symmetry): void
+    {
+        $this->symmetry = $symmetry;
+    }
+
+    /**
+     * Returns the HTML representation of the image.
+     *
+     * @param  bool  $base64  Determines whether the HTML representation should be in base64 format or not.
+     * @return string The HTML representation of the image.
+     */
+    public function getHTML(bool $base64 = false): string
+    {
+        if (!$base64) {
+            return $this->getSVG();
+        }
+
+        return '<img src="'.$this->getBase64().'" />';
+    }
+
+    /**
+     * Returns the SVG representation of the Identicon .
+     *
+     * @return string The SVG representation of the Identicon.
+     */
+    public function getSVG(): string
     {
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
@@ -35,7 +70,8 @@ class Identicon
          * @var HSLColor $darkColor
          * @var HSLColor $lightColor
          */
-        list($darkColor, $lightColor) = $this->getColorSet($this->name, $this->textLightness, $this->backgroundLightness);
+        list($darkColor, $lightColor) = $this->getColorSet($this->name, $this->textLightness,
+            $this->backgroundLightness);
 
         if ($this->symmetry) {
             $matrix = $this->generateSymmetricMatrix();
@@ -56,10 +92,6 @@ class Identicon
                 }
             }
 
-        }
-
-        if ($encoding == 'base64') {
-            return 'data:image/svg+xml;base64,'.base64_encode($larvatar);
         }
 
         return $larvatar;
@@ -142,20 +174,14 @@ class Identicon
         return $matrix;
     }
 
-    public function setSize(int $size): void
+    /**
+     * Returns the base64 representation of the SVG image.
+     *
+     * @return string The base64 encoded string representing the SVG image.
+     */
+    public function getBase64(): string
     {
-        $this->size = $size;
+        return 'data:image/svg+xml;base64,'.base64_encode($this->getSVG());
     }
-
-    public function setPixels(int $pixels): void
-    {
-        $this->pixels = $pixels;
-    }
-
-    public function setSymmetry(bool $symmetry): void
-    {
-        $this->symmetry = $symmetry;
-    }
-
 }
 
