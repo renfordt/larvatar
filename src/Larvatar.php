@@ -28,8 +28,8 @@ class Larvatar
         $this->type = $type;
 
         if ($this->type == LarvatarTypes::InitialsAvatar) {
-            $this->avatar =  InitialsAvatar::make($this->name);
-        } elseif ($this == LarvatarTypes::IdenticonLarvatar) {
+            $this->avatar = InitialsAvatar::make($this->name);
+        } elseif ($this->type == LarvatarTypes::IdenticonLarvatar) {
             $this->avatar = Identicon::make($this->name);
         }
     }
@@ -46,18 +46,14 @@ class Larvatar
      * Generates the HTML or SVG code directly for usage
      * @return string HTML or SVG code
      */
-    public function getImageHTML(string $encoding = ''): string
+    public function getImageHTML(bool $base64 = false): string
     {
         if ($this->type == LarvatarTypes::InitialsAvatar || $this->type == LarvatarTypes::IdenticonLarvatar) {
             if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
                 $this->avatar->setFont($this->font, $this->fontPath);
             }
             $this->avatar->setSize($this->size);
-            if ($encoding == 'base64') {
-                return $this->avatar->getHTML(true);
-            } else {
-                return $this->avatar->getHTML();
-            }
+            return $this->avatar->getHTML($base64);
         }
 
         $gravatar = new Gravatar($this->email);
