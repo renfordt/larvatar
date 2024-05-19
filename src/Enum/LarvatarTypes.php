@@ -12,4 +12,5 @@ enum LarvatarTypes: int
     case wavatar = 5;
     case retro = 6;
     case robohash = 7;
+    case IdenticonLarvatar = 8;
 }
