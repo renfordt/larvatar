@@ -6,7 +6,7 @@ use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Larvatar
 {
-    public InitialsAvatar $initialsAvatar;
+    public Avatar $avatar;
     protected LarvatarTypes $type = LarvatarTypes::mp;
     protected Name $name;
     protected string $email;
@@ -28,7 +28,9 @@ class Larvatar
         $this->type = $type;
 
         if ($this->type == LarvatarTypes::InitialsAvatar) {
-            $this->initialsAvatar = new InitialsAvatar($this->name);
+            $this->avatar =  InitialsAvatar::make($this->name);
+        } elseif ($this == LarvatarTypes::IdenticonLarvatar) {
+            $this->avatar = Identicon::make($this->name);
         }
     }
 
@@ -46,15 +48,15 @@ class Larvatar
      */
     public function getImageHTML(string $encoding = ''): string
     {
-        if ($this->type == LarvatarTypes::InitialsAvatar ) {
+        if ($this->type == LarvatarTypes::InitialsAvatar || $this->type == LarvatarTypes::IdenticonLarvatar) {
             if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
-                $this->initialsAvatar->setFont($this->font, $this->fontPath);
+                $this->avatar->setFont($this->font, $this->fontPath);
             }
-            $this->initialsAvatar->setSize($this->size);
+            $this->avatar->setSize($this->size);
             if ($encoding == 'base64') {
-                return '<img src="'.$this->initialsAvatar->generate().'" />';
+                return $this->avatar->getHTML(true);
             } else {
-                return $this->initialsAvatar->generate();
+                return $this->avatar->getHTML();
             }
         }
 
@@ -95,6 +97,6 @@ class Larvatar
      */
     public function getBase64(): string
     {
-        return $this->initialsAvatar->generate();
+        return $this->avatar->generate();
     }
 }
