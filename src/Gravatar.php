@@ -23,19 +23,6 @@ class Gravatar
     }
 
     /**
-     * Sets the type for the avatar.
-     * @param  LarvatarTypes  $type  All enums except LarvatarTypes::InitialsAvatar are allowed
-     * @return void
-     */
-    public function setType(LarvatarTypes $type): void
-    {
-        if ($type == LarvatarTypes::InitialsAvatar) {
-            return;
-        }
-        $this->type = $type;
-    }
-
-    /**
      * Sets the email for Gravatar. It is used to gernerate a hash which is passed to the Gravatar API
      * @param  string  $email
      * @return void
@@ -44,16 +31,6 @@ class Gravatar
     {
         $this->email = $email;
         $this->setHash($email);
-    }
-
-    /**
-     * Sets the size of the Gravatar
-     * @param  int  $size  Size in px for the Gravatar
-     * @return void
-     */
-    public function setSize(int $size): void
-    {
-        $this->size = $size;
     }
 
     /**
@@ -67,13 +44,50 @@ class Gravatar
     }
 
     /**
+     * Sets the type for the avatar.
+     * @param  LarvatarTypes  $type  All enums except LarvatarTypes::InitialsAvatar are allowed
+     * @return void
+     */
+    public function setType(LarvatarTypes $type): void
+    {
+        if ($type == LarvatarTypes::InitialsAvatar) {
+            return;
+        }
+        $this->type = $type;
+    }
+
+    /**
+     * Sets the size of the Gravatar
+     * @param  int  $size  Size in px for the Gravatar
+     * @return void
+     */
+    public function setSize(int $size): void
+    {
+        $this->size = $size;
+    }
+
+    public function getHTML(): string
+    {
+        return '<img src="'.$this->generateGravatarLink().'" />';
+    }
+
+    /**
+     * Generate the link to the Gravatar
+     * @return string
+     */
+    public function generateGravatarLink(): string
+    {
+        return 'https://www.gravatar.com/avatar/'.$this->hash.$this->getAdditionalParameters();
+    }
+
+    /**
      * Depending on the selected type the missing parameters for Gravatar API will be selected
      * @return string
      * @throws Exception
      */
     protected function getAdditionalParameters(): string
     {
-        $link = match($this->type) {
+        $link = match ($this->type) {
             LarvatarTypes::Gravatar => '?d=',
             LarvatarTypes::mp => '?d=mp&f=y',
             LarvatarTypes::identicon => '?d=identicon&f=y',
@@ -84,14 +98,5 @@ class Gravatar
             LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.')
         };
         return $link.'&s='.$this->size;
-    }
-
-    /**
-     * Generate the link to the Gravatar
-     * @return string
-     */
-    public function generateGravatarLink(): string
-    {
-        return 'https://www.gravatar.com/avatar/'.$this->hash.$this->getAdditionalParameters();
     }
 }
