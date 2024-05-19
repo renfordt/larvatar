@@ -178,5 +178,26 @@ abstract class Avatar
         $this->fontWeight = $fontWeight;
     }
 
+    /**
+     * Get the size of the object
+     *
+     * @return int The size of the object
+     */
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
+    /**
+     * Set the size of the object
+     *
+     * @param  int  $size  The size to set for the object
+     * @return void
+     */
+    public function setSize(int $size): void
+    {
+        $this->size = $size;
+    }
+
 
 }
