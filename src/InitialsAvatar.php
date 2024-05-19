@@ -23,7 +23,7 @@ class InitialsAvatar
     private int $fontSize = 0;
     private FormTypes $form = FormTypes::Circle;
     private int $rotation;
-    private string $fontWeight = 'normal';
+    private string $fontWeight = 'regular';
     private float $backgroundLightness = 0.8;
     private float $textLightness = 0.35;
     private int $offset = 0;
@@ -48,6 +48,11 @@ class InitialsAvatar
     public function setName(Name $name): void
     {
         $this->name = $name;
+    }
+
+    public function getName(): Name
+    {
+        return $this->name;
     }
 
     public static function make(Name $name): InitialsAvatar
@@ -86,8 +91,7 @@ class InitialsAvatar
             $outlineForm = $this->getHexagon($this->size, $lightColor, $this->rotation);
         }
 
-
-        $initials = $this->getInitials($this->name->getSplitNames(), $darkColor);
+        $initials = $this->getInitials($darkColor);
 
         $doc->addChild($outlineForm);
         $doc->addChild($initials);
@@ -168,19 +172,17 @@ class InitialsAvatar
      * @param  HSLColor  $darkColor  Dark color object
      * @return SVGText  SVGText object containing the initials
      */
-    private function getInitials(array $names, HSLColor $darkColor): SVGText
+    private function getInitials( HSLColor $darkColor): SVGText
     {
-        $initialsText = '';
-        foreach ($names as $name) {
-            $initialsText .= substr($name, 0, 1);
-        }
+        $initialsText = $this->name->getInitials();
 
         $initials = new SVGText($initialsText, '50%', '55%');
         $initials->setStyle('fill', $darkColor->toHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setStyle('font-weight', $this->fontWeight);
-        $initials->setFontFamily($this->fontFamily);
+        $initials->setFontFamily("Segoe UI, Helvetica, sans-serif");
+        //$initials->setFontFamily($this->fontFamily);
         if ($this->fontSize == 0) {
             $this->fontSize = $this->calculateFontSize($initialsText);
         }
