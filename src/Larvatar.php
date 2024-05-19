@@ -6,13 +6,13 @@ use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Larvatar
 {
+    public InitialsAvatar $initialsAvatar;
     protected LarvatarTypes $type = LarvatarTypes::mp;
-    protected string $name;
+    protected Name $name;
     protected string $email;
     protected string $font;
     protected string $fontPath;
     protected int $size = 100;
-    public InitialsAvatar $initialsAvatar;
 
     /**
      * Constructs a new instance of the class.
@@ -21,19 +21,23 @@ class Larvatar
      * @param  string  $email  The email. Default is an empty string.
      * @param  int|LarvatarTypes  $type  The type. Default is LarvatarTypes::mp.
      */
-    public function __construct(string $name = '', string $email = '', int|LarvatarTypes $type = LarvatarTypes::mp)
+    public function __construct(LarvatarTypes $type, string $name = '', string $email = '')
     {
-        $this->name = $name;
+        $this->name = Name::make($name);
         $this->email = $email;
-        if (is_int($type)) {
-            $this->type = LarvatarTypes::from($type);
-        } elseif ($type instanceof LarvatarTypes) {
-            $this->type = $type;
-        }
+        $this->type = $type;
 
         if ($this->type == LarvatarTypes::InitialsAvatar) {
             $this->initialsAvatar = new InitialsAvatar($this->name);
         }
+    }
+
+    public static function make(
+        LarvatarTypes $type,
+        string $name = '',
+        string $email = ''
+    ): Larvatar {
+        return new self($type, $name, $email);
     }
 
     /**
@@ -42,7 +46,7 @@ class Larvatar
      */
     public function getImageHTML(string $encoding = ''): string
     {
-        if ($this->type == LarvatarTypes::InitialsAvatar) {
+        if ($this->type == LarvatarTypes::InitialsAvatar ) {
             if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
                 $this->initialsAvatar->setFont($this->font, $this->fontPath);
             }
@@ -59,16 +63,6 @@ class Larvatar
         $gravatar->setSize($this->size);
 
         return '<img src="'.$gravatar->generateGravatarLink().'" />';
-    }
-
-    /**
-     * Get the base64 string representation of the initials' avatar.
-     *
-     * @return string The base64 encoded string of the initials' avatar.
-     */
-    public function getBase64(): string
-    {
-        return $this->initialsAvatar->generate(encoding: 'base64');
     }
 
     /**
@@ -92,5 +86,15 @@ class Larvatar
     public function setSize(int $size): void
     {
         $this->size = $size;
+    }
+
+    /**
+     * Get the base64 string representation of the initials' avatar.
+     *
+     * @return string The base64 encoded string of the initials' avatar.
+     */
+    public function getBase64(): string
+    {
+        return $this->initialsAvatar->generate(encoding: 'base64');
     }
 }
