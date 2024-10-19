@@ -27,7 +27,7 @@
   "require": {
     "php": "^8.1",
     "ext-gd": "*",
-    "meyfa/php-svg": "^0.14.0",
+    "meyfa/php-svg": "^0.14.0 || ^0.16.0",
     "renfordt/clamp": "^1.0"
   },
   "require-dev": {
