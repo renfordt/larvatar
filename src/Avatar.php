@@ -21,14 +21,14 @@ abstract class Avatar
      * @return string The HTML representation of the data.
      * @throws \Exception If the HTML generation fails.
      */
-    abstract function getHTML(bool $base64 = false): string;
+    abstract public function getHTML(bool $base64 = false): string;
 
     /**
      * Abstract function to get the base64 representation of a string
      *
      * @return string The base64 representation of the string
      */
-    abstract function getBase64(): string;
+    abstract public function getBase64(): string;
 
     /**
      * Get the font size

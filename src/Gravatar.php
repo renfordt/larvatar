@@ -7,7 +7,6 @@ use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Gravatar
 {
-
     protected LarvatarTypes $type = LarvatarTypes::mp;
     protected string $email;
     protected string $hash;

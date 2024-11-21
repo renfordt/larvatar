@@ -92,7 +92,7 @@ class InitialsAvatar extends Avatar
      * @param  bool  $base64  Determines if the image source should be in base64 format. Default is false.
      * @return string The HTML representation of the code.
      */
-    function getHTML(bool $base64 = false): string
+    public function getHTML(bool $base64 = false): string
     {
         if (!$base64) {
             return $this->generate();
@@ -120,8 +120,11 @@ class InitialsAvatar extends Avatar
          * @var HSLColor $darkColor
          * @var HSLColor $lightColor
          */
-        list($darkColor, $lightColor) = $this->getColorSet($this->name, $this->textLightness,
-            $this->backgroundLightness);
+        list($darkColor, $lightColor) = $this->getColorSet(
+            $this->name,
+            $this->textLightness,
+            $this->backgroundLightness
+        );
 
         if ($this->form == FormTypes::Circle) {
             $halfSize = $this->size / 2;
@@ -245,7 +248,7 @@ class InitialsAvatar extends Avatar
      *
      * @return string The base64 encoded string representing the SVG image.
      */
-    function getBase64(): string
+    public function getBase64(): string
     {
         return 'data:image/svg+xml;base64,'.base64_encode($this->generate());
     }

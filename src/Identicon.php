@@ -75,8 +75,11 @@ class Identicon extends Avatar
          * @var HSLColor $darkColor
          * @var HSLColor $lightColor
          */
-        list($darkColor, $lightColor) = $this->getColorSet($this->name, $this->textLightness,
-            $this->backgroundLightness);
+        list($darkColor, $lightColor) = $this->getColorSet(
+            $this->name,
+            $this->textLightness,
+            $this->backgroundLightness
+        );
 
         if ($this->symmetry) {
             $matrix = $this->generateSymmetricMatrix();
@@ -91,7 +94,8 @@ class Identicon extends Avatar
                         (int) $x * ($this->size / $this->pixels),
                         (int) $y * ($this->size / $this->pixels),
                         (int) $this->size / $this->pixels,
-                        (int) $this->size / $this->pixels);
+                        (int) $this->size / $this->pixels
+                    );
                     $square->setStyle('fill', $darkColor->toHex());
                     $doc->addChild($square);
                 }
@@ -189,4 +193,3 @@ class Identicon extends Avatar
         return 'data:image/svg+xml;base64,'.base64_encode($this->getSVG());
     }
 }
-
