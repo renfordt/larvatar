@@ -20,7 +20,7 @@ class LarvatarTraitTest extends TestCase
         int $size,
         LarvatarTypes $type,
         string $encoding = '',
-        string $expectedData
+        string $expectedData = ''
     ) {
         $result = $this->getAvatar($name, $email, $size, $type, $encoding);
         $this->assertSame($expectedData, $result);
