@@ -110,8 +110,11 @@ abstract class Avatar
      *
      * @return void
      */
-    public function setName(Name $name): void
+    public function setName(Name|string $name): void
     {
+        if (is_string($name)) {
+            $name = Name::make($name);
+        }
         $this->name = $name;
     }
 
