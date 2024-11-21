@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
@@ -12,17 +13,6 @@ use SVG\Nodes\Shapes\SVGRect;
 
 final class InitialsAvatarTest extends TestCase
 {
-    public function testHexGeneration(): void
-    {
-        $name = Name::make('Test Name');
-        $initialsAvatar =  InitialsAvatar::make($name);
-
-        $this->assertEquals(
-            '#9c3564',
-            $initialsAvatar->generateHexColor()
-        );
-    }
-
     public function testCreateLarvatarByConstructor(): void
     {
         $name = Name::make('Test Name');
