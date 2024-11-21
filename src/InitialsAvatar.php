@@ -33,8 +33,12 @@ class InitialsAvatar extends Avatar
     }
 
 
-    public static function make(Name $name): InitialsAvatar
+    public static function make(Name|string $name): InitialsAvatar
     {
+        if(is_string($name)) {
+            $name = Name::make($name);
+        }
+
         return new self($name);
     }
 
