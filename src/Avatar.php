@@ -17,7 +17,7 @@ abstract class Avatar
     /**
      * Retrieves the HTML representation of the data.
      *
-     * @param  bool  $base64  Whether to return the HTML as base64 encoded string.
+     * @param bool $base64 Whether to return the HTML as base64 encoded string.
      * @return string The HTML representation of the data.
      * @throws \Exception If the HTML generation fails.
      */
@@ -43,7 +43,7 @@ abstract class Avatar
     /**
      * Set the font size.
      *
-     * @param  int  $fontSize  The font size.
+     * @param int $fontSize The font size.
      * @return void
      */
     public function setFontSize(int $fontSize): void
@@ -64,7 +64,7 @@ abstract class Avatar
     /**
      * Set the font family for the application
      *
-     * @param  string  $fontFamily  The font family to set
+     * @param string $fontFamily The font family to set
      * @return void
      */
     public function setFontFamily(string $fontFamily): void
@@ -85,7 +85,7 @@ abstract class Avatar
     /**
      * Set the font path
      *
-     * @param  string  $fontPath  The path to the font
+     * @param string $fontPath The path to the font
      * @return void
      */
     public function setFontPath(string $fontPath): void
@@ -106,7 +106,7 @@ abstract class Avatar
     /**
      * Set the Name object for the given instance
      *
-     * @param  Name  $name  The Name object
+     * @param Name $name The Name object
      *
      * @return void
      */
@@ -131,7 +131,7 @@ abstract class Avatar
     /**
      * Set the background lightness
      *
-     * @param  float  $backgroundLightness  The background lightness value to set (between 0 and 1)
+     * @param float $backgroundLightness The background lightness value to set (between 0 and 1)
      * @return void
      */
     public function setBackgroundLightness(float $backgroundLightness): void
@@ -152,7 +152,7 @@ abstract class Avatar
     /**
      * Set the text lightness value
      *
-     * @param  float  $textLightness  The text lightness value to be set
+     * @param float $textLightness The text lightness value to be set
      * @return void
      */
     public function setTextLightness(float $textLightness): void
@@ -173,7 +173,7 @@ abstract class Avatar
     /**
      * Set the font weight for the application
      *
-     * @param  string  $fontWeight  The font weight to set
+     * @param string $fontWeight The font weight to set
      * @return void
      */
     public function setFontWeight(string $fontWeight): void
@@ -194,7 +194,7 @@ abstract class Avatar
     /**
      * Set the size of the object
      *
-     * @param  int  $size  The size to set for the object
+     * @param int $size The size to set for the object
      * @return void
      */
     public function setSize(int $size): void
@@ -205,8 +205,8 @@ abstract class Avatar
     /**
      * Sets the font family and path
      *
-     * @param  string  $font  The font family
-     * @param  string  $path  The font path
+     * @param string $font The font family
+     * @param string $path The font path
      *
      * @return void
      */
