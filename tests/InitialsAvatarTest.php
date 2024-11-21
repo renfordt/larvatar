@@ -38,7 +38,15 @@ final class InitialsAvatarTest extends TestCase
     {
         $name = Name::make('Test Name');
         $initialsAvatar = InitialsAvatar::make($name);
-        $initialsAvatar->setName('Test Name');
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e5b3ca" /><text x="50%" y="55%" style="fill: #852e55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-size: 64px">TN</text></svg>',
+            $initialsAvatar->generate()
+        );
+    }
+
+    public function testCreateLarvatarByMethodWithString(): void
+    {
+        $initialsAvatar = InitialsAvatar::make('Test Name');
         $this->assertEquals(
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e5b3ca" /><text x="50%" y="55%" style="fill: #852e55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-size: 64px">TN</text></svg>',
             $initialsAvatar->generate()
@@ -100,7 +108,7 @@ final class InitialsAvatarTest extends TestCase
         $reflect = new \ReflectionClass($initialsAvatar);
         $method = $reflect->getMethod('getSquare');
 
-        $color = new HexColor::create('#000000');
+        $color = HexColor::create('#000000');
 
         $result = $method->invoke($initialsAvatar, 128, $color);
 
@@ -120,7 +128,7 @@ final class InitialsAvatarTest extends TestCase
         $method = $reflect->getMethod('getHexagon');
         $method->setAccessible(true);
 
-        $color = new HexColor::create('#000000');
+        $color = HexColor::create('#000000');
 
         $expectedPoints = [
             [119.4256258422, 96],
