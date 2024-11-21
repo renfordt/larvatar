@@ -15,8 +15,7 @@ final class InitialsAvatarTest extends TestCase
     public function testHexGeneration(): void
     {
         $name = Name::make('Test Name');
-        $initialsAvatar = new InitialsAvatar($name);
-        $initialsAvatar->setName('Test Name');
+        $initialsAvatar =  InitialsAvatar::make($name);
 
         $this->assertEquals(
             '#9c3564',
@@ -108,7 +107,7 @@ final class InitialsAvatarTest extends TestCase
         $reflect = new \ReflectionClass($initialsAvatar);
         $method = $reflect->getMethod('getSquare');
 
-        $color = HexColor::create('#000000');
+        $color = HexColor::create('#000000')->toHSL();
 
         $result = $method->invoke($initialsAvatar, 128, $color);
 
@@ -128,7 +127,7 @@ final class InitialsAvatarTest extends TestCase
         $method = $reflect->getMethod('getHexagon');
         $method->setAccessible(true);
 
-        $color = HexColor::create('#000000');
+        $color = HexColor::create('#000000')->toHSL();
 
         $expectedPoints = [
             [119.4256258422, 96],
