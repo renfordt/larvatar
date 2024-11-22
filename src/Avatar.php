@@ -106,7 +106,7 @@ abstract class Avatar
     /**
      * Set the Name object for the given instance
      *
-     * @param Name $name The Name object
+     * @param Name|string $name The Name object or a string of the name
      *
      * @return void
      */
@@ -210,7 +210,7 @@ abstract class Avatar
      *
      * @return void
      */
-    public function setFont(string $font, string $path)
+    public function setFont(string $font, string $path): void
     {
         $this->setFontFamily($font);
         $this->setFontPath($path);
