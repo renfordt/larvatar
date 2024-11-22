@@ -163,7 +163,7 @@ class Identicon extends Avatar
      * @param int $offset The offset value for generating the matrix. Defaults to 0.
      * @return array The generated matrix.
      */
-    public function generateMatrix(int $offset = 0): array
+    private function generateMatrix(int $offset = 0): array
     {
         $column = 0;
         $row = 0;
