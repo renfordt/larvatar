@@ -11,6 +11,8 @@ use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
 
+use function PHPUnit\Framework\isEmpty;
+
 class InitialsAvatar extends Avatar
 {
     use ColorTrait;
@@ -219,13 +221,14 @@ class InitialsAvatar extends Avatar
     {
         $initialsText = $this->name->getInitials();
 
+        $fontFamily = isEmpty($this->fontFamily) ? 'Segoe UI, Helvetica, sans-serif' : $this->fontFamily;
+
         $initials = new SVGText($initialsText, '50%', '55%');
         $initials->setStyle('fill', $darkColor->toHex());
         $initials->setStyle('text-anchor', 'middle');
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setStyle('font-weight', $this->fontWeight);
-        $initials->setFontFamily("Segoe UI, Helvetica, sans-serif");
-        //$initials->setFontFamily($this->fontFamily);
+        $initials->setFontFamily($fontFamily);
         if ($this->fontSize == 0) {
             $this->fontSize = $this->calculateFontSize($initialsText);
         }
