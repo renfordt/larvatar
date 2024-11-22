@@ -2,6 +2,8 @@
 
 namespace Renfordt\Larvatar;
 
+use Exception;
+
 abstract class Avatar
 {
     protected int $fontSize = 0;
@@ -19,7 +21,7 @@ abstract class Avatar
      *
      * @param bool $base64 Whether to return the HTML as base64 encoded string.
      * @return string The HTML representation of the data.
-     * @throws \Exception If the HTML generation fails.
+     * @throws Exception If the HTML generation fails.
      */
     abstract public function getHTML(bool $base64 = false): string;
 
