@@ -8,7 +8,7 @@ abstract class Avatar
 
     protected string $fontFamily = 'sans serif';
     protected string $fontPath = '';
-    protected string $fontWeight = 'regular';
+    protected string $fontWeight = 'normal';
     protected Name $name;
     protected int $size = 100;
     protected float $backgroundLightness = 0.8;
