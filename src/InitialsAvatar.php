@@ -3,7 +3,6 @@
 namespace Renfordt\Larvatar;
 
 use Renfordt\Colors\HSLColor;
-use Renfordt\Larvatar\Enum\ColorType;
 use Renfordt\Larvatar\Enum\FormTypes;
 use Renfordt\Larvatar\Traits\ColorTrait;
 use SVG\Nodes\Shapes\SVGCircle;
