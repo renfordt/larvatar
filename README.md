@@ -21,6 +21,11 @@ install it to you project:
 composer require renfordt/larvatar
 ```
 
+## Upgrading to 2.0
+
+Version 2.0 brings many breaking changes. Check the [Upgrade Guide](UPGRADING.md) to avoid any issues.
+
+
 ## Usage
 
 The general usage is simple. Create a new Larvatar class, insert name and email and the avatar type you wish.
@@ -30,8 +35,17 @@ The general usage is simple. Create a new Larvatar class, insert name and email 
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Larvatar;
 
-$larvatar = new Larvatar('Test Name', 'test@test.com', LarvatarTypes::InitialsAvatar);
+// Larvatar::make($type, $name = '', $email = '')
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: 'Test Name'
+        );
+
+// Optional settings    
 $larvatar->setFont('Roboto,sans-serif', './font/Roboto-bold.ttf');
+$larvatar->setSize(100);
+
+// Get the SVG Code for embedding directly in your page
 echo $larvatar->getImageHTML();
 
 // if you need base64 encryption, currently this works only for InitialsAvatar
@@ -40,17 +54,36 @@ echo $larvatar->getImageHTML('base64');
 echo $larvatar->getBase64();
 ```
 
-There are currently eight different types of avatars available:
+```php
+$name = \Renfordt\Larvatar\Name::make('Test Name');
+
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: $name
+        );
+```
+
+There are currently nine different types of avatars available:
 
 ```php
-\Renfordt\Larvatar\Enum\LarvatarTypes::InitialsAvatar;  // Microsoft Teams like avatar with initials
-\Renfordt\Larvatar\Enum\LarvatarTypes::Gravatar;        // Gravatar
-\Renfordt\Larvatar\Enum\LarvatarTypes::mp;              // (Gravatar) MysticPerson, simple cartoon-style silhouette (default)
-\Renfordt\Larvatar\Enum\LarvatarTypes::identicon;       // (Gravatar) A geometric pattern based on a email hash 
-\Renfordt\Larvatar\Enum\LarvatarTypes::monsterid;       // (Gravatar) A generated monster different colors and faces
-\Renfordt\Larvatar\Enum\LarvatarTypes::wavatar;         // (Gravatar) generated faces with differing features and backgrounds
-\Renfordt\Larvatar\Enum\LarvatarTypes::retro;           // (Gravatar) 8-bit arcade-style pixelated faces
-\Renfordt\Larvatar\Enum\LarvatarTypes::robohash;        // (Gravatar) A generated robot with different colors, faces, etc
+// Microsoft Teams like avatar with initials
+\Renfordt\Larvatar\Enum\LarvatarTypes::InitialsAvatar;
+// Identicons with more possibilities to adjust
+\Renfordt\Larvatar\Enum\LarvatarTypes::IdenticonLarvatar;
+// Gravatar
+\Renfordt\Larvatar\Enum\LarvatarTypes::Gravatar;
+// (Gravatar) MysticPerson, simple cartoon-style silhouette (default)
+\Renfordt\Larvatar\Enum\LarvatarTypes::mp;
+// (Gravatar) A geometric pattern based on a email hash
+\Renfordt\Larvatar\Enum\LarvatarTypes::identicon;
+// (Gravatar) A generated monster different colors and faces 
+\Renfordt\Larvatar\Enum\LarvatarTypes::monsterid;
+// (Gravatar) generated faces with differing features and backgrounds
+\Renfordt\Larvatar\Enum\LarvatarTypes::wavatar;
+// (Gravatar) 8-bit arcade-style pixelated faces
+\Renfordt\Larvatar\Enum\LarvatarTypes::retro;
+// (Gravatar) A generated robot with different colors, faces, etc
+\Renfordt\Larvatar\Enum\LarvatarTypes::robohash;
 ```
 
 ## InitialsAvatar
@@ -62,7 +95,10 @@ hexagon and a square. Choose it by using the `setForm()` method. The input is ei
 Enum `FormTypes`.
 
 ```PHP
-$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: 'Test Name'
+        );
 $larvatar->initialsAvatar->setForm('circle');
 $larvatar->initialsAvatar->setForm('square');
 $larvatar->initialsAvatar->setForm('hexagon');
@@ -75,7 +111,10 @@ $larvatar->initialsAvatar->setForm(FormTypes::Hexagon);
 If you are using the hexagon form, you have additionally the possibility to rotate the form:
 
 ```PHP
-$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: 'Test Name'
+        );
 $larvatar->initialsAvatar->setForm(FormTypes::Hexagon);
 $larvatar->initialsAvatar->setRotation(30);
 ```
@@ -88,7 +127,10 @@ and `setTextLightness()`. The parameter is a float with a value range `0` to `1`
 is a lighter color.
 
 ```PHP
-$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: 'Test Name'
+        );
 $larvatar->initialsAvatar->setBackgroundLightness(0.1);
 $larvatar->initialsAvatar->setTextLightness(0.8);
 ```
@@ -96,7 +138,10 @@ $larvatar->initialsAvatar->setTextLightness(0.8);
 Additionally, you can change the offset which will generate a different color.
 
 ```PHP
-$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: 'Test Name'
+        );
 $larvatar->initialsAvatar->setOffset(4);
 ```
 
@@ -105,6 +150,22 @@ $larvatar->initialsAvatar->setOffset(4);
 You can also change the font weight with the method `setFontWeight()`.
 
 ```PHP
-$larvatar = new Larvatar('Your Name', type: LarvatarTypes::InitialsAvatar);
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::InitialsAvatar,
+        name: 'Test Name'
+        );
 $larvatar->initialsAvatar->setFontWeight('bold');
+```
+
+## Identicons (Larvatar Style)
+
+```PHP
+$larvatar = Larvatar::make(
+        type: LarvatarTypes::IdenticonLarvatar,
+        name: 'Test Name'
+        );
+        
+// optional settings
+$larvatar->avatar->setSymmetry(false);
+$larvatar->avatar->setPixels(8);
 ```
