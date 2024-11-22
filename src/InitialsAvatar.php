@@ -221,7 +221,7 @@ class InitialsAvatar extends Avatar
     {
         $initialsText = $this->name->getInitials();
 
-        $fontFamily = isEmpty($this->fontFamily) ? 'Segoe UI, Helvetica, sans-serif' : $this->fontFamily;
+        $fontFamily = empty($this->fontFamily) ? 'Segoe UI, Helvetica, sans-serif' : $this->fontFamily;
 
         $initials = new SVGText($initialsText, '50%', '55%');
         $initials->setStyle('fill', $darkColor->toHex());
