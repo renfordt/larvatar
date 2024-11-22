@@ -27,7 +27,7 @@ class Identicon extends Avatar
     /**
      * Sets the number of pixels.
      *
-     * @param  int  $pixels  The number of pixels to set.
+     * @param int $pixels The number of pixels to set.
      * @return void
      */
     public function setPixels(int $pixels): void
@@ -38,7 +38,7 @@ class Identicon extends Avatar
     /**
      * Sets the symmetry property of the object.
      *
-     * @param  bool  $symmetry  The symmetry value to set.
+     * @param bool $symmetry The symmetry value to set.
      * @return void
      */
     public function setSymmetry(bool $symmetry): void
@@ -49,7 +49,7 @@ class Identicon extends Avatar
     /**
      * Returns the HTML representation of the image.
      *
-     * @param  bool  $base64  Determines whether the HTML representation should be in base64 format or not.
+     * @param bool $base64 Determines whether the HTML representation should be in base64 format or not.
      * @return string The HTML representation of the image.
      */
     public function getHTML(bool $base64 = false): string
@@ -58,7 +58,7 @@ class Identicon extends Avatar
             return $this->getSVG();
         }
 
-        return '<img src="'.$this->getBase64().'" />';
+        return '<img src="' . $this->getBase64() . '" />';
     }
 
     /**
@@ -91,16 +91,15 @@ class Identicon extends Avatar
             foreach ($array as $x => $value) {
                 if ($value) {
                     $square = new SVGRect(
-                        (int) $x * ($this->size / $this->pixels),
-                        (int) $y * ($this->size / $this->pixels),
-                        (int) $this->size / $this->pixels,
-                        (int) $this->size / $this->pixels
+                        (int)$x * ($this->size / $this->pixels),
+                        (int)$y * ($this->size / $this->pixels),
+                        (int)$this->size / $this->pixels,
+                        (int)$this->size / $this->pixels
                     );
                     $square->setStyle('fill', $darkColor->toHex());
                     $doc->addChild($square);
                 }
             }
-
         }
 
         return $larvatar;
@@ -118,7 +117,7 @@ class Identicon extends Avatar
         $divider = count($symmetryMatrix);
 
         for ($i = 0; $i < pow($this->pixels, 2); $i++) {
-            $index = (int) ($i / 3);
+            $index = (int)($i / 3);
             $data = $this->convertStrToBool(substr($this->name->getHash(), $i, 1));
 
             foreach ($symmetryMatrix[$i % $divider] as $item) {
@@ -150,27 +149,29 @@ class Identicon extends Avatar
     /**
      * Converts a hexadecimal character to a boolean value.
      *
-     * @param  string  $char  The hexadecimal character to convert.
+     * @param string $char The hexadecimal character to convert.
      * @return bool The boolean value converted from the hexadecimal character.
      */
     private function convertStrToBool(string $char): bool
     {
-        return (bool) round(hexdec($char) / 10);
+        return (bool)round(hexdec($char) / 10);
     }
 
     /**
      * Generates a matrix based on the given offset value.
      *
-     * @param  int  $offset  The offset value for generating the matrix. Defaults to 0.
+     * @param int $offset The offset value for generating the matrix. Defaults to 0.
      * @return array The generated matrix.
      */
     public function generateMatrix(int $offset = 0): array
     {
         $column = 0;
         $row = 0;
+        $hash = hash('sha256', $this->name->getHash());
+        dump($hash);
         for ($i = 0; $i < pow($this->pixels, 2); $i++) {
             $matrix[$i % $this->pixels][floor($i / $this->pixels)] =
-                $this->convertStrToBool(substr($this->name->getHash(), $i, 1));
+                $this->convertStrToBool(substr($hash, $i, 1));
             if ($column == $this->pixels && $row < $this->pixels) {
                 $row++;
                 $column = -1;
@@ -190,6 +191,6 @@ class Identicon extends Avatar
      */
     public function getBase64(): string
     {
-        return 'data:image/svg+xml;base64,'.base64_encode($this->getSVG());
+        return 'data:image/svg+xml;base64,' . base64_encode($this->getSVG());
     }
 }
