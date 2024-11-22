@@ -15,11 +15,13 @@ class Larvatar
     protected int $size = 100;
 
     /**
-     * Constructs a new instance of the class.
+     * Constructor for creating an instance of a Larvatar.
      *
-     * @param  string  $name  The name. Default is an empty string.
-     * @param  string  $email  The email. Default is an empty string.
-     * @param  int|LarvatarTypes  $type  The type. Default is LarvatarTypes::mp.
+     * @param LarvatarTypes $type The type of Larvatar to create.
+     * @param string $name Optional. The name to be used for generating the avatar. Defaults to an empty string.
+     * @param string $email Optional. The email to be associated with the avatar. Defaults to an empty string.
+     *
+     * @return void
      */
     public function __construct(LarvatarTypes $type, string $name = '', string $email = '')
     {
@@ -60,13 +62,13 @@ class Larvatar
         $gravatar->setType($this->type);
         $gravatar->setSize($this->size);
 
-        return '<img src="'.$gravatar->generateGravatarLink().'" />';
+        return '<img src="' . $gravatar->generateGravatarLink() . '" />';
     }
 
     /**
      * Set the font for Initial Avatar
-     * @param  string  $fontFamily  Font family of the used font, e.g. 'Roboto'
-     * @param  string  $path  Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
+     * @param string $fontFamily Font family of the used font, e.g. 'Roboto'
+     * @param string $path Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
      * @return void
      */
     public function setFont(string $fontFamily, string $path): void
@@ -78,7 +80,7 @@ class Larvatar
     /**
      * Sets the size of the object.
      *
-     * @param  int  $size  The size of the object.
+     * @param int $size The size of the object.
      * @return void
      */
     public function setSize(int $size): void
