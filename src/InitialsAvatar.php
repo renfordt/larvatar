@@ -34,7 +34,7 @@ class InitialsAvatar extends Avatar
 
     public static function make(Name|string $name): InitialsAvatar
     {
-        if(is_string($name)) {
+        if (is_string($name)) {
             $name = Name::make($name);
         }
 
@@ -105,14 +105,11 @@ class InitialsAvatar extends Avatar
     }
 
     /**
-     * Generates an avatar based on the given names and encoding
+     * Generates an SVG representation with initials and shape based on the provided configurations.
      *
-     * @param  array  $names  An array of names to generate initials from
-     * @param  string|null  $encoding  The encoding type for the output ('base64' or null)
-     *
-     * @return string The generated avatar in SVG format or the base64-encoded avatar image
+     * @return string The generated SVG content as a string.
      */
-    public function generate(bool $base64 = false): string
+    public function generate(): string
     {
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
@@ -140,7 +137,9 @@ class InitialsAvatar extends Avatar
 
         $initials = $this->getInitials($darkColor);
 
-        $doc->addChild($outlineForm);
+        if (isset($outlineForm)) {
+            $doc->addChild($outlineForm);
+        }
         $doc->addChild($initials);
 
         return $larvatar;
@@ -211,10 +210,10 @@ class InitialsAvatar extends Avatar
     }
 
     /**
-     * Generates initials for the given names and returns SVGText object
-     * @param  array  $names  List of names
-     * @param  HSLColor  $darkColor  Dark color object
-     * @return SVGText  SVGText object containing the initials
+     * Generates an SVG text element with the initials and formats it with the given dark color and font settings.
+     *
+     * @param HSLColor $darkColor The dark color used to fill the text, provided in HSL format and converted to hex.
+     * @return SVGText The SVG text element containing the formatted initials.
      */
     private function getInitials(HSLColor $darkColor): SVGText
     {
