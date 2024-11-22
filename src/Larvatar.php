@@ -18,14 +18,19 @@ class Larvatar
      * Constructor for creating an instance of a Larvatar.
      *
      * @param LarvatarTypes $type The type of Larvatar to create.
-     * @param string $name Optional. The name to be used for generating the avatar. Defaults to an empty string.
+     * @param string|Name $name Optional. The name to be used for generating the avatar. Defaults to an empty string.
      * @param string $email Optional. The email to be associated with the avatar. Defaults to an empty string.
      *
      * @return void
      */
-    public function __construct(LarvatarTypes $type, string $name = '', string $email = '')
+    public function __construct(LarvatarTypes $type, string|Name $name = '', string $email = '')
     {
-        $this->name = Name::make($name);
+        if (is_string($name)) {
+            $this->name = Name::make($name);
+        } else {
+            $this->name = $name;
+        }
+
         $this->email = $email;
         $this->type = $type;
 
@@ -38,7 +43,7 @@ class Larvatar
 
     public static function make(
         LarvatarTypes $type,
-        string $name = '',
+        string|Name $name = '',
         string $email = ''
     ): Larvatar {
         return new self($type, $name, $email);
