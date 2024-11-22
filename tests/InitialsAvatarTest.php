@@ -18,7 +18,7 @@ final class InitialsAvatarTest extends TestCase
         $name = Name::make('Test Name');
         $initialsAvatar = new InitialsAvatar($name);
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128"><circle cx="64" cy="64" r="64" style="fill: #e5b3ca" /><text x="50%" y="55%" style="fill: #852e55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-size: 64px">TN</text></svg>',
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852e55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-size: 64px">TN</text></svg>',
             $initialsAvatar->generate()
         );
     }
