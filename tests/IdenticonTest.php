@@ -12,10 +12,10 @@ class IdenticonTest extends TestCase
     public function testGetSymmetryMatrixReturnedExpectedSymmetryMatrix()
     {
         // Mocking the Name class
-        $nameMock = $this->createMock(Name::class);
+        $name = Name::make('Test Name');
 
         // Creating Identicon
-        $identicon = new Identicon($nameMock);
+        $identicon = Identicon::make($name);
 
         // Set the number of pixels
         $identicon->setPixels(5);
