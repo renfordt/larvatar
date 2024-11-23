@@ -20,7 +20,6 @@ trait LarvatarTrait
     {
         $larvatar = new Larvatar($type, $name, $email);
         $larvatar->setSize($size);
-        $larvatar->setFont('Roboto,sans-serif', '/font/Roboto-Bold.ttf');
         return $larvatar->getImageHTML($encoding);
     }
 }
