@@ -2,6 +2,7 @@
 
 namespace Renfordt\Larvatar\Traits;
 
+use Renfordt\Colors\HSLColor;
 use Renfordt\Larvatar\Name;
 
 trait ColorTrait
@@ -23,6 +24,19 @@ trait ColorTrait
         $light = $color->toHSL();
         $light->setLightness($backgroundLightness);
         return [$dark, $light];
+    }
+
+    /**
+     * Converts a hex color to its HSL representation.
+     *
+     * @param Name $name The name object containing the hex color value.
+     * @return HSLColor The HSL color representation of the provided hex color.
+     */
+    public function getHSLColor(Name $name): HSLColor
+    {
+        $color = $name->getHexColor();
+
+        return $color->toHSL();
     }
 
 }
