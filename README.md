@@ -25,7 +25,6 @@ composer require renfordt/larvatar
 
 Version 2.0 brings many breaking changes. Check the [Upgrade Guide](UPGRADING.md) to avoid any issues.
 
-
 ## Usage
 
 The general usage is simple. Create a new Larvatar class, insert name and email and the avatar type you wish.
@@ -54,6 +53,8 @@ echo $larvatar->getImageHTML('base64');
 echo $larvatar->getBase64();
 ```
 
+Alternatively you can create an instance of the `Name` class, which provides you more possibilities.
+
 ```php
 $name = \Renfordt\Larvatar\Name::make('Test Name');
 
@@ -66,23 +67,24 @@ $larvatar = Larvatar::make(
 There are currently nine different types of avatars available:
 
 ```php
-// Microsoft Teams like avatar with initials
+// 1) Microsoft Teams like avatar with initials
 \Renfordt\Larvatar\Enum\LarvatarTypes::InitialsAvatar;
-// Identicons with more possibilities to adjust
+// 2) Identicons with more possibilities to adjust
 \Renfordt\Larvatar\Enum\LarvatarTypes::IdenticonLarvatar;
-// Gravatar
+
+// 3) Gravatar
 \Renfordt\Larvatar\Enum\LarvatarTypes::Gravatar;
-// (Gravatar) MysticPerson, simple cartoon-style silhouette (default)
+// 4) (Gravatar) MysticPerson, simple cartoon-style silhouette (default)
 \Renfordt\Larvatar\Enum\LarvatarTypes::mp;
-// (Gravatar) A geometric pattern based on a email hash
+// 5) (Gravatar) A geometric pattern based on an email hash
 \Renfordt\Larvatar\Enum\LarvatarTypes::identicon;
-// (Gravatar) A generated monster different colors and faces 
+// 6) (Gravatar) A generated monster different colors and faces 
 \Renfordt\Larvatar\Enum\LarvatarTypes::monsterid;
-// (Gravatar) generated faces with differing features and backgrounds
+// 7) (Gravatar) generated faces with differing features and backgrounds
 \Renfordt\Larvatar\Enum\LarvatarTypes::wavatar;
-// (Gravatar) 8-bit arcade-style pixelated faces
+// 8) (Gravatar) 8-bit arcade-style pixelated faces
 \Renfordt\Larvatar\Enum\LarvatarTypes::retro;
-// (Gravatar) A generated robot with different colors, faces, etc
+// 9) (Gravatar) A generated robot with different colors, faces, etc
 \Renfordt\Larvatar\Enum\LarvatarTypes::robohash;
 ```
 
