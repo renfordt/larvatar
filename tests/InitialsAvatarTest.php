@@ -12,6 +12,51 @@ use SVG\Nodes\Shapes\SVGRect;
 
 final class InitialsAvatarTest extends TestCase
 {
+    /**
+     * Tests the generate method with default configurations.
+     */
+    public function testGenerateDefault(): void
+    {
+        $name = Name::make('Test Name');
+        $initialsAvatar = InitialsAvatar::make($name);
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $initialsAvatar->generate()
+        );
+    }
+
+    /**
+     * Tests the generate method with square form.
+     */
+    public function testGenerateSquare(): void
+    {
+        $name = Name::make('Test Name');
+        $initialsAvatar = InitialsAvatar::make($name);
+        $initialsAvatar->setForm(FormTypes::Square);
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><rect x="0" y="0" width="100" height="100" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $initialsAvatar->generate()
+        );
+    }
+
+    /**
+     * Tests the generate method with hexagon form and rotation.
+     */
+    public function testGenerateHexagonWithRotation(): void
+    {
+        $name = Name::make('Test Name');
+        $initialsAvatar = InitialsAvatar::make($name);
+        $initialsAvatar->setForm(FormTypes::Hexagon);
+        $initialsAvatar->setRotation(30);
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><polygon points="93.301270189222,75 50,100 6.6987298107781,75 6.6987298107781,25 50,0 93.301270189222,25" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $initialsAvatar->generate()
+        );
+    }
+
     public function testCreateLarvatarByConstructor(): void
     {
         $name = Name::make('Test Name');
