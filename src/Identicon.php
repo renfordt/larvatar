@@ -71,14 +71,8 @@ class Identicon extends Avatar
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
 
-        /**
-         * @var HSLColor $darkColor
-         * @var HSLColor $lightColor
-         */
-        list($darkColor, $lightColor) = $this->getColorSet(
-            $this->name,
-            $this->textLightness,
-            $this->backgroundLightness
+        $color = $this->getHSLColor(
+            $this->name
         );
 
         if ($this->symmetry) {
@@ -96,7 +90,7 @@ class Identicon extends Avatar
                         (int)$this->size / $this->pixels,
                         (int)$this->size / $this->pixels
                     );
-                    $square->setStyle('fill', $darkColor->toHex());
+                    $square->setStyle('fill', $color->toHex());
                     $doc->addChild($square);
                 }
             }
