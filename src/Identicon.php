@@ -168,7 +168,6 @@ class Identicon extends Avatar
         $column = 0;
         $row = 0;
         $hash = hash('sha256', $this->name->getHash());
-        dump($hash);
         for ($i = 0; $i < pow($this->pixels, 2); $i++) {
             $matrix[$i % $this->pixels][floor($i / $this->pixels)] =
                 $this->convertStrToBool(substr($hash, $i, 1));
