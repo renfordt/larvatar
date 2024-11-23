@@ -100,6 +100,6 @@ class Larvatar
      */
     public function getBase64(): string
     {
-        return $this->avatar->generate();
+        return $this->avatar->getBase64();
     }
 }
