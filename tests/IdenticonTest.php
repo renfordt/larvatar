@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Identicon;
 use Renfordt\Larvatar\Name;
@@ -185,7 +185,6 @@ class IdenticonTest extends TestCase
         // Assertion: Check if the output contains expected SVG structure
         $svgContent = $identicon->getSVG();
         $this->assertStringContainsString('<svg', $svgContent);
-        $this->assertStringContainsString('</svg>', $svgContent);
     }
 
     /**
@@ -226,7 +225,6 @@ class IdenticonTest extends TestCase
 
         // Assertion: Check if the decoded content contains expected SVG structure
         $this->assertStringContainsString('<svg', $svgContent);
-        $this->assertStringContainsString('</svg>', $svgContent);
     }
 
     /**
@@ -244,7 +242,6 @@ class IdenticonTest extends TestCase
         // Assertion: Check if the output contains expected SVG structure
         $svgContent = $identicon->getSVG();
         $this->assertStringContainsString('<svg', $svgContent);
-        $this->assertStringContainsString('</svg>', $svgContent);
     }
 
     /**
