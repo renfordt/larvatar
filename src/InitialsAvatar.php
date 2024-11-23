@@ -18,7 +18,7 @@ class InitialsAvatar extends Avatar
     use ColorTrait;
 
     private FormTypes $form = FormTypes::Circle;
-    private int $rotation;
+    private int $rotation = 0;
     private int $offset = 0;
 
     /**
