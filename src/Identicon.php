@@ -71,9 +71,7 @@ class Identicon extends Avatar
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
 
-        $color = $this->getHSLColor(
-            $this->name
-        );
+        $color = $this->getHSLColor($this->name);
 
         if ($this->symmetry) {
             $matrix = $this->generateSymmetricMatrix();
