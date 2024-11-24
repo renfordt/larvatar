@@ -21,7 +21,7 @@ class Identicon extends Avatar
 
     public static function make(Name $name): Identicon
     {
-        return new static($name);
+        return new self($name);
     }
 
     /**
@@ -108,6 +108,8 @@ class Identicon extends Avatar
         $symmetryMatrix = $this->getSymmetryMatrix();
         $divider = count($symmetryMatrix);
 
+        $matrix = [];
+
         for ($i = 0; $i < pow($this->pixels, 2); $i++) {
             $index = (int)($i / 3);
             $data = $this->convertStrToBool(substr($this->name->getHash(), $i, 1));
@@ -160,6 +162,7 @@ class Identicon extends Avatar
         $column = 0;
         $row = 0;
         $hash = hash('sha256', $this->name->getHash());
+        $matrix = [];
         for ($i = 0; $i < pow($this->pixels, 2); $i++) {
             $matrix[$i % $this->pixels][floor($i / $this->pixels)] =
                 $this->convertStrToBool(substr($hash, $i, 1));
