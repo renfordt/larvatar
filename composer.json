@@ -34,7 +34,8 @@
   "require-dev": {
     "phpunit/phpunit": "^10.5",
     "orchestra/testbench": "^v8.22",
-    "friendsofphp/php-cs-fixer": "^3.64"
+    "friendsofphp/php-cs-fixer": "^3.64",
+    "phpstan/phpstan": "^2.0"
   },
   "extra": {
     "laravel": {
