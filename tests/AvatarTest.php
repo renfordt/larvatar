@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Avatar;
 use Renfordt\Larvatar\Name;
+
 /**
  * Unit tests for the Avatar class.
  */
