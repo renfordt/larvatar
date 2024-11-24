@@ -7,7 +7,6 @@ use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Gravatar
 {
-
     protected LarvatarTypes $type = LarvatarTypes::mp;
     protected string $email;
     protected string $hash;
@@ -20,6 +19,27 @@ class Gravatar
     public function __construct(string $email)
     {
         $this->setEmail($email);
+    }
+
+    /**
+     * Sets the email for Gravatar. It is used to gernerate a hash which is passed to the Gravatar API
+     * @param  string  $email
+     * @return void
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+        $this->setHash($email);
+    }
+
+    /**
+     * Generates the hash value for the email address
+     * @param $email
+     * @return void
+     */
+    protected function setHash(string $email): void
+    {
+        $this->hash = md5(strtolower(trim($email)));
     }
 
     /**
@@ -36,17 +56,6 @@ class Gravatar
     }
 
     /**
-     * Sets the email for Gravatar. It is used to gernerate a hash which is passed to the Gravatar API
-     * @param  string  $email
-     * @return void
-     */
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-        $this->setHash($email);
-    }
-
-    /**
      * Sets the size of the Gravatar
      * @param  int  $size  Size in px for the Gravatar
      * @return void
@@ -56,34 +65,9 @@ class Gravatar
         $this->size = $size;
     }
 
-    /**
-     * Generates the hash value for the email address
-     * @param $email
-     * @return void
-     */
-    protected function setHash($email): void
+    public function getHTML(): string
     {
-        $this->hash = md5(strtolower(trim($email)));
-    }
-
-    /**
-     * Depending on the selected type the missing parameters for Gravatar API will be selected
-     * @return string
-     * @throws Exception
-     */
-    protected function getAdditionalParameters(): string
-    {
-        $link = match($this->type) {
-            LarvatarTypes::Gravatar => '?d=',
-            LarvatarTypes::mp => '?d=mp&f=y',
-            LarvatarTypes::identicon => '?d=identicon&f=y',
-            LarvatarTypes::monsterid => '?d=monsterid&f=y',
-            LarvatarTypes::wavatar => '?d=wavatar&f=y',
-            LarvatarTypes::retro => '?d=retro&f=y',
-            LarvatarTypes::robohash => '?d=robohash&f=y',
-            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.')
-        };
-        return $link.'&s='.$this->size;
+        return '<img src="'.$this->generateGravatarLink().'" />';
     }
 
     /**
@@ -93,5 +77,26 @@ class Gravatar
     public function generateGravatarLink(): string
     {
         return 'https://www.gravatar.com/avatar/'.$this->hash.$this->getAdditionalParameters();
+    }
+
+    /**
+     * Depending on the selected type the missing parameters for Gravatar API will be selected
+     * @return string
+     * @throws Exception
+     */
+    protected function getAdditionalParameters(): string
+    {
+        $link = match ($this->type) {
+            LarvatarTypes::Gravatar => '?d=',
+            LarvatarTypes::mp => '?d=mp&f=y',
+            LarvatarTypes::identicon => '?d=identicon&f=y',
+            LarvatarTypes::monsterid => '?d=monsterid&f=y',
+            LarvatarTypes::wavatar => '?d=wavatar&f=y',
+            LarvatarTypes::retro => '?d=retro&f=y',
+            LarvatarTypes::robohash => '?d=robohash&f=y',
+            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.'),
+            LarvatarTypes::IdenticonLarvatar => throw new \Exception('Larvatars Identicons are not supported for Gravatars.')
+        };
+        return $link.'&s='.$this->size;
     }
 }
