@@ -44,7 +44,7 @@ class Name
      */
     public function getHexColor(int $offset = 0): HexColor
     {
-        return HexColor::make('#'.substr($this->hash, $offset, 6));
+        return HexColor::create('#'.substr($this->hash, $offset, 6));
     }
 
     /**
