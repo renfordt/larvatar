@@ -6,11 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 class LarvatarServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
     }
 
-    public function register()
+    public function register(): void
     {
         $this->app->make('Renfordt\Larvatar\Larvatar');
     }
