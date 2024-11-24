@@ -37,7 +37,7 @@ class Gravatar
      * @param $email
      * @return void
      */
-    protected function setHash($email): void
+    protected function setHash(string $email): void
     {
         $this->hash = md5(strtolower(trim($email)));
     }
@@ -94,7 +94,8 @@ class Gravatar
             LarvatarTypes::wavatar => '?d=wavatar&f=y',
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y',
-            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.')
+            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.'),
+            LarvatarTypes::IdenticonLarvatar => throw new \Exception('Larvatars Identicons are not supported for Gravatars.')
         };
         return $link.'&s='.$this->size;
     }
