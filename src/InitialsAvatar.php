@@ -122,7 +122,7 @@ class InitialsAvatar extends Avatar
          * @var HSLColor $darkColor
          * @var HSLColor $lightColor
          */
-        list($darkColor, $lightColor) = $this->getColorSet(
+        [$darkColor, $lightColor] = $this->getColorSet(
             $this->name,
             $this->textLightness,
             $this->backgroundLightness
