@@ -42,8 +42,9 @@ class IdenticonTest extends TestCase
      * @param string $methodName Method name to invoke.
      * @param array $parameters Array of parameters to pass into the method.
      * @return mixed Method return.
+     * @throws ReflectionException
      */
-    protected function invokeMethod(&$object, $methodName, array $parameters = [])
+    protected function invokeMethod(&$object, $methodName, array $parameters = []): mixed
     {
         $reflection = new \ReflectionClass($object);
         $method = $reflection->getMethod($methodName);
@@ -329,7 +330,6 @@ class IdenticonTest extends TestCase
     /**
      * Tests the make method with an invalid argument.
      *
-     * @expectedException TypeError
      */
     public function testMakeWithInvalidArgument()
     {
@@ -342,7 +342,6 @@ class IdenticonTest extends TestCase
     /**
      * Tests if the Identicon object throws an error when Name object is not provided.
      *
-     * @expectedException TypeError
      */
     public function testConstructWithInvalidArgument()
     {
@@ -397,7 +396,6 @@ class IdenticonTest extends TestCase
     /**
      * Tests the setSymmetry method with an invalid argument.
      *
-     * @expectedException TypeError
      */
     public function testSetSymmetryWithInvalidArgument()
     {
