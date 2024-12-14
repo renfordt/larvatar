@@ -24,7 +24,7 @@ class InitialsAvatar extends Avatar
     /**
      * Constructs a new instance of the class.
      *
-     * @param  Name  $name  The name object to set
+     * @param Name $name The name object to set
      *
      * @return void
      */
@@ -46,7 +46,7 @@ class InitialsAvatar extends Avatar
     /**
      * Sets the form of the application
      *
-     * @param  string|FormTypes  $form  The form type
+     * @param string|FormTypes $form The form type
      * @return void
      */
     public function setForm(string|FormTypes $form): void
@@ -61,7 +61,7 @@ class InitialsAvatar extends Avatar
     /**
      * Sets the rotation angle of the element
      *
-     * @param  int  $angle  The rotation angle value
+     * @param int $angle The rotation angle value
      *
      * @return void
      */
@@ -83,7 +83,7 @@ class InitialsAvatar extends Avatar
     /**
      * Sets the offset for the avatar
      *
-     * @param  int  $offset  The offset in pixel
+     * @param int $offset The offset in pixel
      * @return void
      */
     public function setOffset(int $offset): void
@@ -94,7 +94,7 @@ class InitialsAvatar extends Avatar
     /**
      * Returns the HTML representation of the code.
      *
-     * @param  bool  $base64  Determines if the image source should be in base64 format. Default is false.
+     * @param bool $base64 Determines if the image source should be in base64 format. Default is false.
      * @return string The HTML representation of the code.
      */
     public function getHTML(bool $base64 = false): string
@@ -103,7 +103,7 @@ class InitialsAvatar extends Avatar
             return $this->generate();
         }
 
-        return '<img src="'.$this->getBase64().'" />';
+        return '<img src="' . $this->getBase64() . '" />';
     }
 
     /**
@@ -139,9 +139,7 @@ class InitialsAvatar extends Avatar
 
         $initials = $this->getInitials($darkColor);
 
-        if (isset($outlineForm)) {
-            $doc->addChild($outlineForm);
-        }
+        $doc->addChild($outlineForm);
         $doc->addChild($initials);
 
         return $larvatar;
@@ -154,15 +152,15 @@ class InitialsAvatar extends Avatar
     private function addFontIfNotEmpty(): void
     {
         if ($this->fontPath != '' && $this->fontFamily != '') {
-            SVG::addFont(__DIR__.$this->fontPath);
+            SVG::addFont(__DIR__ . $this->fontPath);
         }
     }
 
     /**
      * Get a circle SVG element
      *
-     * @param  float  $halfSize  Half of the size of the circle
-     * @param  HSLColor  $lightColor  The light color to fill the circle with
+     * @param float $halfSize Half of the size of the circle
+     * @param HSLColor $lightColor The light color to fill the circle with
      * @return  SVGCircle                     The circle SVG element
      */
     private function getCircle(float $halfSize, HSLColor $lightColor): SVGCircle
@@ -176,8 +174,8 @@ class InitialsAvatar extends Avatar
     /**
      * Get a square SVGRect
      *
-     * @param  float  $size  Half of the square size
-     * @param  HSLColor  $lightColor  The color of the square
+     * @param float $size Half of the square size
+     * @param HSLColor $lightColor The color of the square
      *
      * @return SVGRect The generated square SVGRect object
      */
@@ -191,9 +189,9 @@ class InitialsAvatar extends Avatar
     /**
      * Get a polygon shape
      *
-     * @param  float  $size  The size of the polygon
-     * @param  HSLColor  $lightColor  The light color to fill the polygon
-     * @param  int  $rotation
+     * @param float $size The size of the polygon
+     * @param HSLColor $lightColor The light color to fill the polygon
+     * @param int $rotation
      * @return SVGPolygon The polygon shape with the specified size and color
      */
     private function getHexagon(float $size, HSLColor $lightColor, int $rotation = 0): SVGPolygon
@@ -232,7 +230,7 @@ class InitialsAvatar extends Avatar
         if ($this->fontSize == 0) {
             $this->fontSize = $this->calculateFontSize($initialsText);
         }
-        $initials->setFontSize($this->fontSize.'px');
+        $initials->setFontSize($this->fontSize . 'px');
 
         return $initials;
     }
@@ -240,7 +238,7 @@ class InitialsAvatar extends Avatar
     /**
      * Calculate the font size based on the initials length
      *
-     * @param  string  $initials  The initials to calculate the font size for
+     * @param string $initials The initials to calculate the font size for
      * @return int  The calculated font size
      */
     protected function calculateFontSize(string $initials): int
@@ -255,6 +253,6 @@ class InitialsAvatar extends Avatar
      */
     public function getBase64(): string
     {
-        return 'data:image/svg+xml;base64,'.base64_encode($this->generate());
+        return 'data:image/svg+xml;base64,' . base64_encode($this->generate());
     }
 }

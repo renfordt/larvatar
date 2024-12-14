@@ -100,7 +100,7 @@ class Identicon extends Avatar
     /**
      * Generate a symmetric identicon matrix based on the provided hash
      *
-     * @return array The generated symmetric matrix
+     * @return array<int, array<int|string, bool>> The generated symmetric matrix
      */
     public function generateSymmetricMatrix(): array
     {
@@ -125,7 +125,7 @@ class Identicon extends Avatar
     /**
      * Returns the symmetry matrix.
      *
-     * @return array The symmetry matrix.
+     * @return array<int<0, max>, list<int>> The symmetry matrix.
      */
     private function getSymmetryMatrix(): array
     {
@@ -155,7 +155,7 @@ class Identicon extends Avatar
      * Generates a matrix based on the given offset value.
      *
      * @param int $offset The offset value for generating the matrix. Defaults to 0.
-     * @return array The generated matrix.
+     * @return array<int<0, max>, array<int, bool>> The generated matrix.
      */
     private function generateMatrix(int $offset = 0): array
     {

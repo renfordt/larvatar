@@ -11,7 +11,7 @@ class Name
      */
     private string $name = '';
     /**
-     * @var array $splitNames An array to store split names
+     * @var array<string> $splitNames An array to store split names
      */
     private array $splitNames;
     /**
@@ -37,25 +37,25 @@ class Name
     }
 
     /**
-     * Get the hexadecimal color value
-     *
-     * @param  int  $offset  The starting offset for the substring
-     * @return HexColor The hexadecimal color string
-     */
-    public function getHexColor(int $offset = 0): HexColor
-    {
-        return HexColor::create('#'.substr($this->hash, $offset, 6));
-    }
-
-    /**
      * Create an instance of the Name class.
      *
-     * @param  string  $name  The name to be used for creating the Name object.
+     * @param string $name The name to be used for creating the Name object.
      * @return Name The newly created Name object.
      */
     public static function make(string $name): Name
     {
         return new Name($name);
+    }
+
+    /**
+     * Get the hexadecimal color value
+     *
+     * @param int $offset The starting offset for the substring
+     * @return HexColor The hexadecimal color string
+     */
+    public function getHexColor(int $offset = 0): HexColor
+    {
+        return HexColor::create('#' . substr($this->hash, $offset, 6));
     }
 
     /**
@@ -96,7 +96,7 @@ class Name
     /**
      * Retrieves the split names.
      *
-     * @return array The split names.
+     * @return array<string> The split names.
      */
     public function getSplitNames(): array
     {
