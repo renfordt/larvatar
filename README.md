@@ -25,7 +25,28 @@ composer require renfordt/larvatar
 
 Version 2.0 brings many breaking changes. Check the [Upgrade Guide](UPGRADING.md) to avoid any issues.
 
-## Usage
+## Basic Usage
+
+Include the LarvatarTrait with `use Renfordt\Larvatar\Traits\LarvatarTrait;` in your user class and add the following method:
+
+```php
+    /**
+     * Generate and retrieve the user's avatar as an HTML string.
+     *
+     * @return string
+     */
+    public function getAvatar(): string
+    {
+        $larvatar = $this->getLarvatar($this->name, $this->email, LarvatarTypes::InitialsAvatar);
+        $larvatar->setSize(32);
+        $larvatar->setWeight('bold');
+        return $larvatar->getImageHTML(true); // true - base64 encoding; false - plain SVG/HTML
+    }
+```
+
+Adjust the method as you please, only requirement is that the methods name is `getAvatar()`.
+
+## Advanced Usage
 
 The general usage is simple. Create a new Larvatar class, insert name and email and the avatar type you wish.
 
