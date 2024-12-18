@@ -102,4 +102,37 @@ class Larvatar
     {
         return $this->avatar->getBase64();
     }
+
+    /**
+     * Set the font weight for the initials' avatar.
+     *
+     * @param string $weight The font weight to be applied to the initials' avatar.
+     * @return void
+     */
+    public function setWeight(string $weight): void
+    {
+        $this->avatar->setFontWeight($weight);
+    }
+
+    /**
+     * Set the lightness level of the font used in the avatar.
+     *
+     * @param float $lightness The lightness value to be applied to the font.
+     * @return void
+     */
+    public function setFontLightness(float $lightness): void
+    {
+        $this->avatar->setTextLightness($lightness);
+    }
+
+    /**
+     * Set the lightness level for the avatar's background.
+     *
+     * @param float $lightness The lightness value to set for the background.
+     * @return void
+     */
+    public function setBackgroundLightness(float $lightness): void
+    {
+        $this->avatar->setBackgroundLightness($lightness);
+    }
 }
