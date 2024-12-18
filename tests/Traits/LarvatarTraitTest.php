@@ -2,31 +2,16 @@
 
 namespace Traits;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
-use Renfordt\Larvatar\Larvatar;
 use Renfordt\Larvatar\Traits\LarvatarTrait;
 
 class LarvatarTraitTest extends TestCase
 {
     use LarvatarTrait;
 
-    /**
-     * @dataProvider dataProviderForGetAvatarTest
-     */
-    public function testGetAvatar(
-        string $name,
-        string $email,
-        int $size,
-        LarvatarTypes $type,
-        bool $encoding,
-        string $expectedData
-    ) {
-        $result = $this->getAvatar($name, $email, $size, $type, $encoding);
-        $this->assertSame($expectedData, $result);
-    }
-
-    public function dataProviderForGetAvatarTest(): array
+    public static function dataProviderForGetAvatarTest(): array
     {
         return [
             [
@@ -41,23 +26,7 @@ class LarvatarTraitTest extends TestCase
         ];
     }
 
-    // New test cases
-    public function testGetAvatarWithDefaultParameters()
-    {
-        $result = $this->getAvatar('Default Name');
-        $this->assertNotEmpty($result);
-    }
-
-    /**
-     * @dataProvider dataProviderForDifferentAvatarTypes
-     */
-    public function testGetAvatarWithDifferentAvatarTypes(LarvatarTypes $type)
-    {
-        $result = $this->getAvatar('Name', 'email@example.com', 100, $type, false);
-        $this->assertNotEmpty($result);
-    }
-
-    public function dataProviderForDifferentAvatarTypes(): array
+    public static function dataProviderForDifferentAvatarTypes(): array
     {
         return [
             [LarvatarTypes::InitialsAvatar],
@@ -67,20 +36,46 @@ class LarvatarTraitTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderForEncodingVariations
-     */
-    public function testGetAvatarWithEncodingVariations(bool $encoding)
-    {
-        $result = $this->getAvatar('Name', 'email@example.com', 100, LarvatarTypes::InitialsAvatar, $encoding);
-        $this->assertNotEmpty($result);
-    }
+    // New test cases
 
-    public function dataProviderForEncodingVariations(): array
+    public static function dataProviderForEncodingVariations(): array
     {
         return [
             [true],
             [false],
         ];
+    }
+
+    #[DataProvider('dataProviderForGetAvatarTest')]
+    public function testGetAvatar(
+        string $name,
+        string $email,
+        int $size,
+        LarvatarTypes $type,
+        bool $encoding,
+        string $expectedData
+    ) {
+        $result = $this->getAvatar($name, $email, $size, $type, $encoding);
+        $this->assertSame($expectedData, $result);
+    }
+
+    public function testGetAvatarWithDefaultParameters()
+    {
+        $result = $this->getAvatar('Default Name');
+        $this->assertNotEmpty($result);
+    }
+
+    #[DataProvider('dataProviderForDifferentAvatarTypes')]
+    public function testGetAvatarWithDifferentAvatarTypes(LarvatarTypes $type)
+    {
+        $result = $this->getAvatar('Name', 'email@example.com', 100, $type, false);
+        $this->assertNotEmpty($result);
+    }
+
+    #[DataProvider('dataProviderForEncodingVariations')]
+    public function testGetAvatarWithEncodingVariations(bool $encoding)
+    {
+        $result = $this->getAvatar('Name', 'email@example.com', 100, LarvatarTypes::InitialsAvatar, $encoding);
+        $this->assertNotEmpty($result);
     }
 }

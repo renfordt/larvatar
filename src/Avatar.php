@@ -138,7 +138,7 @@ abstract class Avatar
      */
     public function setBackgroundLightness(float $backgroundLightness): void
     {
-        $this->backgroundLightness = clamp($backgroundLightness, 0, 1);
+        $this->backgroundLightness = (float)clamp($backgroundLightness, 0, 1);
     }
 
     /**
@@ -159,7 +159,7 @@ abstract class Avatar
      */
     public function setTextLightness(float $textLightness): void
     {
-        $this->textLightness = clamp($textLightness, 0, 1);
+        $this->textLightness = (float)clamp($textLightness, 0, 1);
     }
 
     /**

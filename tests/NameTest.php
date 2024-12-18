@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Name;
 
 class NameTest extends TestCase
 {
-    public function hashProvider()
+    public static function hashProvider(): array
     {
         return [
             ["John", md5("John")],
@@ -17,7 +18,7 @@ class NameTest extends TestCase
         ];
     }
 
-    public function splitNamesProvider()
+    public static function splitNamesProvider(): array
     {
         return [
             ["John", ["John"]],
@@ -29,7 +30,7 @@ class NameTest extends TestCase
         ];
     }
 
-    public function hexColorProvider()
+    public static function hexColorProvider(): array
     {
         return [
             ["John", 0, '#' . substr(md5("John"), 0, 6)],
@@ -42,7 +43,7 @@ class NameTest extends TestCase
         ];
     }
 
-    public function nameProvider()
+    public static function nameProvider(): array
     {
         return [
             ["John", "John"],
@@ -54,7 +55,7 @@ class NameTest extends TestCase
         ];
     }
 
-    public function initialsProvider()
+    public static function initialsProvider(): array
     {
         return [
             ["John", "J"],
@@ -64,52 +65,36 @@ class NameTest extends TestCase
             ["Jöhn Dœ", "JD"]
         ];
     }
-    /**
-     * Tests the getHash method with a single-word name.
-     */
-    /**
-     * @dataProvider hashProvider
-     */
+
+    #[DataProvider('hashProvider')]
     public function testGetHash($nameInput, $expectedHash)
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedHash, $name->getHash());
     }
 
-    /**
-     * @dataProvider splitNamesProvider
-     */
+    #[DataProvider('splitNamesProvider')]
     public function testGetSplitNames($nameInput, $expectedSplitNames)
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedSplitNames, $name->getSplitNames());
     }
 
-    /**
-     * Tests the getHexColor method with offset zero.
-     */
-    /**
-     * @dataProvider hexColorProvider
-     */
+    #[DataProvider('hexColorProvider')]
     public function testGetHexColor($nameInput, $offset, $expectedHexColor)
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedHexColor, $name->getHexColor($offset));
     }
 
-
-    /**
-     * @dataProvider nameProvider
-     */
+    #[DataProvider('nameProvider')]
     public function testGetName($nameInput, $expectedName)
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedName, $name->getName());
     }
 
-    /**
-     * @dataProvider initialsProvider
-     */
+    #[DataProvider('initialsProvider')]
     public function testGetInitials($nameInput, $expectedInitials)
     {
         $name = new Name($nameInput);
