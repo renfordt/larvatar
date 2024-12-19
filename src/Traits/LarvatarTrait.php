@@ -23,5 +23,5 @@ trait LarvatarTrait
         return new Larvatar($type, $name, $email);
     }
 
-    abstract public function getAvatar();
+    abstract public function getAvatar(int $size = 100, bool $encoding = true);
 }
