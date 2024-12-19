@@ -11,9 +11,9 @@ class LarvatarTraitTest extends TestCase
 {
     use LarvatarTrait;
 
-    private string $name;
-    private string $email;
-    private LarvatarTypes $type;
+    private string $name = 'Test Name';
+    private string $email = 'test@test.com';
+    private LarvatarTypes $type = LarvatarTypes::InitialsAvatar;
 
     public static function dataProviderForGetAvatarTest(): array
     {
@@ -76,21 +76,22 @@ class LarvatarTraitTest extends TestCase
 
     public function testGetAvatarWithDefaultParameters()
     {
-        $result = $this->getAvatar('Default Name');
+        $result = $this->getAvatar();
         $this->assertNotEmpty($result);
     }
 
     #[DataProvider('dataProviderForDifferentAvatarTypes')]
     public function testGetAvatarWithDifferentAvatarTypes(LarvatarTypes $type)
     {
-        $result = $this->getAvatar('Name', 'email@example.com', 100, $type, false);
+        $this->type = $type;
+        $result = $this->getAvatar(100, false);
         $this->assertNotEmpty($result);
     }
 
     #[DataProvider('dataProviderForEncodingVariations')]
     public function testGetAvatarWithEncodingVariations(bool $encoding)
     {
-        $result = $this->getAvatar('Name', 'email@example.com', 100, LarvatarTypes::InitialsAvatar, $encoding);
+        $result = $this->getAvatar(100, $encoding);
         $this->assertNotEmpty($result);
     }
 }
