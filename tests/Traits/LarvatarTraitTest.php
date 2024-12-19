@@ -11,6 +11,10 @@ class LarvatarTraitTest extends TestCase
 {
     use LarvatarTrait;
 
+    private string $name;
+    private string $email;
+    private LarvatarTypes $type;
+
     public static function dataProviderForGetAvatarTest(): array
     {
         return [
@@ -55,8 +59,19 @@ class LarvatarTraitTest extends TestCase
         bool $encoding,
         string $expectedData
     ) {
-        $result = $this->getAvatar($name, $email, $size, $type, $encoding);
+        $this->name = $name;
+        $this->email = $email;
+        $this->type = $type;
+        $result = $this->getAvatar($size, $encoding);
         $this->assertSame($expectedData, $result);
+    }
+
+    public function getAvatar(int $size = 100, bool $encoding = true)
+    {
+        $larvatar = $this->getLarvatar($this->name, $this->email, $this->type);
+        $larvatar->setSize($size);
+        $larvatar->setWeight('bold');
+        return $larvatar->getImageHTML($encoding);
     }
 
     public function testGetAvatarWithDefaultParameters()
