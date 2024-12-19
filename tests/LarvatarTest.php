@@ -15,6 +15,34 @@ class LarvatarTest extends TestCase
         );
     }
 
+    public function testCreateLarvatarWithMake(): void
+    {
+        $larvatar =  Larvatar::make(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $larvatar->getImageHTML()
+        );
+    }
+
+    public function testCreateLarvatarWithCreate(): void
+    {
+        $larvatar =  Larvatar::create(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $larvatar->getImageHTML()
+        );
+    }
+
+    public function testCreateLarvatarWithName(): void
+    {
+        $name = \Renfordt\Larvatar\Name::make('Test Name');
+        $larvatar =  Larvatar::create(LarvatarTypes::InitialsAvatar, $name, 'test@example.com');
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $larvatar->getImageHTML()
+        );
+    }
+
     public function testCreateLarvatarException(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
