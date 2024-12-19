@@ -65,6 +65,12 @@ class Gravatar
         $this->size = $size;
     }
 
+    /**
+     * Generates and returns an HTML string containing an image tag with a Gravatar link.
+     *
+     * @return string The HTML string of an image tag with the Gravatar URL as the source.
+     * @throws Exception
+     */
     public function getHTML(): string
     {
         return '<img src="' . $this->generateGravatarLink() . '" />';
@@ -73,6 +79,7 @@ class Gravatar
     /**
      * Generate the link to the Gravatar
      * @return string
+     * @throws Exception
      */
     public function generateGravatarLink(): string
     {
