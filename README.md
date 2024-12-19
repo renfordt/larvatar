@@ -31,16 +31,18 @@ Include the LarvatarTrait with `use Renfordt\Larvatar\Traits\LarvatarTrait;` in 
 
 ```php
     /**
-     * Generate and retrieve the user's avatar as an HTML string.
+     * Generate and retrieve the avatar URL or HTML for the user.
      *
-     * @return string
+     * @param int $size The size of the avatar in pixels.
+     * @param bool $encoding Whether to return the encoded image as HTML.
+     * @return string The avatar as a string URL or encoded HTML.
      */
-    public function getAvatar(): string
+    public function getAvatar(int $size = 100, bool $encoding = true): string
     {
-        $larvatar = $this->getLarvatar($this->name, $this->email, LarvatarTypes::InitialsAvatar);
+        $larvatar = $this->getLarvatar($this->name, $this->email);
         $larvatar->setSize(32);
-        $larvatar->setWeight('bold');
-        return $larvatar->getImageHTML(true); // true - base64 encoding; false - plain SVG/HTML
+        $larvatar->setWeight('600');
+        return $larvatar->getImageHTML(true);
     }
 ```
 
