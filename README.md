@@ -40,7 +40,7 @@ Include the LarvatarTrait with `use Renfordt\Larvatar\Traits\LarvatarTrait;` in 
     public function getAvatar(int $size = 100, bool $encoding = true): string
     {
         $larvatar = $this->getLarvatar($this->name, $this->email);
-        $larvatar->setSize(32);
+        $larvatar->setSize($size);
         $larvatar->setWeight('600');
         return $larvatar->getImageHTML(true);
     }
