@@ -111,6 +111,9 @@ class Larvatar
      */
     public function setWeight(string $weight): void
     {
+        if (!isset($this->avatar)) {
+            return;
+        }
         $this->avatar->setFontWeight($weight);
     }
 
