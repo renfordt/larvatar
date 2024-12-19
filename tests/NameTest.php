@@ -100,4 +100,20 @@ class NameTest extends TestCase
         $name = new Name($nameInput);
         $this->assertEquals($expectedInitials, $name->getInitials());
     }
+
+    #[DataProvider('initialsProvider')]
+    public function testMakeMethodInitials($nameInput, $expectedInitials)
+    {
+        $name = Name::make($nameInput);
+        $this->assertEquals($expectedInitials, $name->getInitials());
+    }
+
+    #[DataProvider('initialsProvider')]
+    public function testCreateMethodInitials($nameInput, $expectedInitials)
+    {
+        $name = Name::create($nameInput);
+        $this->assertEquals($expectedInitials, $name->getInitials());
+    }
+
+
 }

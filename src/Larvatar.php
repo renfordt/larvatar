@@ -41,12 +41,36 @@ class Larvatar
         }
     }
 
+    /**
+     * Create a new Larvatar instance with the specified type, name, and email.
+     *
+     * @param LarvatarTypes $type The type of Larvatar to create.
+     * @param string|Name $name The name or Name object to use for the Larvatar. Defaults to an empty string.
+     * @param string $email The email associated with the Larvatar. Defaults to an empty string.
+     * @return Larvatar A new instance of the Larvatar class.
+     */
     public static function make(
         LarvatarTypes $type,
         string|Name $name = '',
         string $email = ''
     ): Larvatar {
         return new self($type, $name, $email);
+    }
+
+    /**
+     * Create a new Larvatar instance based on the specified type, name, and email.
+     *
+     * @param LarvatarTypes $type The type of Larvatar to create.
+     * @param string|Name $name The name associated with the Larvatar, defaults to an empty string.
+     * @param string $email The email address associated with the Larvatar, defaults to an empty string.
+     * @return Larvatar A newly created Larvatar instance.
+     */
+    public static function create(
+        LarvatarTypes $type,
+        string|Name $name = '',
+        string $email = ''
+    ): Larvatar {
+        return self::make($type, $name, $email);
     }
 
     /**
