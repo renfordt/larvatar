@@ -8,20 +8,20 @@ use Renfordt\Larvatar\Larvatar;
 trait LarvatarTrait
 {
     /**
-     * Generates an avatar image based on the provided parameters.
+     * Generates a Larvatar instance based on the provided name, email, and type.
      *
-     * @param string $name The name to be used for generating the avatar.
-     * @param string $email Optional email to be used for generating the avatar.
-     * @param int $size The size of the avatar image.
-     * @param LarvatarTypes $type The type of avatar to generate.
-     * @param bool $encoding Whether to encode the image in base64.
-     *
-     * @return string The generated avatar image in HTML format.
+     * @param string $name The name to be used for the Larvatar generation.
+     * @param string $email Optional email address to associate with the Larvatar. Defaults to an empty string.
+     * @param LarvatarTypes $type The type of Larvatar to generate. Defaults to LarvatarTypes::InitialsAvatar.
+     * @return Larvatar The generated Larvatar instance.
      */
-    public function getAvatar(string $name, string $email = '', int $size = 100, LarvatarTypes $type = LarvatarTypes::InitialsAvatar, bool $encoding = false): string
-    {
-        $larvatar = new Larvatar($type, $name, $email);
-        $larvatar->setSize($size);
-        return $larvatar->getImageHTML($encoding);
+    public function getLarvatar(
+        string $name,
+        string $email = '',
+        LarvatarTypes $type = LarvatarTypes::InitialsAvatar
+    ): Larvatar {
+        return new Larvatar($type, $name, $email);
     }
+
+    abstract public function getAvatar(int $size = 100, bool $encoding = true);
 }

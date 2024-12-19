@@ -145,6 +145,27 @@ class LarvatarTest extends TestCase
     }
 
     /**
+     * testSetWeight method
+     *
+     * This test ensures that the setWeight method in the Larvatar class works correctly.
+     */
+    public function testSetWeight(): void
+    {
+        $larvatar = new Larvatar(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $larvatar->setWeight('bold');
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: bold; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $larvatar->getImageHTML()
+        );
+
+        $larvatar->setWeight('lighter');
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: lighter; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $larvatar->getImageHTML()
+        );
+    }
+
+    /**
      * testGetBase64 method
      *
      * This test ensures that the getBase64 method in the Larvatar class works correctly.
@@ -172,5 +193,41 @@ class LarvatarTest extends TestCase
             '/^data:image\/svg\+xml;base64,[A-Za-z0-9+\/]+=*$/',
             $larvatar->getBase64()
         );
+    }
+
+    /**
+     * testSetFontLightness method
+     *
+     * This test ensures that the setFontLightness method in the Larvatar class works correctly.
+     */
+    public function testSetFontLightness(): void
+    {
+        $larvatar = new Larvatar(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $larvatar->setFontLightness(0.5);
+
+        $expectedSvg = '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #be4179; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>';
+
+        $this->assertEquals($expectedSvg, $larvatar->getImageHTML());
+    }
+
+    /**
+     * testSetFontLightnessWithExtremeValues method
+     *
+     * This test ensures the setFontLightness method in the Larvatar class works correctly for extreme values.
+     */
+    public function testSetFontLightnessWithExtremeValues(): void
+    {
+        $larvatar = new Larvatar(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $larvatar->setFontLightness(0.0);
+
+        $expectedSvgLow = '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #000000; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>';
+
+        $this->assertEquals($expectedSvgLow, $larvatar->getImageHTML());
+
+        $larvatar->setFontLightness(1.0);
+
+        $expectedSvgHigh = '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #ffffff; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>';
+
+        $this->assertEquals($expectedSvgHigh, $larvatar->getImageHTML());
     }
 }

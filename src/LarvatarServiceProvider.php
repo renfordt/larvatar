@@ -12,6 +12,6 @@ class LarvatarServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->make('Renfordt\Larvatar\Larvatar');
+        //$this->app->make('Renfordt\Larvatar\Larvatar');
     }
 }
