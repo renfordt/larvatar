@@ -70,7 +70,7 @@ class LarvatarTraitTest extends TestCase
     {
         $larvatar = $this->getLarvatar($this->name, $this->email, $this->type);
         $larvatar->setSize($size);
-        $larvatar->setWeight('bold');
+        $larvatar->setWeight('normal');
         return $larvatar->getImageHTML($encoding);
     }
 
