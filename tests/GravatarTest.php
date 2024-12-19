@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Gravatar;
@@ -14,6 +15,44 @@ final class GravatarTest extends TestCase
         $this->assertEquals(
             'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=&s=100',
             $gravatar->generateGravatarLink()
+        );
+    }
+
+    /**
+     * Tests if the getHTML method generates the correct HTML image tag with default settings.
+     */
+    public function testGetHTMLGeneratesCorrectTag(): void
+    {
+        $gravatar = new Gravatar('user@example.com');
+        $this->assertEquals(
+            '<img src="https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y&s=100" />',
+            $gravatar->getHTML()
+        );
+    }
+
+    /**
+     * Tests if getHTML correctly handles a custom size.
+     */
+    public function testGetHTMLForCustomSize(): void
+    {
+        $gravatar = new Gravatar('user@example.com');
+        $gravatar->setSize(200);
+        $this->assertEquals(
+            '<img src="https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y&s=200" />',
+            $gravatar->getHTML()
+        );
+    }
+
+    /**
+     * Tests if getHTML generates the correct HTML tag for a specific gravatar type.
+     */
+    public function testGetHTMLForSpecificType(): void
+    {
+        $gravatar = new Gravatar('user@example.com');
+        $gravatar->setType(LarvatarTypes::identicon);
+        $this->assertEquals(
+            '<img src="https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=identicon&f=y&s=100" />',
+            $gravatar->getHTML()
         );
     }
 
