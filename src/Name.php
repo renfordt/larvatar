@@ -48,6 +48,17 @@ class Name
     }
 
     /**
+     * Create an instance of the Name class.
+     *
+     * @param string $name The name to be used for creating the Name object.
+     * @return Name The newly created Name object.
+     */
+    public static function create(string $name): Name
+    {
+        return self::make($name);
+    }
+
+    /**
      * Get the hexadecimal color value
      *
      * @param int $offset The starting offset for the substring
