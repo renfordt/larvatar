@@ -14,7 +14,7 @@ class Gravatar
 
     /**
      * Create a new instance of Gravatar
-     * @param  string  $email  Email for creating a hash to get the correct Avatar from Gravatar API
+     * @param string $email Email for creating a hash to get the correct Avatar from Gravatar API
      */
     public function __construct(string $email)
     {
@@ -23,7 +23,7 @@ class Gravatar
 
     /**
      * Sets the email for Gravatar. It is used to gernerate a hash which is passed to the Gravatar API
-     * @param  string  $email
+     * @param string $email
      * @return void
      */
     public function setEmail(string $email): void
@@ -44,7 +44,7 @@ class Gravatar
 
     /**
      * Sets the type for the avatar.
-     * @param  LarvatarTypes  $type  All enums except LarvatarTypes::InitialsAvatar are allowed
+     * @param LarvatarTypes $type All enums except LarvatarTypes::InitialsAvatar are allowed
      * @return void
      */
     public function setType(LarvatarTypes $type): void
@@ -57,7 +57,7 @@ class Gravatar
 
     /**
      * Sets the size of the Gravatar
-     * @param  int  $size  Size in px for the Gravatar
+     * @param int $size Size in px for the Gravatar
      * @return void
      */
     public function setSize(int $size): void
@@ -67,7 +67,7 @@ class Gravatar
 
     public function getHTML(): string
     {
-        return '<img src="'.$this->generateGravatarLink().'" />';
+        return '<img src="' . $this->generateGravatarLink() . '" />';
     }
 
     /**
@@ -76,7 +76,7 @@ class Gravatar
      */
     public function generateGravatarLink(): string
     {
-        return 'https://www.gravatar.com/avatar/'.$this->hash.$this->getAdditionalParameters();
+        return 'https://www.gravatar.com/avatar/' . $this->hash . $this->getAdditionalParameters();
     }
 
     /**
@@ -95,8 +95,10 @@ class Gravatar
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y',
             LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.'),
-            LarvatarTypes::IdenticonLarvatar => throw new \Exception('Larvatars Identicons are not supported for Gravatars.')
+            LarvatarTypes::IdenticonLarvatar => throw new \Exception(
+                'Larvatars Identicons are not supported for Gravatars.'
+            )
         };
-        return $link.'&s='.$this->size;
+        return $link . '&s=' . $this->size;
     }
 }
