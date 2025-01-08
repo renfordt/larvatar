@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Exception;
+use Renfordt\Larvatar\Enum\FormTypes;
 
 abstract class Avatar
 {
@@ -46,7 +49,6 @@ abstract class Avatar
      * Set the font size.
      *
      * @param int $fontSize The font size.
-     * @return void
      */
     public function setFontSize(int $fontSize): void
     {
@@ -67,7 +69,6 @@ abstract class Avatar
      * Set the font family for the application
      *
      * @param string $fontFamily The font family to set
-     * @return void
      */
     public function setFontFamily(string $fontFamily): void
     {
@@ -88,7 +89,6 @@ abstract class Avatar
      * Set the font path
      *
      * @param string $fontPath The path to the font
-     * @return void
      */
     public function setFontPath(string $fontPath): void
     {
@@ -109,8 +109,6 @@ abstract class Avatar
      * Set the Name object for the given instance
      *
      * @param Name|string $name The Name object or a string of the name
-     *
-     * @return void
      */
     public function setName(Name|string $name): void
     {
@@ -134,7 +132,6 @@ abstract class Avatar
      * Set the background lightness
      *
      * @param float $backgroundLightness The background lightness value to set (between 0 and 1)
-     * @return void
      */
     public function setBackgroundLightness(float $backgroundLightness): void
     {
@@ -155,7 +152,6 @@ abstract class Avatar
      * Set the text lightness value
      *
      * @param float $textLightness The text lightness value to be set
-     * @return void
      */
     public function setTextLightness(float $textLightness): void
     {
@@ -176,7 +172,6 @@ abstract class Avatar
      * Set the font weight for the application
      *
      * @param string $fontWeight The font weight to set
-     * @return void
      */
     public function setFontWeight(string $fontWeight): void
     {
@@ -197,7 +192,6 @@ abstract class Avatar
      * Set the size of the object
      *
      * @param int $size The size to set for the object
-     * @return void
      */
     public function setSize(int $size): void
     {
@@ -209,13 +203,27 @@ abstract class Avatar
      *
      * @param string $font The font family
      * @param string $path The font path
-     *
-     * @return void
      */
     public function setFont(string $font, string $path): void
     {
         $this->setFontFamily($font);
         $this->setFontPath($path);
+    }
+
+    public function setSymmetry(bool $symmetry): void
+    {
+    }
+
+    public function setPixels(int $pixels): void
+    {
+    }
+
+    public function setForm(string|FormTypes $form): void
+    {
+    }
+
+    public function setRotation(int $angle): void
+    {
     }
 
 

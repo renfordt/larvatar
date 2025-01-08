@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Renfordt\Colors\HSLColor;
@@ -10,8 +12,6 @@ use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
-
-use function PHPUnit\Framework\isEmpty;
 
 class InitialsAvatar extends Avatar
 {
@@ -47,7 +47,6 @@ class InitialsAvatar extends Avatar
      * Sets the form of the application
      *
      * @param string|FormTypes $form The form type
-     * @return void
      */
     public function setForm(string|FormTypes $form): void
     {
@@ -62,8 +61,6 @@ class InitialsAvatar extends Avatar
      * Sets the rotation angle of the element
      *
      * @param int $angle The rotation angle value
-     *
-     * @return void
      */
     public function setRotation(int $angle): void
     {
@@ -84,7 +81,6 @@ class InitialsAvatar extends Avatar
      * Sets the offset for the avatar
      *
      * @param int $offset The offset in pixel
-     * @return void
      */
     public function setOffset(int $offset): void
     {
@@ -100,7 +96,7 @@ class InitialsAvatar extends Avatar
     public function getHTML(bool $base64 = false): string
     {
         if (!$base64) {
-            return $this->generate();
+            return $this->generate()->__toString();
         }
 
         return '<img src="' . $this->getBase64() . '" />';
@@ -109,9 +105,9 @@ class InitialsAvatar extends Avatar
     /**
      * Generates an SVG representation with initials and shape based on the provided configurations.
      *
-     * @return string The generated SVG content as a string.
+     * @return SVG The generated SVG content as a string.
      */
-    public function generate(): string
+    public function generate(): SVG
     {
         $larvatar = new SVG($this->size, $this->size);
         $doc = $larvatar->getDocument();
@@ -147,11 +143,10 @@ class InitialsAvatar extends Avatar
 
     /**
      * Adds a font if the font path and font family are not empty
-     * @return void
      */
     private function addFontIfNotEmpty(): void
     {
-        if ($this->fontPath != '' && $this->fontFamily != '') {
+        if ($this->fontPath !== '' && $this->fontFamily !== '') {
             SVG::addFont(__DIR__ . $this->fontPath);
         }
     }
@@ -191,7 +186,6 @@ class InitialsAvatar extends Avatar
      *
      * @param float $size The size of the polygon
      * @param HSLColor $lightColor The light color to fill the polygon
-     * @param int $rotation
      * @return SVGPolygon The polygon shape with the specified size and color
      */
     private function getHexagon(float $size, HSLColor $lightColor, int $rotation = 0): SVGPolygon
@@ -219,7 +213,7 @@ class InitialsAvatar extends Avatar
     {
         $initialsText = $this->name->getInitials();
 
-        $fontFamily = empty($this->fontFamily) ? 'Segoe UI, Helvetica, sans-serif' : $this->fontFamily;
+        $fontFamily = $this->fontFamily === '' || $this->fontFamily === '0' ? 'Segoe UI, Helvetica, sans-serif' : $this->fontFamily;
 
         $initials = new SVGText($initialsText, '50%', '55%');
         $initials->setStyle('fill', $darkColor->toHex());
@@ -253,6 +247,6 @@ class InitialsAvatar extends Avatar
      */
     public function getBase64(): string
     {
-        return 'data:image/svg+xml;base64,' . base64_encode($this->generate());
+        return 'data:image/svg+xml;base64,' . base64_encode($this->generate()->__toString());
     }
 }

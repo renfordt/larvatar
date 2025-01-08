@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Exception;
@@ -23,8 +25,6 @@ class Gravatar
 
     /**
      * Sets the email for Gravatar. It is used to gernerate a hash which is passed to the Gravatar API
-     * @param string $email
-     * @return void
      */
     public function setEmail(string $email): void
     {
@@ -35,7 +35,6 @@ class Gravatar
     /**
      * Generates the hash value for the email address
      * @param $email
-     * @return void
      */
     protected function setHash(string $email): void
     {
@@ -45,7 +44,6 @@ class Gravatar
     /**
      * Sets the type for the avatar.
      * @param LarvatarTypes $type All enums except LarvatarTypes::InitialsAvatar are allowed
-     * @return void
      */
     public function setType(LarvatarTypes $type): void
     {
@@ -58,7 +56,6 @@ class Gravatar
     /**
      * Sets the size of the Gravatar
      * @param int $size Size in px for the Gravatar
-     * @return void
      */
     public function setSize(int $size): void
     {
@@ -78,7 +75,6 @@ class Gravatar
 
     /**
      * Generate the link to the Gravatar
-     * @return string
      * @throws Exception
      */
     public function generateGravatarLink(): string
@@ -88,7 +84,6 @@ class Gravatar
 
     /**
      * Depending on the selected type the missing parameters for Gravatar API will be selected
-     * @return string
      * @throws Exception
      */
     protected function getAdditionalParameters(): string

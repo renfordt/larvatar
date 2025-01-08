@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Renfordt\Larvatar\Enum\LarvatarTypes;
@@ -25,11 +27,7 @@ class Larvatar
      */
     public function __construct(LarvatarTypes $type, string|Name $name = '', string $email = '')
     {
-        if (is_string($name)) {
-            $this->name = Name::make($name);
-        } else {
-            $this->name = $name;
-        }
+        $this->name = is_string($name) ? Name::make($name) : $name;
 
         $this->email = $email;
         $this->type = $type;
@@ -80,7 +78,7 @@ class Larvatar
     public function getImageHTML(bool $base64 = false): string
     {
         if ($this->type == LarvatarTypes::InitialsAvatar || $this->type == LarvatarTypes::IdenticonLarvatar) {
-            if (isset($this->font) && $this->font != '' && $this->fontPath != '') {
+            if (isset($this->font) && $this->font !== '' && $this->fontPath !== '') {
                 $this->avatar->setFont($this->font, $this->fontPath);
             }
             $this->avatar->setSize($this->size);
@@ -98,7 +96,6 @@ class Larvatar
      * Set the font for Initial Avatar
      * @param string $fontFamily Font family of the used font, e.g. 'Roboto'
      * @param string $path Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
-     * @return void
      */
     public function setFont(string $fontFamily, string $path): void
     {
@@ -110,7 +107,6 @@ class Larvatar
      * Sets the size of the object.
      *
      * @param int $size The size of the object.
-     * @return void
      */
     public function setSize(int $size): void
     {
@@ -131,7 +127,6 @@ class Larvatar
      * Set the font weight for the initials' avatar.
      *
      * @param string $weight The font weight to be applied to the initials' avatar.
-     * @return void
      */
     public function setWeight(string $weight): void
     {
@@ -145,7 +140,6 @@ class Larvatar
      * Set the lightness level of the font used in the avatar.
      *
      * @param float $lightness The lightness value to be applied to the font.
-     * @return void
      */
     public function setFontLightness(float $lightness): void
     {
@@ -156,7 +150,6 @@ class Larvatar
      * Set the lightness level for the avatar's background.
      *
      * @param float $lightness The lightness value to set for the background.
-     * @return void
      */
     public function setBackgroundLightness(float $lightness): void
     {
