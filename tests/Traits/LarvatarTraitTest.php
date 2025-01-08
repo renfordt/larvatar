@@ -6,11 +6,26 @@ namespace Traits;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Renfordt\Larvatar\Avatar;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
+use Renfordt\Larvatar\Gravatar;
+use Renfordt\Larvatar\Identicon;
+use Renfordt\Larvatar\InitialsAvatar;
+use Renfordt\Larvatar\Larvatar;
+use Renfordt\Larvatar\Name;
+use Renfordt\Larvatar\Traits\ColorTrait;
 use Renfordt\Larvatar\Traits\LarvatarTrait;
 
 #[CoversClass(LarvatarTrait::class)]
+#[UsesClass(Avatar::class)]
+#[UsesClass(InitialsAvatar::class)]
+#[UsesClass(Identicon::class)]
+#[UsesClass(Larvatar::class)]
+#[UsesClass(Name::class)]
+#[UsesClass(ColorTrait::class)]
+#[UsesClass(Gravatar::class)]
 class LarvatarTraitTest extends TestCase
 {
     use LarvatarTrait;

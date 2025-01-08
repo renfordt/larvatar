@@ -191,6 +191,6 @@ $larvatar = Larvatar::make(
         );
         
 // optional settings
-$larvatar->avatar->setSymmetry(false);
-$larvatar->avatar->setPixels(8);
+$larvatar->identicon->setSymmetry(false);
+$larvatar->identicon->setPixels(8);
 ```

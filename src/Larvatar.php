@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Renfordt\Larvatar;
 
+use Exception;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Larvatar
 {
-    public Avatar $avatar;
+    /**
+     * @deprecated 2.0.2
+     */
+    public Avatar|Identicon|InitialsAvatar $avatar;
+    public InitialsAvatar $initialsAvatar;
+    public Identicon $identicon;
     protected LarvatarTypes $type = LarvatarTypes::mp;
     protected Name $name;
     protected string $email;
@@ -32,10 +38,12 @@ class Larvatar
         $this->email = $email;
         $this->type = $type;
 
-        if ($this->type == LarvatarTypes::InitialsAvatar) {
+        if ($this->type === LarvatarTypes::InitialsAvatar) {
             $this->avatar = InitialsAvatar::make($this->name);
-        } elseif ($this->type == LarvatarTypes::IdenticonLarvatar) {
+            $this->initialsAvatar = InitialsAvatar::make($this->name);
+        } elseif ($this->type === LarvatarTypes::IdenticonLarvatar) {
             $this->avatar = Identicon::make($this->name);
+            $this->identicon = Identicon::make($this->name);
         }
     }
 
@@ -74,15 +82,21 @@ class Larvatar
     /**
      * Generates the HTML or SVG code directly for usage
      * @return string HTML or SVG code
+     * @throws Exception
      */
     public function getImageHTML(bool $base64 = false): string
     {
-        if ($this->type == LarvatarTypes::InitialsAvatar || $this->type == LarvatarTypes::IdenticonLarvatar) {
+        if ($this->type === LarvatarTypes::InitialsAvatar) {
             if (isset($this->font) && $this->font !== '' && $this->fontPath !== '') {
-                $this->avatar->setFont($this->font, $this->fontPath);
+                $this->initialsAvatar->setFont($this->font, $this->fontPath);
             }
-            $this->avatar->setSize($this->size);
-            return $this->avatar->getHTML($base64);
+            $this->initialsAvatar->setSize($this->size);
+            return $this->initialsAvatar->getHTML($base64);
+        }
+
+        if ($this->type === LarvatarTypes::IdenticonLarvatar) {
+            $this->identicon->setSize($this->size);
+            return $this->identicon->getHTML($base64);
         }
 
         $gravatar = new Gravatar($this->email);
@@ -90,17 +104,6 @@ class Larvatar
         $gravatar->setSize($this->size);
 
         return '<img src="' . $gravatar->generateGravatarLink() . '" />';
-    }
-
-    /**
-     * Set the font for Initial Avatar
-     * @param string $fontFamily Font family of the used font, e.g. 'Roboto'
-     * @param string $path Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
-     */
-    public function setFont(string $fontFamily, string $path): void
-    {
-        $this->font = $fontFamily;
-        $this->fontPath = $path;
     }
 
     /**
@@ -120,7 +123,29 @@ class Larvatar
      */
     public function getBase64(): string
     {
-        return $this->avatar->getBase64();
+        if ($this->type === LarvatarTypes::InitialsAvatar) {
+            return $this->initialsAvatar->getBase64();
+        }
+
+        if ($this->type === LarvatarTypes::IdenticonLarvatar) {
+            return $this->identicon->getBase64();
+        }
+
+        return '';
+    }
+
+    /**
+     * Set the font for Initial Avatar
+     * @param string $fontFamily Font family of the used font, e.g. 'Roboto'
+     * @param string $path Relative path to the true type font file, starting with a /, e.g. '/font/Roboto-Bold.ttf'
+     */
+    public function setFont(string $fontFamily, string $path): void
+    {
+        if ($this->type !== LarvatarTypes::InitialsAvatar) {
+            return;
+        }
+        $this->font = $fontFamily;
+        $this->fontPath = $path;
     }
 
     /**
@@ -130,10 +155,10 @@ class Larvatar
      */
     public function setWeight(string $weight): void
     {
-        if (!isset($this->avatar)) {
+        if ($this->type !== LarvatarTypes::InitialsAvatar) {
             return;
         }
-        $this->avatar->setFontWeight($weight);
+        $this->initialsAvatar->setFontWeight($weight);
     }
 
     /**
@@ -143,7 +168,26 @@ class Larvatar
      */
     public function setFontLightness(float $lightness): void
     {
-        $this->avatar->setTextLightness($lightness);
+        if ($this->type !== LarvatarTypes::InitialsAvatar) {
+            return;
+        }
+        $this->initialsAvatar->setTextLightness($lightness);
+    }
+
+    /**
+     * Set the lightness value for the foreground of the avatar.
+     *
+     * @param float $lightness The lightness value to be set for the foreground.
+     */
+    public function setForegroundLightness(float $lightness): void
+    {
+        if ($this->type === LarvatarTypes::InitialsAvatar) {
+            $this->initialsAvatar->setForegroundLightness($lightness);
+        }
+
+        if ($this->type === LarvatarTypes::IdenticonLarvatar) {
+            $this->identicon->setForegroundLightness($lightness);
+        }
     }
 
     /**
@@ -153,6 +197,12 @@ class Larvatar
      */
     public function setBackgroundLightness(float $lightness): void
     {
-        $this->avatar->setBackgroundLightness($lightness);
+        if ($this->type === LarvatarTypes::InitialsAvatar) {
+            $this->initialsAvatar->setBackgroundLightness($lightness);
+        }
+
+        if ($this->type === LarvatarTypes::IdenticonLarvatar) {
+            $this->identicon->setBackgroundLightness($lightness);
+        }
     }
 }

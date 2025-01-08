@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Identicon;
 use Renfordt\Larvatar\Name;
 
 #[CoversClass(Identicon::class)]
+#[UsesClass(Name::class)]
 class IdenticonTest extends TestCase
 {
     /**

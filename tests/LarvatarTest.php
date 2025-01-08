@@ -3,13 +3,44 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
+use Renfordt\Larvatar\Gravatar;
+use Renfordt\Larvatar\Identicon;
+use Renfordt\Larvatar\InitialsAvatar;
 use Renfordt\Larvatar\Larvatar;
+use Renfordt\Larvatar\Name;
+use Renfordt\Larvatar\Traits\ColorTrait;
 
 #[CoversClass(Larvatar::class)]
+#[UsesClass(Gravatar::class)]
+#[UsesClass(Name::class)]
+#[UsesClass(InitialsAvatar::class)]
+#[UsesClass(Identicon::class)]
+#[UsesClass(ColorTrait::class)]
 class LarvatarTest extends TestCase
 {
+    public function testCreateLarvatarWithAllTypes(): void
+    {
+        foreach (LarvatarTypes::cases() as $type) {
+            $larvatar = Larvatar::create($type, 'Test Name', 'test@example.com');
+            $larvatar->setSize(100);
+            $larvatar->setWeight('bold');
+            $larvatar->setFontLightness(0.5);
+            $larvatar->setForegroundLightness(0.5);
+            $larvatar->setBackgroundLightness(0.5);
+            $larvatar->setFont('Roboto', '/../src/font/Roboto-Bold.ttf');
+
+            $this->assertNotEmpty($larvatar->getImageHTML());
+            if ($type === LarvatarTypes::InitialsAvatar || $type === LarvatarTypes::IdenticonLarvatar) {
+                $this->assertNotEmpty($larvatar->getBase64());
+            } else {
+                $this->assertEmpty($larvatar->getBase64());
+            }
+        }
+    }
+
     public function testCreateLarvatar(): void
     {
         $larvatar = new Larvatar(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
@@ -21,7 +52,7 @@ class LarvatarTest extends TestCase
 
     public function testCreateLarvatarWithMake(): void
     {
-        $larvatar =  Larvatar::make(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $larvatar = Larvatar::make(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
         $this->assertEquals(
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
             $larvatar->getImageHTML()
@@ -30,7 +61,7 @@ class LarvatarTest extends TestCase
 
     public function testCreateLarvatarWithCreate(): void
     {
-        $larvatar =  Larvatar::create(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
+        $larvatar = Larvatar::create(LarvatarTypes::InitialsAvatar, 'Test Name', 'test@example.com');
         $this->assertEquals(
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
             $larvatar->getImageHTML()
@@ -40,7 +71,7 @@ class LarvatarTest extends TestCase
     public function testCreateLarvatarWithName(): void
     {
         $name = \Renfordt\Larvatar\Name::make('Test Name');
-        $larvatar =  Larvatar::create(LarvatarTypes::InitialsAvatar, $name, 'test@example.com');
+        $larvatar = Larvatar::create(LarvatarTypes::InitialsAvatar, $name, 'test@example.com');
         $this->assertEquals(
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
             $larvatar->getImageHTML()
@@ -49,10 +80,6 @@ class LarvatarTest extends TestCase
 
     public function testCreateLarvatarException(): void
     {
-        set_error_handler(static function (int $errno, string $errstr): never {
-            throw new Exception($errstr, $errno);
-        }, E_USER_WARNING);
-
         $this->expectExceptionMessage('must be of type Renfordt\Larvatar\Enum\LarvatarTypes');
 
         new Larvatar(700, 'Test Name', 'test@example.com');

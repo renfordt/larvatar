@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Colors\HexColor;
 use Renfordt\Larvatar\Enum\FormTypes;
@@ -12,6 +13,7 @@ use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
 
 #[CoversClass(InitialsAvatar::class)]
+#[UsesClass(Name::class)]
 final class InitialsAvatarTest extends TestCase
 {
     /**
@@ -27,6 +29,30 @@ final class InitialsAvatarTest extends TestCase
             $initialsAvatar->generate()
         );
     }
+
+    public function testGetHTML(): void
+    {
+        $name = Name::make('Test Name');
+        $initialsAvatar = InitialsAvatar::make($name);
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $initialsAvatar->getHTML()
+        );
+    }
+
+    public function testGetHTMLWithEncryption(): void
+    {
+        $name = Name::make('Test Name');
+        $initialsAvatar = InitialsAvatar::make($name);
+
+        $this->assertEquals(
+            '<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgc3R5bGU9ImZpbGw6ICNlNWIzYzkiIC8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIHN0eWxlPSJmaWxsOiAjODUyZDU1OyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBkb21pbmFudC1iYXNlbGluZTogbWlkZGxlOyBmb250LXdlaWdodDogbm9ybWFsOyBmb250LWZhbWlseTogU2Vnb2UgVUksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiA1MHB4Ij5UTjwvdGV4dD48L3N2Zz4=" />',
+            $initialsAvatar->getHTML(true)
+        );
+    }
+
+
 
     /**
      * Tests the generate method with square form.
@@ -110,6 +136,8 @@ final class InitialsAvatarTest extends TestCase
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Roboto; font-size: 50px">TN</text></svg>',
             $initialsAvatar->generate()
         );
+        $this->assertEquals('/../src/font/Roboto-Bold.ttf', $initialsAvatar->getFontPath());
+        $this->assertEquals('Roboto', $initialsAvatar->getFontFamily());
     }
 
     public function testSetSize(): void
@@ -121,6 +149,18 @@ final class InitialsAvatarTest extends TestCase
             '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500"><circle cx="250" cy="250" r="250" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 250px">TN</text></svg>',
             $initialsAvatar->generate()
         );
+    }
+
+    public function testSetFontSize(): void
+    {
+        $name = Name::make('Test Name');
+        $initialsAvatar = InitialsAvatar::make($name);
+        $initialsAvatar->setFontSize(50);
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><circle cx="50" cy="50" r="50" style="fill: #e5b3c9" /><text x="50%" y="55%" style="fill: #852d55; text-anchor: middle; dominant-baseline: middle; font-weight: normal; font-family: Segoe UI, Helvetica, sans-serif; font-size: 50px">TN</text></svg>',
+            $initialsAvatar->generate()
+        );
+        $this->assertEquals(50, $initialsAvatar->getFontSize());
     }
 
     public function testGenerateWithBase64(): void
@@ -233,10 +273,8 @@ final class InitialsAvatarTest extends TestCase
         $name = Name::make('Test Name');
         $initialsAvatar = InitialsAvatar::make($name);
         $initialsAvatar->setFontWeight('bold');
-        $reflector = new ReflectionObject($initialsAvatar);
-        $property = $reflector->getProperty('fontWeight');
-        $property->setAccessible(true);
-        $this->assertEquals('bold', $property->getValue($initialsAvatar));
+
+        $this->assertEquals('bold', $initialsAvatar->getFontWeight());
     }
 
     public function testGetBackgroundLightnessDefaultValue(): void

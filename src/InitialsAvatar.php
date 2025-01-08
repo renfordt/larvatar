@@ -17,6 +17,10 @@ class InitialsAvatar extends Avatar
 {
     use ColorTrait;
 
+    protected int $fontSize = 0;
+    protected string $fontFamily = '';
+    protected string $fontPath = '';
+    protected string $fontWeight = 'normal';
     private FormTypes $form = FormTypes::Circle;
     private int $rotation = 0;
     private int $offset = 0;
@@ -120,7 +124,7 @@ class InitialsAvatar extends Avatar
          */
         [$darkColor, $lightColor] = $this->getColorSet(
             $this->name,
-            $this->textLightness,
+            $this->foregroundLightness,
             $this->backgroundLightness
         );
 
@@ -248,5 +252,117 @@ class InitialsAvatar extends Avatar
     public function getBase64(): string
     {
         return 'data:image/svg+xml;base64,' . base64_encode($this->generate()->__toString());
+    }
+
+    /**
+     * Get the font size
+     *
+     * @return int The font size value
+     */
+    public function getFontSize(): int
+    {
+        return $this->fontSize;
+    }
+
+    /**
+     * Set the font size.
+     *
+     * @param int $fontSize The font size.
+     */
+    public function setFontSize(int $fontSize): void
+    {
+        $this->fontSize = $fontSize;
+    }
+
+    /**
+     * Get the font family
+     *
+     * @return string The font family
+     */
+    public function getFontFamily(): string
+    {
+        return $this->fontFamily;
+    }
+
+    /**
+     * Set the font family for the application
+     *
+     * @param string $fontFamily The font family to set
+     */
+    public function setFontFamily(string $fontFamily): void
+    {
+        $this->fontFamily = $fontFamily;
+    }
+
+    /**
+     * Get the font path
+     *
+     * @return string The font path
+     */
+    public function getFontPath(): string
+    {
+        return $this->fontPath;
+    }
+
+    /**
+     * Set the font path
+     *
+     * @param string $fontPath The path to the font
+     */
+    public function setFontPath(string $fontPath): void
+    {
+        $this->fontPath = $fontPath;
+    }
+
+    /**
+     * Get the font weight
+     *
+     * @return string The font weight
+     */
+    public function getFontWeight(): string
+    {
+        return $this->fontWeight;
+    }
+
+    /**
+     * Set the font weight for the application
+     *
+     * @param string $fontWeight The font weight to set
+     */
+    public function setFontWeight(string $fontWeight): void
+    {
+        $this->fontWeight = $fontWeight;
+    }
+
+    /**
+     * Sets the font family and path
+     *
+     * @param string $font The font family
+     * @param string $path The font path
+     */
+    public function setFont(string $font, string $path): void
+    {
+        $this->setFontFamily($font);
+        $this->setFontPath($path);
+    }
+
+    /**
+     * Get the lightness value of the text
+     *
+     * @return float The lightness value of the text
+     */
+    public function getTextLightness(): float
+    {
+        return $this->foregroundLightness;
+    }
+
+    /**
+     * Set the text lightness value
+     *
+     * @param float $textLightness The text lightness value to be set
+     */
+    public function setTextLightness(float $textLightness): void
+    {
+        $this->foregroundLightness = (float)clamp($textLightness, 0, 1);
     }
 }
