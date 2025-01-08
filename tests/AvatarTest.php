@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Avatar;
@@ -8,6 +11,7 @@ use Renfordt\Larvatar\Name;
 /**
  * Unit tests for the Avatar class.
  */
+#[CoversClass(Avatar::class)]
 class AvatarTest extends TestCase
 {
     public static function fontDataProvider(): array
@@ -89,7 +93,7 @@ class AvatarTest extends TestCase
      * Test setting and getting font family and path.
      */
     #[DataProvider('fontDataProvider')]
-    public function testFontMethods($font, $path)
+    public function testFontMethods(string $font, string $path): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setFont($font, $path);
@@ -102,7 +106,7 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('backgroundLightnessProvider')]
-    public function testBackgroundLightnessMethods($input, $expected)
+    public function testBackgroundLightnessMethods(float|int $input, float|int $expected): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setBackgroundLightness($input);
@@ -114,7 +118,7 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('textLightnessProvider')]
-    public function testTextLightnessMethods($input, $expected)
+    public function testTextLightnessMethods(int|float $input, int|float $expected): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setTextLightness($input);
@@ -126,7 +130,7 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('nameProvider')]
-    public function testNameMethods($name, $expected)
+    public function testNameMethods(\Renfordt\Larvatar\Name|string $name, string $expected): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setName($name);
@@ -138,7 +142,7 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('fontSizeProvider')]
-    public function testFontSizeMethods($input)
+    public function testFontSizeMethods(int $input): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setFontSize($input);
@@ -150,7 +154,7 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('fontWeightProvider')]
-    public function testFontWeightMethods($input)
+    public function testFontWeightMethods(string $input): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setFontWeight($input);
@@ -162,7 +166,7 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('sizeProvider')]
-    public function testSizeMethods($input)
+    public function testSizeMethods(int $input): void
     {
         $mock = $this->getMockForAbstractClass(Avatar::class);
         $mock->setSize($input);

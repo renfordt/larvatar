@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Larvatar;
 
+#[CoversClass(Larvatar::class)]
 class LarvatarTest extends TestCase
 {
     public function testCreateLarvatar(): void
@@ -51,7 +55,7 @@ class LarvatarTest extends TestCase
 
         $this->expectExceptionMessage('must be of type Renfordt\Larvatar\Enum\LarvatarTypes');
 
-        $larvatar = new Larvatar(700, 'Test Name', 'test@example.com');
+        new Larvatar(700, 'Test Name', 'test@example.com');
     }
 
     public function testSetFont(): void

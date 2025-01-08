@@ -1,16 +1,19 @@
 <?php
 
 declare(strict_types=1);
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Identicon;
 use Renfordt\Larvatar\Name;
 
+#[CoversClass(Identicon::class)]
 class IdenticonTest extends TestCase
 {
     /**
      * Tests the getSymmetryMatrix method to ensure it returns the expected symmetry matrix.
      */
-    public function testGetSymmetryMatrixReturnedExpectedSymmetryMatrix()
+    public function testGetSymmetryMatrixReturnedExpectedSymmetryMatrix(): void
     {
         // Mocking the Name class
         $name = Name::make('Test Name');
@@ -56,7 +59,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the convertStrToBool method with the hexadecimal value '0'.
      */
-    public function testConvertStrToBoolWithZero()
+    public function testConvertStrToBoolWithZero(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -72,7 +75,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the convertStrToBool method with the hexadecimal value 'F'.
      */
-    public function testConvertStrToBoolWithF()
+    public function testConvertStrToBoolWithF(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -88,7 +91,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the convertStrToBool method with a mid-range hexadecimal value.
      */
-    public function testConvertStrToBoolWithEight()
+    public function testConvertStrToBoolWithEight(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -104,7 +107,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the convertStrToBool method with a low-range hexadecimal value.
      */
-    public function testConvertStrToBoolWithFour()
+    public function testConvertStrToBoolWithFour(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -120,7 +123,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getSymmetryMatrix method to handle single pixel cases.
      */
-    public function testGetSymmetryMatrixHandlesSinglePixel()
+    public function testGetSymmetryMatrixHandlesSinglePixel(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -146,7 +149,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getSymmetryMatrix method to handle even pixel counts.
      */
-    public function testGetSymmetryMatrixHandlesEvenPixelCount()
+    public function testGetSymmetryMatrixHandlesEvenPixelCount(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -174,7 +177,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getSVG method to ensure it returns a valid SVG representation with symmetry.
      */
-    public function testGetSVGWithSymmetry()
+    public function testGetSVGWithSymmetry(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -191,7 +194,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getBase64 method to ensure it returns a base64 encoded SVG.
      */
-    public function testGetBase64ReturnsBase64EncodedSVG()
+    public function testGetBase64ReturnsBase64EncodedSVG(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -210,7 +213,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getBase64 method to ensure it contains a valid SVG representation.
      */
-    public function testGetBase64ContainsValidSVG()
+    public function testGetBase64ContainsValidSVG(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -231,7 +234,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getSVG method to ensure it returns a valid SVG representation without symmetry.
      */
-    public function testGetSVGWithoutSymmetry()
+    public function testGetSVGWithoutSymmetry(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -248,7 +251,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getSVG method to ensure the SVG output contains proper header.
      */
-    public function testGetSVGHeader()
+    public function testGetSVGHeader(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -265,7 +268,7 @@ class IdenticonTest extends TestCase
      * Tests if the Identicon object is created successfully with a valid Name object.
      * Also tests the static make method of Identicon class.
      */
-    public function testConstructWithValidName()
+    public function testConstructWithValidName(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -281,7 +284,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the setPixels method if it correctly sets the number of pixels.
      */
-    public function testSetPixelsWithValidValue()
+    public function testSetPixelsWithValidValue(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -299,7 +302,7 @@ class IdenticonTest extends TestCase
      *
      * @expectedException TypeError
      */
-    public function testSetPixelsWithInvalidArgument()
+    public function testSetPixelsWithInvalidArgument(): void
     {
         $this->expectException(TypeError::class);
 
@@ -314,7 +317,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the make method with a valid Name object.
      */
-    public function testMakeWithValidName()
+    public function testMakeWithValidName(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -331,30 +334,30 @@ class IdenticonTest extends TestCase
      * Tests the make method with an invalid argument.
      *
      */
-    public function testMakeWithInvalidArgument()
+    public function testMakeWithInvalidArgument(): void
     {
         $this->expectException(TypeError::class);
 
         // Creating Identicon with invalid argument using the make method
-        $identicon = Identicon::make('invalid_argument');
+        Identicon::make('invalid_argument');
     }
 
     /**
      * Tests if the Identicon object throws an error when Name object is not provided.
      *
      */
-    public function testConstructWithInvalidArgument()
+    public function testConstructWithInvalidArgument(): void
     {
         $this->expectException(TypeError::class);
 
         // Creating Identicon with invalid argument
-        $identicon = new Identicon('invalid_argument');
+        new Identicon('invalid_argument');
     }
 
     /**
      * Tests the setSymmetry method if it correctly sets the symmetry to true.
      */
-    public function testSetSymmetryWithTrueValue()
+    public function testSetSymmetryWithTrueValue(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -375,7 +378,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the setSymmetry method if it correctly sets the symmetry to false.
      */
-    public function testSetSymmetryWithFalseValue()
+    public function testSetSymmetryWithFalseValue(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -397,7 +400,7 @@ class IdenticonTest extends TestCase
      * Tests the setSymmetry method with an invalid argument.
      *
      */
-    public function testSetSymmetryWithInvalidArgument()
+    public function testSetSymmetryWithInvalidArgument(): void
     {
         $this->expectException(TypeError::class);
 
@@ -412,7 +415,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getHTML method without base64 encoding.
      */
-    public function testGetHTMLWithoutBase64()
+    public function testGetHTMLWithoutBase64(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -427,7 +430,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the getHTML method with base64 encoding.
      */
-    public function testGetHTMLWithBase64()
+    public function testGetHTMLWithBase64(): void
     {
         // Mocking the Name class
         $nameMock = $this->createMock(Name::class);
@@ -442,7 +445,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the generateSymmetricMatrix method to ensure it returns a symmetric matrix.
      */
-    public function testGenerateSymmetricMatrix()
+    public function testGenerateSymmetricMatrix(): void
     {
         // Mocking the Name class
         $name = Name::make('Test Name');
@@ -465,7 +468,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the generateSymmetricMatrix method with different pixel values.
      */
-    public function testGenerateSymmetricMatrixWithDifferentPixelValues()
+    public function testGenerateSymmetricMatrixWithDifferentPixelValues(): void
     {
         // Mocking the Name class
         $name = Name::make('Test Name');
@@ -489,7 +492,7 @@ class IdenticonTest extends TestCase
     /**
      * Tests the generateSymmetricMatrix method with variation in Name hashes.
      */
-    public function testGenerateSymmetricMatrixWithNameHashVariation()
+    public function testGenerateSymmetricMatrixWithNameHashVariation(): void
     {
         $hashes = [
             'aabbccddeeff001122334455',

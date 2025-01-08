@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Colors\HexColor;
 use Renfordt\Larvatar\Enum\FormTypes;
@@ -10,6 +11,7 @@ use Renfordt\Larvatar\Name;
 use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
 
+#[CoversClass(InitialsAvatar::class)]
 final class InitialsAvatarTest extends TestCase
 {
     /**
@@ -125,7 +127,7 @@ final class InitialsAvatarTest extends TestCase
     {
         $name = Name::make('Test Name');
         $initialsAvatar = InitialsAvatar::make($name);
-        $svg = $initialsAvatar->generate();
+        $svg = $initialsAvatar->generate()->__toString();
         $base64 = $initialsAvatar->getBase64();
 
         $this->assertEquals(
@@ -325,7 +327,6 @@ final class InitialsAvatarTest extends TestCase
 
     /**
      * Tests if the set offset returns correct value
-     * @return void
      */
     public function testGetOffsetIsSetCorrectly(): void
     {
@@ -337,7 +338,6 @@ final class InitialsAvatarTest extends TestCase
 
     /**
      * Tests if the default value should be zero
-     * @return void
      */
     public function testGetOffsetReturnsDefaultValue(): void
     {

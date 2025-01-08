@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Traits;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Traits\LarvatarTrait;
 
+#[CoversClass(LarvatarTrait::class)]
 class LarvatarTraitTest extends TestCase
 {
     use LarvatarTrait;
@@ -58,7 +62,7 @@ class LarvatarTraitTest extends TestCase
         LarvatarTypes $type,
         bool $encoding,
         string $expectedData
-    ) {
+    ): void {
         $this->name = $name;
         $this->email = $email;
         $this->type = $type;
@@ -66,7 +70,7 @@ class LarvatarTraitTest extends TestCase
         $this->assertSame($expectedData, $result);
     }
 
-    public function getAvatar(int $size = 100, bool $encoding = true)
+    public function getAvatar(int $size = 100, bool $encoding = true): string
     {
         $larvatar = $this->getLarvatar($this->name, $this->email, $this->type);
         $larvatar->setSize($size);
@@ -74,14 +78,14 @@ class LarvatarTraitTest extends TestCase
         return $larvatar->getImageHTML($encoding);
     }
 
-    public function testGetAvatarWithDefaultParameters()
+    public function testGetAvatarWithDefaultParameters(): void
     {
         $result = $this->getAvatar();
         $this->assertNotEmpty($result);
     }
 
     #[DataProvider('dataProviderForDifferentAvatarTypes')]
-    public function testGetAvatarWithDifferentAvatarTypes(LarvatarTypes $type)
+    public function testGetAvatarWithDifferentAvatarTypes(LarvatarTypes $type): void
     {
         $this->type = $type;
         $result = $this->getAvatar(100, false);
@@ -89,7 +93,7 @@ class LarvatarTraitTest extends TestCase
     }
 
     #[DataProvider('dataProviderForEncodingVariations')]
-    public function testGetAvatarWithEncodingVariations(bool $encoding)
+    public function testGetAvatarWithEncodingVariations(bool $encoding): void
     {
         $result = $this->getAvatar(100, $encoding);
         $this->assertNotEmpty($result);

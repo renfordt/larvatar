@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Gravatar;
 
+#[CoversClass(Gravatar::class)]
 final class GravatarTest extends TestCase
 {
     public function testGravatarLink(): void

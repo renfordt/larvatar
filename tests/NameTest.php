@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Name;
 
+#[CoversClass(Name::class)]
 class NameTest extends TestCase
 {
     public static function hashProvider(): array
@@ -67,49 +71,49 @@ class NameTest extends TestCase
     }
 
     #[DataProvider('hashProvider')]
-    public function testGetHash($nameInput, $expectedHash)
+    public function testGetHash(string $nameInput, string $expectedHash): void
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedHash, $name->getHash());
     }
 
     #[DataProvider('splitNamesProvider')]
-    public function testGetSplitNames($nameInput, $expectedSplitNames)
+    public function testGetSplitNames(string $nameInput, array $expectedSplitNames): void
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedSplitNames, $name->getSplitNames());
     }
 
     #[DataProvider('hexColorProvider')]
-    public function testGetHexColor($nameInput, $offset, $expectedHexColor)
+    public function testGetHexColor(string $nameInput, int $offset, string $expectedHexColor): void
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedHexColor, $name->getHexColor($offset));
     }
 
     #[DataProvider('nameProvider')]
-    public function testGetName($nameInput, $expectedName)
+    public function testGetName(string $nameInput, string $expectedName): void
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedName, $name->getName());
     }
 
     #[DataProvider('initialsProvider')]
-    public function testGetInitials($nameInput, $expectedInitials)
+    public function testGetInitials(string $nameInput, string $expectedInitials): void
     {
         $name = new Name($nameInput);
         $this->assertEquals($expectedInitials, $name->getInitials());
     }
 
     #[DataProvider('initialsProvider')]
-    public function testMakeMethodInitials($nameInput, $expectedInitials)
+    public function testMakeMethodInitials(string $nameInput, string $expectedInitials): void
     {
         $name = Name::make($nameInput);
         $this->assertEquals($expectedInitials, $name->getInitials());
     }
 
     #[DataProvider('initialsProvider')]
-    public function testCreateMethodInitials($nameInput, $expectedInitials)
+    public function testCreateMethodInitials(string $nameInput, string $expectedInitials): void
     {
         $name = Name::create($nameInput);
         $this->assertEquals($expectedInitials, $name->getInitials());
