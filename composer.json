@@ -34,8 +34,10 @@
   "require-dev": {
     "phpunit/phpunit": "^11.5",
     "orchestra/testbench": "^v9.7",
-    "friendsofphp/php-cs-fixer": "^3.64",
-    "phpstan/phpstan": "^2.0"
+    "phpstan/phpstan": "^2.1",
+    "rector/rector": "^2.0",
+    "laravel/pint": "^1.19",
+    "symfony/var-dumper": "^7.2"
   },
   "extra": {
     "laravel": {
@@ -43,5 +45,19 @@
         "Renfordt\\Larvatar\\LarvatarServiceProvider"
       ]
     }
+  },
+  "scripts": {
+    "refacto": "rector",
+    "lint": "pint",
+    "test:refacto": "rector --dry-run",
+    "test:lint": "pint --test",
+    "test:types": "phpstan analyse --ansi",
+    "test:unit": "phpunit",
+    "test": [
+      "@test:refacto",
+      "@test:lint",
+      "@test:types",
+      "@test:unit"
+    ]
   }
 }
