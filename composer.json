@@ -37,7 +37,9 @@
     "phpstan/phpstan": "^2.1",
     "rector/rector": "^2.0",
     "laravel/pint": "^1.19",
-    "symfony/var-dumper": "^7.2"
+    "symfony/var-dumper": "^7.2",
+    "fakerphp/faker": "^1.24",
+    "orchestra/testbench": "^9.0"
   },
   "extra": {
     "laravel": {
