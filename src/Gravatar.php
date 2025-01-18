@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Renfordt\Larvatar;
 
 use Exception;
+use InvalidArgumentException;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Gravatar
@@ -47,8 +48,8 @@ class Gravatar
      */
     public function setType(LarvatarTypes $type): void
     {
-        if ($type == LarvatarTypes::InitialsAvatar) {
-            return;
+        if ($type === LarvatarTypes::InitialsAvatar || $type === LarvatarTypes::IdenticonLarvatar) {
+            throw new InvalidArgumentException('Initials Avatar and Larvatars Identicons are not supported for Gravatars.');
         }
         $this->type = $type;
     }
@@ -96,8 +97,8 @@ class Gravatar
             LarvatarTypes::wavatar => '?d=wavatar&f=y',
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y',
-            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.'),
-            LarvatarTypes::IdenticonLarvatar => throw new \Exception(
+            LarvatarTypes::InitialsAvatar => throw new InvalidArgumentException('Initials Avatar is not supported for Gravatars.'),
+            LarvatarTypes::IdenticonLarvatar => throw new InvalidArgumentException(
                 'Larvatars Identicons are not supported for Gravatars.'
             )
         };

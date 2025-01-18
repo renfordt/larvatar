@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
+namespace Renfordt\Larvatar\Tests;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Identicon;
 use Renfordt\Larvatar\Name;
+use ReflectionException;
+use TypeError;
 
 #[CoversClass(Identicon::class)]
 #[UsesClass(Name::class)]
@@ -463,7 +467,6 @@ class IdenticonTest extends TestCase
         foreach ($matrix as $row) {
             $this->assertIsArray($row);
         }
-
         // ToDo: Test actual values
     }
 
@@ -518,7 +521,6 @@ class IdenticonTest extends TestCase
             foreach ($matrix as $row) {
                 $this->assertIsArray($row);
             }
-
             //todo: add real value tests
         }
     }

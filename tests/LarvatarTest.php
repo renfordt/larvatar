@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace Renfordt\Larvatar\Tests;
+
+use Faker;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -11,14 +14,12 @@ use Renfordt\Larvatar\Identicon;
 use Renfordt\Larvatar\InitialsAvatar;
 use Renfordt\Larvatar\Larvatar;
 use Renfordt\Larvatar\Name;
-use Renfordt\Larvatar\Traits\ColorTrait;
 
 #[CoversClass(Larvatar::class)]
 #[UsesClass(Gravatar::class)]
 #[UsesClass(Name::class)]
 #[UsesClass(InitialsAvatar::class)]
 #[UsesClass(Identicon::class)]
-#[UsesClass(ColorTrait::class)]
 class LarvatarTest extends TestCase
 {
     public function testCreateLarvatarWithAllTypes(): void

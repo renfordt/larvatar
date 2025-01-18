@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Renfordt\Larvatar\Tests;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +13,9 @@ use Renfordt\Larvatar\InitialsAvatar;
 use Renfordt\Larvatar\Name;
 use SVG\Nodes\Shapes\SVGPolygon;
 use SVG\Nodes\Shapes\SVGRect;
+use ReflectionClass;
+use ReflectionObject;
+use ValueError;
 
 #[CoversClass(InitialsAvatar::class)]
 #[UsesClass(Name::class)]
@@ -51,7 +56,6 @@ final class InitialsAvatarTest extends TestCase
             $initialsAvatar->getHTML(true)
         );
     }
-
 
 
     /**

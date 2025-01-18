@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Renfordt\Larvatar\Tests;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -129,6 +131,14 @@ class AvatarTest extends TestCase
         $this->assertEquals($expected, $initialsAvatar->getTextLightness());
     }
 
+    #[DataProvider('textLightnessProvider')]
+    public function testForegroundLightnessMethods(int|float $input, int|float $expected): void
+    {
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setForegroundLightness($input);
+        $this->assertEquals($expected, $initialsAvatar->getForegroundLightness());
+    }
+
     /**
      * Test setting and getting name.
      *
@@ -176,4 +186,6 @@ class AvatarTest extends TestCase
         $initialsAvatar->setSize($input);
         $this->assertEquals($input, $initialsAvatar->getSize());
     }
+
+
 }
