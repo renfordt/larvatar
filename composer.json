@@ -19,7 +19,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Renfordt\\Larvatar\\": "src/"
+      "Renfordt\\Larvatar\\": "src/",
+      "Renfordt\\Larvatar\\Tests\\": "tests"
     }
   },
   "minimum-stability": "stable",
