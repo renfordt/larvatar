@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Illuminate\Support\ServiceProvider;

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Exception;
+use InvalidArgumentException;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 
 class Gravatar
@@ -23,8 +26,6 @@ class Gravatar
 
     /**
      * Sets the email for Gravatar. It is used to gernerate a hash which is passed to the Gravatar API
-     * @param string $email
-     * @return void
      */
     public function setEmail(string $email): void
     {
@@ -35,7 +36,6 @@ class Gravatar
     /**
      * Generates the hash value for the email address
      * @param $email
-     * @return void
      */
     protected function setHash(string $email): void
     {
@@ -45,12 +45,11 @@ class Gravatar
     /**
      * Sets the type for the avatar.
      * @param LarvatarTypes $type All enums except LarvatarTypes::InitialsAvatar are allowed
-     * @return void
      */
     public function setType(LarvatarTypes $type): void
     {
-        if ($type == LarvatarTypes::InitialsAvatar) {
-            return;
+        if ($type === LarvatarTypes::InitialsAvatar || $type === LarvatarTypes::IdenticonLarvatar) {
+            throw new InvalidArgumentException('Initials Avatar and Larvatars Identicons are not supported for Gravatars.');
         }
         $this->type = $type;
     }
@@ -58,7 +57,6 @@ class Gravatar
     /**
      * Sets the size of the Gravatar
      * @param int $size Size in px for the Gravatar
-     * @return void
      */
     public function setSize(int $size): void
     {
@@ -78,7 +76,6 @@ class Gravatar
 
     /**
      * Generate the link to the Gravatar
-     * @return string
      * @throws Exception
      */
     public function generateGravatarLink(): string
@@ -88,7 +85,6 @@ class Gravatar
 
     /**
      * Depending on the selected type the missing parameters for Gravatar API will be selected
-     * @return string
      * @throws Exception
      */
     protected function getAdditionalParameters(): string
@@ -101,8 +97,8 @@ class Gravatar
             LarvatarTypes::wavatar => '?d=wavatar&f=y',
             LarvatarTypes::retro => '?d=retro&f=y',
             LarvatarTypes::robohash => '?d=robohash&f=y',
-            LarvatarTypes::InitialsAvatar => throw new Exception('Initials Avatar is not supported for Gravatars.'),
-            LarvatarTypes::IdenticonLarvatar => throw new \Exception(
+            LarvatarTypes::InitialsAvatar => throw new InvalidArgumentException('Initials Avatar is not supported for Gravatars.'),
+            LarvatarTypes::IdenticonLarvatar => throw new InvalidArgumentException(
                 'Larvatars Identicons are not supported for Gravatars.'
             )
         };

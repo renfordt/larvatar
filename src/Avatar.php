@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Exception;
 
 abstract class Avatar
 {
-    protected int $fontSize = 0;
-
-    protected string $fontFamily = '';
-    protected string $fontPath = '';
-    protected string $fontWeight = 'normal';
     protected Name $name;
     protected int $size = 100;
     protected float $backgroundLightness = 0.8;
-    protected float $textLightness = 0.35;
+    protected float $foregroundLightness = 0.35;
 
     /**
      * Retrieves the HTML representation of the data.
@@ -33,69 +30,6 @@ abstract class Avatar
     abstract public function getBase64(): string;
 
     /**
-     * Get the font size
-     *
-     * @return int The font size value
-     */
-    public function getFontSize(): int
-    {
-        return $this->fontSize;
-    }
-
-    /**
-     * Set the font size.
-     *
-     * @param int $fontSize The font size.
-     * @return void
-     */
-    public function setFontSize(int $fontSize): void
-    {
-        $this->fontSize = $fontSize;
-    }
-
-    /**
-     * Get the font family
-     *
-     * @return string The font family
-     */
-    public function getFontFamily(): string
-    {
-        return $this->fontFamily;
-    }
-
-    /**
-     * Set the font family for the application
-     *
-     * @param string $fontFamily The font family to set
-     * @return void
-     */
-    public function setFontFamily(string $fontFamily): void
-    {
-        $this->fontFamily = $fontFamily;
-    }
-
-    /**
-     * Get the font path
-     *
-     * @return string The font path
-     */
-    public function getFontPath(): string
-    {
-        return $this->fontPath;
-    }
-
-    /**
-     * Set the font path
-     *
-     * @param string $fontPath The path to the font
-     * @return void
-     */
-    public function setFontPath(string $fontPath): void
-    {
-        $this->fontPath = $fontPath;
-    }
-
-    /**
      * Get the name of the object
      *
      * @return Name The name of the object
@@ -109,8 +43,6 @@ abstract class Avatar
      * Set the Name object for the given instance
      *
      * @param Name|string $name The Name object or a string of the name
-     *
-     * @return void
      */
     public function setName(Name|string $name): void
     {
@@ -134,7 +66,6 @@ abstract class Avatar
      * Set the background lightness
      *
      * @param float $backgroundLightness The background lightness value to set (between 0 and 1)
-     * @return void
      */
     public function setBackgroundLightness(float $backgroundLightness): void
     {
@@ -142,45 +73,23 @@ abstract class Avatar
     }
 
     /**
-     * Get the lightness value of the text
+     * Retrieves the lightness level of the foreground.
      *
-     * @return float The lightness value of the text
+     * @return float The lightness value of the foreground
      */
-    public function getTextLightness(): float
+    public function getForegroundLightness(): float
     {
-        return $this->textLightness;
+        return $this->foregroundLightness;
     }
 
     /**
-     * Set the text lightness value
+     * Sets the lightness value of the foreground within a specified range.
      *
-     * @param float $textLightness The text lightness value to be set
-     * @return void
+     * @param float $foregroundLightness The desired lightness value, a float between 0 and 1.
      */
-    public function setTextLightness(float $textLightness): void
+    public function setForegroundLightness(float $foregroundLightness): void
     {
-        $this->textLightness = (float)clamp($textLightness, 0, 1);
-    }
-
-    /**
-     * Get the font weight
-     *
-     * @return string The font weight
-     */
-    public function getFontWeight(): string
-    {
-        return $this->fontWeight;
-    }
-
-    /**
-     * Set the font weight for the application
-     *
-     * @param string $fontWeight The font weight to set
-     * @return void
-     */
-    public function setFontWeight(string $fontWeight): void
-    {
-        $this->fontWeight = $fontWeight;
+        $this->foregroundLightness = (float)clamp($foregroundLightness, 0, 1);
     }
 
     /**
@@ -197,26 +106,9 @@ abstract class Avatar
      * Set the size of the object
      *
      * @param int $size The size to set for the object
-     * @return void
      */
     public function setSize(int $size): void
     {
         $this->size = $size;
     }
-
-    /**
-     * Sets the font family and path
-     *
-     * @param string $font The font family
-     * @param string $path The font path
-     *
-     * @return void
-     */
-    public function setFont(string $font, string $path): void
-    {
-        $this->setFontFamily($font);
-        $this->setFontPath($path);
-    }
-
-
 }

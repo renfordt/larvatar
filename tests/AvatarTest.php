@@ -1,13 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Renfordt\Larvatar\Tests;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Avatar;
+use Renfordt\Larvatar\InitialsAvatar;
 use Renfordt\Larvatar\Name;
 
 /**
  * Unit tests for the Avatar class.
  */
+#[CoversClass(Avatar::class)]
+#[UsesClass(InitialsAvatar::class)]
+#[UsesClass(Name::class)]
 class AvatarTest extends TestCase
 {
     public static function fontDataProvider(): array
@@ -89,12 +99,12 @@ class AvatarTest extends TestCase
      * Test setting and getting font family and path.
      */
     #[DataProvider('fontDataProvider')]
-    public function testFontMethods($font, $path)
+    public function testFontMethods(string $font, string $path): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setFont($font, $path);
-        $this->assertEquals($font, $mock->getFontFamily());
-        $this->assertEquals($path, $mock->getFontPath());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setFont($font, $path);
+        $this->assertEquals($font, $initialsAvatar->getFontFamily());
+        $this->assertEquals($path, $initialsAvatar->getFontPath());
     }
 
     /**
@@ -102,11 +112,11 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('backgroundLightnessProvider')]
-    public function testBackgroundLightnessMethods($input, $expected)
+    public function testBackgroundLightnessMethods(float|int $input, float|int $expected): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setBackgroundLightness($input);
-        $this->assertEquals($expected, $mock->getBackgroundLightness());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setBackgroundLightness($input);
+        $this->assertEquals($expected, $initialsAvatar->getBackgroundLightness());
     }
 
     /**
@@ -114,11 +124,19 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('textLightnessProvider')]
-    public function testTextLightnessMethods($input, $expected)
+    public function testTextLightnessMethods(int|float $input, int|float $expected): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setTextLightness($input);
-        $this->assertEquals($expected, $mock->getTextLightness());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setTextLightness($input);
+        $this->assertEquals($expected, $initialsAvatar->getTextLightness());
+    }
+
+    #[DataProvider('textLightnessProvider')]
+    public function testForegroundLightnessMethods(int|float $input, int|float $expected): void
+    {
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setForegroundLightness($input);
+        $this->assertEquals($expected, $initialsAvatar->getForegroundLightness());
     }
 
     /**
@@ -126,11 +144,11 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('nameProvider')]
-    public function testNameMethods($name, $expected)
+    public function testNameMethods(\Renfordt\Larvatar\Name|string $name, string $expected): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setName($name);
-        $this->assertEquals($expected, $mock->getName()->getName());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setName($name);
+        $this->assertEquals($expected, $initialsAvatar->getName()->getName());
     }
 
     /**
@@ -138,11 +156,11 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('fontSizeProvider')]
-    public function testFontSizeMethods($input)
+    public function testFontSizeMethods(int $input): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setFontSize($input);
-        $this->assertEquals($input, $mock->getFontSize());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setFontSize($input);
+        $this->assertEquals($input, $initialsAvatar->getFontSize());
     }
 
     /**
@@ -150,11 +168,11 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('fontWeightProvider')]
-    public function testFontWeightMethods($input)
+    public function testFontWeightMethods(string $input): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setFontWeight($input);
-        $this->assertEquals($input, $mock->getFontWeight());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setFontWeight($input);
+        $this->assertEquals($input, $initialsAvatar->getFontWeight());
     }
 
     /**
@@ -162,10 +180,12 @@ class AvatarTest extends TestCase
      *
      */
     #[DataProvider('sizeProvider')]
-    public function testSizeMethods($input)
+    public function testSizeMethods(int $input): void
     {
-        $mock = $this->getMockForAbstractClass(Avatar::class);
-        $mock->setSize($input);
-        $this->assertEquals($input, $mock->getSize());
+        $initialsAvatar = new InitialsAvatar(Name::create('John Doe'));
+        $initialsAvatar->setSize($input);
+        $this->assertEquals($input, $initialsAvatar->getSize());
     }
+
+
 }

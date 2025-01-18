@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
 use Renfordt\Colors\HexColor;
@@ -28,8 +30,6 @@ class Name
 
     /**
      * Calculates the MD5 hash of the name.
-     *
-     * @return string
      */
     private function hash(): string
     {

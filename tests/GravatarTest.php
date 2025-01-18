@@ -2,10 +2,14 @@
 
 declare(strict_types=1);
 
+namespace Renfordt\Larvatar\Tests;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
 use Renfordt\Larvatar\Gravatar;
 
+#[CoversClass(Gravatar::class)]
 final class GravatarTest extends TestCase
 {
     public function testGravatarLink(): void
@@ -114,18 +118,6 @@ final class GravatarTest extends TestCase
             $gravatar->generateGravatarLink()
         );
     }
-    public function testSetTypeInitialsAvatar(): void
-    {
-        $gravatar = new Gravatar('user@example.com');
-        $defaultType = $gravatar->generateGravatarLink();
-
-        $gravatar->setType(LarvatarTypes::InitialsAvatar);
-        $this->assertEquals(
-            $defaultType,
-            $gravatar->generateGravatarLink(),
-            "Setting type as InitialsAvatar should not change gravatar link as it's not supported."
-        );
-    }
 
     public function testSetTypeGravatar(): void
     {
@@ -145,5 +137,21 @@ final class GravatarTest extends TestCase
             'https://www.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?d=mp&f=y&s=100',
             $gravatar->generateGravatarLink()
         );
+    }
+
+    public function testInvalidTypeIdenticon(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $gravatar = new Gravatar('user@example.com');
+        $gravatar->setType(LarvatarTypes::IdenticonLarvatar);
+        $gravatar->getHTML();
+    }
+
+    public function testInvalidTypeInitialsAvatar(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $gravatar = new Gravatar('user@example.com');
+        $gravatar->setType(LarvatarTypes::InitialsAvatar);
+        $gravatar->getHTML();
     }
 }

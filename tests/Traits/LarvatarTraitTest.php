@@ -1,20 +1,31 @@
 <?php
 
-namespace Traits;
+declare(strict_types=1);
 
+namespace Renfordt\Larvatar\Tests\Traits;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Renfordt\Larvatar\Avatar;
 use Renfordt\Larvatar\Enum\LarvatarTypes;
-use Renfordt\Larvatar\Traits\LarvatarTrait;
+use Renfordt\Larvatar\Gravatar;
+use Renfordt\Larvatar\Identicon;
+use Renfordt\Larvatar\InitialsAvatar;
+use Renfordt\Larvatar\Larvatar;
+use Renfordt\Larvatar\Name;
+use Renfordt\Larvatar\Tests\User;
 
+#[CoversClass(User::class)]
+#[UsesClass(Avatar::class)]
+#[UsesClass(InitialsAvatar::class)]
+#[UsesClass(Identicon::class)]
+#[UsesClass(Larvatar::class)]
+#[UsesClass(Name::class)]
+#[UsesClass(Gravatar::class)]
 class LarvatarTraitTest extends TestCase
 {
-    use LarvatarTrait;
-
-    private string $name = 'Test Name';
-    private string $email = 'test@test.com';
-    private LarvatarTypes $type = LarvatarTypes::InitialsAvatar;
-
     public static function dataProviderForGetAvatarTest(): array
     {
         return [
@@ -24,7 +35,7 @@ class LarvatarTraitTest extends TestCase
                 100,
                 LarvatarTypes::InitialsAvatar,
                 true,
-                '<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgc3R5bGU9ImZpbGw6ICNlNWIzYzkiIC8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIHN0eWxlPSJmaWxsOiAjODUyZDU1OyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBkb21pbmFudC1iYXNlbGluZTogbWlkZGxlOyBmb250LXdlaWdodDogbm9ybWFsOyBmb250LWZhbWlseTogU2Vnb2UgVUksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiA1MHB4Ij5UTjwvdGV4dD48L3N2Zz4=" />'
+                '<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgc3R5bGU9ImZpbGw6ICNlNWIzYzkiIC8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIHN0eWxlPSJmaWxsOiAjODUyZDU1OyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBkb21pbmFudC1iYXNlbGluZTogbWlkZGxlOyBmb250LXdlaWdodDogNjAwOyBmb250LWZhbWlseTogU2Vnb2UgVUksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiA1MHB4Ij5UTjwvdGV4dD48L3N2Zz4=" />'
             ],
             // additional cases...
         ];
@@ -33,9 +44,21 @@ class LarvatarTraitTest extends TestCase
     public static function dataProviderForDifferentAvatarTypes(): array
     {
         return [
-            [LarvatarTypes::InitialsAvatar],
-            [LarvatarTypes::Gravatar],
-            [LarvatarTypes::IdenticonLarvatar],
+            [
+                'Test Name',
+                'test@test.com',
+                LarvatarTypes::InitialsAvatar
+            ],
+            [
+                'Test Name',
+                'test@test.com',
+                LarvatarTypes::Gravatar
+            ],
+            [
+                'Test Name',
+                'test@test.com',
+                LarvatarTypes::IdenticonLarvatar
+            ],
             // add other types if any...
         ];
     }
@@ -58,40 +81,43 @@ class LarvatarTraitTest extends TestCase
         LarvatarTypes $type,
         bool $encoding,
         string $expectedData
-    ) {
-        $this->name = $name;
-        $this->email = $email;
-        $this->type = $type;
-        $result = $this->getAvatar($size, $encoding);
+    ): void {
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->type = $type;
+
+        $result = $user->getAvatar($size, $encoding);
         $this->assertSame($expectedData, $result);
     }
 
-    public function getAvatar(int $size = 100, bool $encoding = true)
+    public function testGetAvatarWithDefaultParameters(): void
     {
-        $larvatar = $this->getLarvatar($this->name, $this->email, $this->type);
-        $larvatar->setSize($size);
-        $larvatar->setWeight('normal');
-        return $larvatar->getImageHTML($encoding);
-    }
-
-    public function testGetAvatarWithDefaultParameters()
-    {
-        $result = $this->getAvatar();
+        $user = new User();
+        $user->name = 'Test Name';
+        $user->email = 'test@test.com';
+        $result = $user->getAvatar();
         $this->assertNotEmpty($result);
     }
 
     #[DataProvider('dataProviderForDifferentAvatarTypes')]
-    public function testGetAvatarWithDifferentAvatarTypes(LarvatarTypes $type)
+    public function testGetAvatarWithDifferentAvatarTypes(string $name, string $email, LarvatarTypes $type): void
     {
-        $this->type = $type;
-        $result = $this->getAvatar(100, false);
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->type = $type;
+        $result = $user->getAvatar(100, false);
         $this->assertNotEmpty($result);
     }
 
     #[DataProvider('dataProviderForEncodingVariations')]
-    public function testGetAvatarWithEncodingVariations(bool $encoding)
+    public function testGetAvatarWithEncodingVariations(bool $encoding): void
     {
-        $result = $this->getAvatar(100, $encoding);
+        $user = new User();
+        $user->name = 'Test Name';
+        $user->email = 'test@test.com';
+        $result = $user->getAvatar(100, $encoding);
         $this->assertNotEmpty($result);
     }
 }

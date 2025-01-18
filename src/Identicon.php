@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Renfordt\Larvatar;
 
-use Renfordt\Colors\HSLColor;
 use Renfordt\Larvatar\Traits\ColorTrait;
 use SVG\Nodes\Shapes\SVGRect;
 use SVG\SVG;
@@ -28,7 +29,6 @@ class Identicon extends Avatar
      * Sets the number of pixels.
      *
      * @param int $pixels The number of pixels to set.
-     * @return void
      */
     public function setPixels(int $pixels): void
     {
@@ -39,7 +39,6 @@ class Identicon extends Avatar
      * Sets the symmetry property of the object.
      *
      * @param bool $symmetry The symmetry value to set.
-     * @return void
      */
     public function setSymmetry(bool $symmetry): void
     {
@@ -73,11 +72,7 @@ class Identicon extends Avatar
 
         $color = $this->getHSLColor($this->name);
 
-        if ($this->symmetry) {
-            $matrix = $this->generateSymmetricMatrix();
-        } else {
-            $matrix = $this->generateMatrix();
-        }
+        $matrix = $this->symmetry ? $this->generateSymmetricMatrix() : $this->generateMatrix();
 
         foreach ($matrix as $y => $array) {
             foreach ($array as $x => $value) {
@@ -85,8 +80,8 @@ class Identicon extends Avatar
                     $square = new SVGRect(
                         (int)$x * ($this->size / $this->pixels),
                         (int)$y * ($this->size / $this->pixels),
-                        (int)$this->size / $this->pixels,
-                        (int)$this->size / $this->pixels
+                        $this->size / $this->pixels,
+                        $this->size / $this->pixels
                     );
                     $square->setStyle('fill', $color->toHex());
                     $doc->addChild($square);
@@ -94,7 +89,7 @@ class Identicon extends Avatar
             }
         }
 
-        return $larvatar;
+        return $larvatar->__toString();
     }
 
     /**
@@ -154,10 +149,9 @@ class Identicon extends Avatar
     /**
      * Generates a matrix based on the given offset value.
      *
-     * @param int $offset The offset value for generating the matrix. Defaults to 0.
      * @return array<int<0, max>, array<int, bool>> The generated matrix.
      */
-    private function generateMatrix(int $offset = 0): array
+    private function generateMatrix(): array
     {
         $column = 0;
         $row = 0;
@@ -166,7 +160,7 @@ class Identicon extends Avatar
         for ($i = 0; $i < pow($this->pixels, 2); $i++) {
             $matrix[$i % $this->pixels][floor($i / $this->pixels)] =
                 $this->convertStrToBool(substr($hash, $i, 1));
-            if ($column == $this->pixels && $row < $this->pixels) {
+            if ($column === $this->pixels && $row < $this->pixels) {
                 $row++;
                 $column = -1;
             }
@@ -174,7 +168,6 @@ class Identicon extends Avatar
                 $column++;
             }
         }
-
         return $matrix;
     }
 
