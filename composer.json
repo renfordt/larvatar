@@ -39,7 +39,7 @@
     "laravel/pint": "^1.19",
     "symfony/var-dumper": "^7.2",
     "fakerphp/faker": "^1.24",
-    "orchestra/testbench": "^9.0"
+    "orchestra/testbench": "^9.0 || ^10.0"
   },
   "extra": {
     "laravel": {
