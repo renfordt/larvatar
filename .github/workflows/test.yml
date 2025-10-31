@@ -44,8 +44,7 @@ jobs:
       - name: Integration Tests
         run: php ./vendor/phpunit/phpunit/phpunit --testsuite default
 
-      - name: Code Coverage
-        uses: qltysh/qlty-action/coverage@v2
+      - uses: qltysh/qlty-action/coverage@v2
         with:
-          token: {{secrets.QLTY_COVERAGE_TOKEN}}
+          token: ${{secrets.QLTY_COVERAGE_TOKEN}}
           files: .phpunit.cache/code-coverage/clover.xml
