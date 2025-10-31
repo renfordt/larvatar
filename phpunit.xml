@@ -13,19 +13,20 @@
          failOnPhpunitDeprecation="true"
          failOnRisky="true"
          failOnWarning="true">
-  <testsuites>
-    <testsuite name="default">
-      <directory suffix="Test.php">tests</directory>
-    </testsuite>
-  </testsuites>
-  <source>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </source>
-  <coverage>
-    <report>
-      <html outputDirectory=".phpunit.cache/code-coverage" />
-    </report>
-  </coverage>
+    <testsuites>
+        <testsuite name="default">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
+    <coverage>
+        <report>
+            <html outputDirectory=".phpunit.cache/code-coverage"/>
+            <clover outputFile=".phpunit.cache/code-coverage/clover.xml"/>
+        </report>
+    </coverage>
 </phpunit>
