@@ -5,8 +5,8 @@
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/renfordt/larvatar/php)
 ![GitHub License](https://img.shields.io/github/license/renfordt/Larvatar)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/renfordt/Larvatar/test.yml?logo=github)
-[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/renfordt/larvatar?logo=codeclimate)](https://codeclimate.com/github/renfordt/larvatar/test_coverage)
-[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/renfordt/larvatar?logo=codeclimate)](https://codeclimate.com/github/renfordt/larvatar/maintainability)
+[![Code Coverage](https://qlty.sh/gh/renfordt/projects/larvatar/coverage.svg)](https://qlty.sh/gh/renfordt/projects/larvatar)
+[![Maintainability](https://qlty.sh/gh/renfordt/projects/larvatar/maintainability.svg)](https://qlty.sh/gh/renfordt/projects/larvatar)
 
 Larvatar is a package that combines different avatar styles, like Gravatar, Initials Avatar.
 
