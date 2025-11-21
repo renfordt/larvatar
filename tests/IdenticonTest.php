@@ -57,7 +57,6 @@ class IdenticonTest extends TestCase
     {
         $reflection = new \ReflectionClass($object);
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
 
         return $method->invokeArgs($object, $parameters);
     }
@@ -375,7 +374,6 @@ class IdenticonTest extends TestCase
         // Use reflection to access the private property
         $reflection = new \ReflectionClass($identicon);
         $property = $reflection->getProperty('symmetry');
-        $property->setAccessible(true);
 
         // Assertion
         $this->assertTrue($property->getValue($identicon));
@@ -396,7 +394,6 @@ class IdenticonTest extends TestCase
         // Use reflection to access the private property
         $reflection = new \ReflectionClass($identicon);
         $property = $reflection->getProperty('symmetry');
-        $property->setAccessible(true);
 
         // Assertion
         $this->assertFalse($property->getValue($identicon));

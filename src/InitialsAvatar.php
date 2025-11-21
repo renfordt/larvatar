@@ -225,7 +225,7 @@ class InitialsAvatar extends Avatar
         $initials->setStyle('dominant-baseline', 'middle');
         $initials->setStyle('font-weight', $this->fontWeight);
         $initials->setFontFamily($fontFamily);
-        if ($this->fontSize == 0) {
+        if ($this->fontSize === 0) {
             $this->fontSize = $this->calculateFontSize($initialsText);
         }
         $initials->setFontSize($this->fontSize . 'px');
