@@ -15,9 +15,7 @@ class Larvatar
     public Avatar|Identicon|InitialsAvatar $avatar;
     public InitialsAvatar $initialsAvatar;
     public Identicon $identicon;
-    protected LarvatarTypes $type = LarvatarTypes::mp;
     protected Name $name;
-    protected string $email;
     protected string $font;
     protected string $fontPath;
     protected int $size = 100;
@@ -31,12 +29,9 @@ class Larvatar
      *
      * @return void
      */
-    public function __construct(LarvatarTypes $type, string|Name $name = '', string $email = '')
+    public function __construct(protected LarvatarTypes $type, string|Name $name = '', protected string $email = '')
     {
         $this->name = is_string($name) ? Name::make($name) : $name;
-
-        $this->email = $email;
-        $this->type = $type;
 
         if ($this->type === LarvatarTypes::InitialsAvatar) {
             $this->avatar = InitialsAvatar::make($this->name);

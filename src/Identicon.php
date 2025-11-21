@@ -105,7 +105,7 @@ class Identicon extends Avatar
 
         $matrix = [];
 
-        for ($i = 0; $i < pow($this->pixels, 2); $i++) {
+        for ($i = 0; $i < $this->pixels ** 2; $i++) {
             $index = (int)($i / 3);
             $data = $this->convertStrToBool(substr($this->name->getHash(), $i, 1));
 
@@ -157,8 +157,8 @@ class Identicon extends Avatar
         $row = 0;
         $hash = hash('sha256', $this->name->getHash());
         $matrix = [];
-        for ($i = 0; $i < pow($this->pixels, 2); $i++) {
-            $matrix[$i % $this->pixels][floor($i / $this->pixels)] =
+        for ($i = 0; $i < $this->pixels ** 2; $i++) {
+            $matrix[$i % $this->pixels][(int)floor($i / $this->pixels)] =
                 $this->convertStrToBool(substr($hash, $i, 1));
             if ($column === $this->pixels && $row < $this->pixels) {
                 $row++;

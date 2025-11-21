@@ -205,7 +205,6 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar = InitialsAvatar::make($name);
         $reflect = new ReflectionClass($initialsAvatar);
         $method = $reflect->getMethod('getHexagon');
-        $method->setAccessible(true);
 
         $color = HexColor::create('#000000')->toHSL();
 
@@ -232,7 +231,6 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar->setRotation(45);
         $reflector = new ReflectionObject($initialsAvatar);
         $property = $reflector->getProperty('rotation');
-        $property->setAccessible(true);
         $this->assertEquals(45, $property->getValue($initialsAvatar));
     }
 
@@ -244,7 +242,6 @@ final class InitialsAvatarTest extends TestCase
         $initialsAvatar->setForm('circle');
         $reflector = new ReflectionObject($initialsAvatar);
         $property = $reflector->getProperty('form');
-        $property->setAccessible(true);
         $this->assertEquals(FormTypes::Circle, $property->getValue($initialsAvatar));
 
         $initialsAvatar->setForm('square');

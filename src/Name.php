@@ -9,22 +9,20 @@ use Renfordt\Colors\HexColor;
 class Name
 {
     /**
-     * @var string $name The name variable
-     */
-    private string $name = '';
-    /**
      * @var array<string> $splitNames An array to store split names
      */
-    private array $splitNames;
+    private readonly array $splitNames;
     /**
      * @var string $hash The hashed name
      */
-    private string $hash;
+    private readonly string $hash;
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-        $this->splitNames = explode(' ', $name);
+    public function __construct(/**
+     * @var string $name The name variable
+     */
+        private readonly string $name
+    ) {
+        $this->splitNames = explode(' ', $this->name);
         $this->hash = $this->hash();
     }
 
